@@ -5,12 +5,12 @@
 -- Dumped from database version 10.6
 -- Dumped by pg_dump version 10.5
 
--- Started on 2018-11-16 14:38:07
+-- Started on 2018-11-16 16:04:01
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
 SET idle_in_transaction_session_timeout = 0;
-SET client_encoding = 'WIN1251';
+SET client_encoding = 'UTF8';
 SET standard_conforming_strings = on;
 SELECT pg_catalog.set_config('search_path', '', false);
 SET check_function_bodies = false;
@@ -18,8 +18,8 @@ SET client_min_messages = warning;
 SET row_security = off;
 
 --
--- TOC entry 2177 (class 0 OID 0)
--- Dependencies: 2176
+-- TOC entry 2173 (class 0 OID 0)
+-- Dependencies: 2172
 -- Name: DATABASE postgres; Type: COMMENT; Schema: -; Owner: postgres
 --
 
@@ -35,7 +35,7 @@ CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
 
 
 --
--- TOC entry 2179 (class 0 OID 0)
+-- TOC entry 2175 (class 0 OID 0)
 -- Dependencies: 1
 -- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
 --
@@ -87,14 +87,14 @@ CREATE TABLE public.question (
 ALTER TABLE public.question OWNER TO postgres;
 
 --
--- TOC entry 199 (class 1259 OID 16419)
+-- TOC entry 199 (class 1259 OID 16467)
 -- Name: relations; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public.relations (
     id_user integer NOT NULL,
-    id_question integer NOT NULL,
-    id_answer integer NOT NULL
+    id_question integer,
+    id_answer integer
 );
 
 
@@ -128,52 +128,34 @@ ALTER TABLE ONLY public.question
 
 
 --
--- TOC entry 2041 (class 2606 OID 16423)
+-- TOC entry 2041 (class 2606 OID 16471)
 -- Name: relations relations_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.relations
-    ADD CONSTRAINT relations_pkey PRIMARY KEY (id_user, id_question, id_answer);
+    ADD CONSTRAINT relations_pkey PRIMARY KEY (id_user);
 
 
 --
--- TOC entry 2043 (class 2606 OID 16430)
--- Name: relations u_answer; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.relations
-    ADD CONSTRAINT u_answer UNIQUE (id_answer);
-
-
---
--- TOC entry 2045 (class 2606 OID 16432)
--- Name: relations u_question; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- TOC entry 2045 (class 2606 OID 16482)
+-- Name: relations answer_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.relations
-    ADD CONSTRAINT u_question UNIQUE (id_question);
+    ADD CONSTRAINT answer_fkey FOREIGN KEY (id_answer) REFERENCES public.answer(id);
 
 
 --
--- TOC entry 2048 (class 2606 OID 16433)
--- Name: answer relation_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- TOC entry 2043 (class 2606 OID 16472)
+-- Name: relations question_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public.answer
-    ADD CONSTRAINT relation_fkey FOREIGN KEY (id) REFERENCES public.relations(id_answer);
-
-
---
--- TOC entry 2047 (class 2606 OID 16438)
--- Name: question relation_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.question
-    ADD CONSTRAINT relation_fkey FOREIGN KEY (id) REFERENCES public.relations(id_question);
+ALTER TABLE ONLY public.relations
+    ADD CONSTRAINT question_fkey FOREIGN KEY (id_question) REFERENCES public.question(id);
 
 
 --
--- TOC entry 2046 (class 2606 OID 16404)
+-- TOC entry 2042 (class 2606 OID 16404)
 -- Name: User user_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -182,7 +164,7 @@ ALTER TABLE ONLY public."User"
 
 
 --
--- TOC entry 2049 (class 2606 OID 16424)
+-- TOC entry 2044 (class 2606 OID 16477)
 -- Name: relations user_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -190,7 +172,7 @@ ALTER TABLE ONLY public.relations
     ADD CONSTRAINT user_fkey FOREIGN KEY (id_user) REFERENCES public."User"(id);
 
 
--- Completed on 2018-11-16 14:38:07
+-- Completed on 2018-11-16 16:04:01
 
 --
 -- PostgreSQL database dump complete
