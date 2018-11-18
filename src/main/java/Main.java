@@ -1,4 +1,4 @@
-import impl.JDBCImpl;
+import dao.impl.JDBCImpl;
 
 import java.sql.SQLException;
 

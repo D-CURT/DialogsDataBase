@@ -18,6 +18,7 @@ public class Connector {
 
     public static void closeConnection(Connection connection) throws SQLException {
         if (connection != null) {
+            if (!connection.getAutoCommit()) connection.setAutoCommit(true);
             connection.close();
         }
     }
