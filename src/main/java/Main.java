@@ -9,6 +9,7 @@ public class Main {
         //System.out.println(jdbc.removeUser("Alex"));
         //System.out.println(jdbc.askQuestion("Alex", "How are you?"));
         //System.out.println(jdbc.answerQuestion("How are you?", "i`m fine", "Alex"));
-        System.out.println(jdbc.removeQuestion("How are you?", "Alex"));
+        //System.out.println(jdbc.removeQuestion("How are you?", "Alex"));
+        System.out.println(jdbc.getFullData());
     }
 }

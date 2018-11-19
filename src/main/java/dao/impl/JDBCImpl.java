@@ -147,6 +147,23 @@ public class JDBCImpl {
         return result;
     }
 
+    public String getFullData() throws SQLException {
+        ResultSet set = null;
+        StringBuilder builder = new StringBuilder();
+        try (Connection connection = Connector.connection();
+             PreparedStatement statement =
+                     connection.prepareStatement(SQLSection.GET_FULL_DATA.getSQL())) {
+            System.out.println(statement);
+            set = statement.executeQuery();
+            while (set.next()) {
+                builder.append(set.getString(1)).append(" ");
+                builder.append(set.getString(2)).append(" ");
+                builder.append(set.getString(3)).append("\n");
+            }
+        }
+        return builder.toString();
+    }
+
     private int getUserId(String name, Connection connection) throws SQLException {
         return selectEntityId(name, connection, SQLSection.GET_USER.getSQL());
     }
