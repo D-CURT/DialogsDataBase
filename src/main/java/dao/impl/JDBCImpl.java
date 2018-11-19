@@ -70,12 +70,6 @@ public class JDBCImpl {
         return result;
     }
 
-    public int addAnswer(String answer) throws SQLException {
-        try (Connection connection = Connector.connection()) {
-            return insertAnswer(answer, connection);
-        }
-    }
-
     public int answerQuestion(String question, String answer, String userName) throws SQLException {
         Connection connection = null;
         int result = 0;
@@ -87,8 +81,12 @@ public class JDBCImpl {
 
             if (getAnswerId(answer, connection) == -1) {
                 result += insertAnswer(answer, connection);
+                System.out.println("added");
             }
-            updateRelation(questionId, answer, userId, connection);
+            if (!updateRelation(questionId, answer, userId, connection) && result > 0) {
+                System.out.println("wtf");
+                connection.rollback();
+            }
 
             connection.commit();
         } catch (SQLException e) {
@@ -229,6 +227,7 @@ public class JDBCImpl {
         try (PreparedStatement statement =
                      connection.prepareStatement(SQLSection.ADD_QUESTION.getSQL())) {
             statement.setString(FIRST_ARGUMENT, question);
+            System.out.println(statement);
             return statement.executeUpdate();
         }
     }
@@ -248,18 +247,18 @@ public class JDBCImpl {
                      connection.prepareStatement(SQLSection.ADD_RELATION.getSQL())) {
             statement.setInt(FIRST_ARGUMENT, userId);
             statement.setInt(SECOND_ARGUMENT, questionId);
-            statement.execute();
+            statement.executeUpdate();
         }
     }
 
-    private void updateRelation(int questionId, String answer, int userId, Connection connection) throws SQLException {
+    private boolean updateRelation(int questionId, String answer, int userId, Connection connection) throws SQLException {
         int answerId = getAnswerId(answer, connection);
         try (PreparedStatement statement =
                      connection.prepareStatement(SQLSection.UPDATE_RELATION.getSQL())) {
             statement.setInt(FIRST_ARGUMENT, answerId);
             statement.setInt(SECOND_ARGUMENT, userId);
             statement.setInt(THIRD_ARGUMENT, questionId);
-            statement.execute();
+            return statement.executeUpdate() > 0;
         }
     }
 
