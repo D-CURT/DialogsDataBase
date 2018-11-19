@@ -56,7 +56,6 @@ public class JDBCHandler extends AbstractJDBCHandler {
 
             connection.commit();
         } catch (SQLException e) {
-            System.out.println("exception");
             assert connection != null;
             connection.rollback();
         } finally {

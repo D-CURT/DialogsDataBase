@@ -30,5 +30,4 @@ public enum  SQLSection {
     public String getSQL() {
         return SQL;
     }
-
 }

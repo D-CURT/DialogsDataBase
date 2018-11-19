@@ -40,7 +40,8 @@ public class CommunicationController extends AbstractController{
                     question = req.getParameter("question");
                     jdbc.removeQuestion(userName, question);
                     break;
-                case "GET_FULL_DATA": jdbc.getFullData();
+                case "GET_FULL_DATA": ;
+                    req.setAttribute("data", jdbc.getFullData());
                     break;
             }
             forward(INDEX_URL, req, resp);
