@@ -1,5 +1,6 @@
 package utils;
 
+<<<<<<< Updated upstream
 public enum  SQLSection {
     GET_USER("SELECT * FROM users WHERE name=?"),
     GET_QUESTION("SELECT * FROM question WHERE content=?"),
@@ -29,5 +30,20 @@ public enum  SQLSection {
 
     public String getSQL() {
         return SQL;
+=======
+public enum SQLSection {
+    ADD_USER("INSERT INTO user (name) VALUES (?)"),
+    DELETE_USER("DELETE FROM user WHERE name=?"),
+    DELETE_QUESTION("DELETE FROM question WHERE content=?");
+
+    private final String sql;
+
+    SQLSection(String sql) {
+        this.sql = sql;
+    }
+
+    public String getSql() {
+        return sql;
+>>>>>>> Stashed changes
     }
 }
