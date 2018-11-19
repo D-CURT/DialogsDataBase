@@ -34,6 +34,7 @@ public class RelationsController extends AbstractController {
         String userName;
         String question;
         String answer;
+
         try {
             if (section.equals("ASK_QUESTION")) {
 
