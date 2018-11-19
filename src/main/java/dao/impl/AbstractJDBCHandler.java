@@ -1,7 +1,6 @@
 package dao.impl;
 
 import utils.Connector;
-import dao.JDBCImpl;
 import utils.SQLSection;
 
 import java.sql.Connection;
@@ -11,10 +10,28 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-abstract class AbstractJDBCHandler implements JDBCImpl {
+abstract class AbstractJDBCHandler {
     static final int FIRST_ARGUMENT = 1;
     static final int SECOND_ARGUMENT = 2;
     static final int THIRD_ARGUMENT = 3;
+
+    String getFullData() throws SQLException {
+        ResultSet set = null;
+        StringBuilder builder = new StringBuilder();
+        try (Connection connection = Connector.connection();
+             PreparedStatement statement =
+                     connection.prepareStatement(SQLSection.GET_FULL_DATA.getSQL())) {
+            set = statement.executeQuery();
+            while (set.next()) {
+                builder.append(set.getString(FIRST_ARGUMENT)).append(" ");
+                builder.append(set.getString(SECOND_ARGUMENT)).append(" ");
+                builder.append(set.getString(THIRD_ARGUMENT)).append("\n");
+            }
+        } finally {
+            Connector.closeResultSet(set);
+        }
+        return builder.toString();
+    }
 
     int getUserId(String name, Connection connection) throws SQLException {
         return selectEntityId(name, connection, SQLSection.GET_USER.getSQL());
@@ -26,20 +43,6 @@ abstract class AbstractJDBCHandler implements JDBCImpl {
 
     int getAnswerId(String answer, Connection connection) throws SQLException {
         return selectEntityId(answer, connection, SQLSection.GET_ANSWER.getSQL());
-    }
-
-    int selectEntityId(String value, Connection connection,
-                               String sql) throws SQLException {
-        ResultSet set = null;
-        try (PreparedStatement statement =
-                     connection.prepareStatement(sql)) {
-            statement.setString(FIRST_ARGUMENT, value);
-            if ((set = statement.executeQuery()).next())
-                return set.getInt("id");
-        } finally {
-            Connector.closeResultSet(set);
-        }
-        return -1;
     }
 
     List<Integer> selectRelation(int userId, Connection connection) throws SQLException {
@@ -148,5 +151,19 @@ abstract class AbstractJDBCHandler implements JDBCImpl {
             statement.setInt(SECOND_ARGUMENT, questionId);
             statement.execute();
         }
+    }
+
+    private int selectEntityId(String value, Connection connection,
+                               String sql) throws SQLException {
+        ResultSet set = null;
+        try (PreparedStatement statement =
+                     connection.prepareStatement(sql)) {
+            statement.setString(FIRST_ARGUMENT, value);
+            if ((set = statement.executeQuery()).next())
+                return set.getInt("id");
+        } finally {
+            Connector.closeResultSet(set);
+        }
+        return -1;
     }
 }
