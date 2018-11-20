@@ -13,16 +13,17 @@ public class JDBCUserImpl extends AbstractJDBCHandler implements JDBCUser {
     @Override
     public int addUser(String name) throws SQLException {
         PreparedStatement statement = null;
+        int result = 0;
         try (Connection connection = C3POConnector.getInstance().getConnection()) {
             if (getUserId(name, connection) == -1) {
                 statement = connection.prepareStatement(SQLSection.ADD_USER.getSQL());
                 statement.setString(FIRST_ARGUMENT, name);
-                return statement.executeUpdate();
+                result += statement.executeUpdate();
             }
-            return 0;
         } finally {
             C3POConnector.closeStatement(statement);
         }
+        return result;
     }
 
     @Override

@@ -12,16 +12,17 @@ public class JDBCQuestionImpl extends AbstractJDBCHandler implements JDBCQuestio
     @Override
     public int addQuestion(String question) throws SQLException {
         PreparedStatement statement = null;
+        int result = 0;
         try (Connection connection = C3POConnector.getInstance().getConnection()) {
             if (getQuestionId(question, connection) == -1) {
                 statement = connection.prepareStatement(SQLSection.ADD_QUESTION.getSQL());
                 statement.setString(FIRST_ARGUMENT, question);
-                return statement.executeUpdate();
+                result += statement.executeUpdate();
             }
-            return 0;
         } finally {
             C3POConnector.closeStatement(statement);
         }
+        return result;
     }
 
     @Override
