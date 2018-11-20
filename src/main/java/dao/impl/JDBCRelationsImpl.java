@@ -29,6 +29,8 @@ public class JDBCRelationsImpl extends AbstractJDBCHandler implements JDBCRelati
             result++;
         } catch (SQLException e) {
             connection.rollback();
+        } finally {
+            C3POConnector.closeConnection(connection);
         }
         return result;
     }
@@ -55,6 +57,8 @@ public class JDBCRelationsImpl extends AbstractJDBCHandler implements JDBCRelati
             result++;
         } catch (SQLException e) {
             connection.rollback();
+        } finally {
+            C3POConnector.closeConnection(connection);
         }
         return result;
     }

@@ -45,6 +45,8 @@ public class JDBCUserImpl extends AbstractJDBCHandler implements JDBCUser {
             connection.setAutoCommit(true);
         } catch (SQLException e) {
             connection.rollback();
+        } finally {
+            C3POConnector.closeConnection(connection);
         }
         return result;
     }

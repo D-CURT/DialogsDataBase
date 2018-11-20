@@ -39,6 +39,16 @@ public class C3POConnector {
         return con;
     }
 
+    public static void closeConnection(Connection connection) {
+        if (connection != null) {
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
     public static void closeStatement(Statement statement) throws SQLException {
         if (statement != null) {
             statement.close();
