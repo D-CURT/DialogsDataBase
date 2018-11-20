@@ -15,5 +15,6 @@ public class Main {
         System.out.println(jdbc.answerQuestion("What are you doing?", "i`m going home", "Alex"));
         System.out.println(jdbc.answerQuestion("How are you?", "i`m fine, thanks", "Alex"));*/
         //System.out.println(SQLSection.ADD_QUESTION.name());
+
     }
 }

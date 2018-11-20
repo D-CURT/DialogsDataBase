@@ -41,12 +41,14 @@ public class RelationsController extends AbstractController {
                 userName = req.getParameter("userName");
                 question = req.getParameter("question");
                 handler.askQuestion(userName, question);
+                req.setAttribute("data", "The question is asked");
             }
             if (section.equals("ANSWER_QUESTION")) {
                 userName = req.getParameter("userName");
                 question = req.getParameter("question");
                 answer = req.getParameter("answer");
                 handler.answerQuestion(userName, question, answer);
+                req.setAttribute("data", "The answer received");
             }
             forward(INDEX_URL, req, resp);
         } catch (SQLException e) {

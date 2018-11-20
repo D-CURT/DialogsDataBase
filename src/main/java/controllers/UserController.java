@@ -21,18 +21,21 @@ public class UserController extends AbstractController {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String userName = req.getParameter("userName");
         try {
-            handler.addUser(userName);
+            handler.removeUser(userName);
+            req.setAttribute("data", "The user removed");
             forward(INDEX_URL, req, resp);
         } catch (SQLException e) {
             forwardError(INDEX_URL, e.getMessage(), req, resp);
         }
+
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String userName = req.getParameter("userName");
         try {
-            handler.removeUser(userName);
+            handler.addUser(userName);
+            req.setAttribute("data", "The user added");
             forward(INDEX_URL, req, resp);
         } catch (SQLException e) {
             forwardError(INDEX_URL, e.getMessage(), req, resp);

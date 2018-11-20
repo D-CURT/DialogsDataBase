@@ -1,7 +1,7 @@
 package dao.impl;
 
 import dao.interfaces.JDBCRelations;
-import utils.Connector;
+import utils.C3POConnector;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -12,7 +12,7 @@ public class JDBCRelationsImpl extends AbstractJDBCHandler implements JDBCRelati
         Connection connection = null;
         int result = 0;
         try {
-            connection = Connector.connection();
+            connection = C3POConnector.getInstance().getConnection();
             connection.setAutoCommit(false);
             int userId = getUserId(userName, connection);
             int questionId = getQuestionId(question, connection);
@@ -25,11 +25,9 @@ public class JDBCRelationsImpl extends AbstractJDBCHandler implements JDBCRelati
             }
 
             connection.commit();
+            connection.setAutoCommit(true);
         } catch (SQLException e) {
-            assert connection != null;
             connection.rollback();
-        } finally {
-            Connector.closeConnection(connection);
         }
         return result;
     }
@@ -39,7 +37,7 @@ public class JDBCRelationsImpl extends AbstractJDBCHandler implements JDBCRelati
         Connection connection = null;
         int result = 0;
         try {
-            connection = Connector.connection();
+            connection = C3POConnector.getInstance().getConnection();
             connection.setAutoCommit(false);
             int questionId = getQuestionId(question, connection);
             int userId = getUserId(userName, connection);
@@ -52,11 +50,9 @@ public class JDBCRelationsImpl extends AbstractJDBCHandler implements JDBCRelati
             }
 
             connection.commit();
+            connection.setAutoCommit(true);
         } catch (SQLException e) {
-            assert connection != null;
             connection.rollback();
-        } finally {
-            Connector.closeConnection(connection);
         }
         return result;
     }

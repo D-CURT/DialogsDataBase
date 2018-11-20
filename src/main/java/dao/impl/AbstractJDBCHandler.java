@@ -1,6 +1,6 @@
 package dao.impl;
 
-import utils.Connector;
+import utils.C3POConnector;
 import utils.SQLSection;
 
 import java.sql.Connection;
@@ -18,7 +18,7 @@ abstract class AbstractJDBCHandler {
     String getFullData() throws SQLException {
         ResultSet set = null;
         StringBuilder builder = new StringBuilder();
-        try (Connection connection = Connector.connection();
+        try (Connection connection = C3POConnector.getInstance().getConnection();
              PreparedStatement statement =
                      connection.prepareStatement(SQLSection.GET_FULL_DATA.getSQL())) {
             set = statement.executeQuery();
@@ -28,7 +28,7 @@ abstract class AbstractJDBCHandler {
                 builder.append(set.getString(THIRD_ARGUMENT)).append("\n");
             }
         } finally {
-            Connector.closeResultSet(set);
+            C3POConnector.closeResultSet(set);
         }
         return builder.toString();
     }
@@ -57,7 +57,7 @@ abstract class AbstractJDBCHandler {
             }
             if (identifiers.size() > 0) return identifiers;
         } finally {
-            Connector.closeResultSet(set);
+            C3POConnector.closeResultSet(set);
         }
         return null;
     }
@@ -75,7 +75,7 @@ abstract class AbstractJDBCHandler {
             }
             if (identifiers.size() > 0) return identifiers;
         } finally {
-            Connector.closeResultSet(set);
+            C3POConnector.closeResultSet(set);
         }
         return null;
     }
@@ -162,7 +162,7 @@ abstract class AbstractJDBCHandler {
             if ((set = statement.executeQuery()).next())
                 return set.getInt("id");
         } finally {
-            Connector.closeResultSet(set);
+            C3POConnector.closeResultSet(set);
         }
         return -1;
     }

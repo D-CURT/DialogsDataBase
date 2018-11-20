@@ -1,7 +1,7 @@
 package dao.impl;
 
 import dao.interfaces.JDBCQuestion;
-import utils.Connector;
+import utils.C3POConnector;
 import utils.SQLSection;
 
 import java.sql.Connection;
@@ -12,7 +12,7 @@ public class JDBCQuestionImpl extends AbstractJDBCHandler implements JDBCQuestio
     @Override
     public int addQuestion(String question) throws SQLException {
         PreparedStatement statement = null;
-        try (Connection connection = Connector.connection()) {
+        try (Connection connection = C3POConnector.getInstance().getConnection()) {
             if (getQuestionId(question, connection) == -1) {
                 statement = connection.prepareStatement(SQLSection.ADD_QUESTION.getSQL());
                 statement.setString(FIRST_ARGUMENT, question);
@@ -20,7 +20,7 @@ public class JDBCQuestionImpl extends AbstractJDBCHandler implements JDBCQuestio
             }
             return 0;
         } finally {
-            Connector.closeStatement(statement);
+            C3POConnector.closeStatement(statement);
         }
     }
 
@@ -29,7 +29,7 @@ public class JDBCQuestionImpl extends AbstractJDBCHandler implements JDBCQuestio
         Connection connection = null;
         int result = 0;
         try {
-            connection = Connector.connection();
+            connection = C3POConnector.getInstance().getConnection();
             connection.setAutoCommit(false);
             int userId = getUserId(userName, connection);
             int questionId = getQuestionId(question, connection);
@@ -38,11 +38,9 @@ public class JDBCQuestionImpl extends AbstractJDBCHandler implements JDBCQuestio
             result += deleteQuestion(questionId, connection);
 
             connection.commit();
+            connection.setAutoCommit(true);
         } catch (SQLException e) {
-            assert connection != null;
             connection.rollback();
-        } finally {
-            Connector.closeConnection(connection);
         }
         return result;
     }

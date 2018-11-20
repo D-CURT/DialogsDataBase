@@ -1,7 +1,7 @@
 package dao.impl;
 
 import dao.interfaces.JDBCUser;
-import utils.Connector;
+import utils.C3POConnector;
 import utils.SQLSection;
 
 import java.sql.Connection;
@@ -13,7 +13,7 @@ public class JDBCUserImpl extends AbstractJDBCHandler implements JDBCUser {
     @Override
     public int addUser(String name) throws SQLException {
         PreparedStatement statement = null;
-        try (Connection connection = Connector.connection()) {
+        try (Connection connection = C3POConnector.getInstance().getConnection()) {
             if (getUserId(name, connection) == -1) {
                 statement = connection.prepareStatement(SQLSection.ADD_USER.getSQL());
                 statement.setString(FIRST_ARGUMENT, name);
@@ -21,7 +21,7 @@ public class JDBCUserImpl extends AbstractJDBCHandler implements JDBCUser {
             }
             return 0;
         } finally {
-            Connector.closeStatement(statement);
+            C3POConnector.closeStatement(statement);
         }
     }
 
@@ -30,7 +30,7 @@ public class JDBCUserImpl extends AbstractJDBCHandler implements JDBCUser {
         Connection connection = null;
         int result = 0;
         try {
-            connection = Connector.connection();
+            connection = C3POConnector.getInstance().getConnection();
             connection.setAutoCommit(false);
             int userId = getUserId(name, connection);
             List<Integer> relations;
@@ -41,11 +41,9 @@ public class JDBCUserImpl extends AbstractJDBCHandler implements JDBCUser {
             }
             result += deleteUser(userId, connection);
             connection.commit();
+            connection.setAutoCommit(true);
         } catch (SQLException e) {
-            assert connection != null;
             connection.rollback();
-        } finally {
-            Connector.closeConnection(connection);
         }
         return result;
     }
