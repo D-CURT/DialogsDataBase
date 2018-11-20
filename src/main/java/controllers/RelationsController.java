@@ -19,7 +19,6 @@ public class RelationsController extends AbstractController {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        System.out.println("get");
         try {
             req.setAttribute("data", handler.getFullData());
             forward(INDEX_URL, req, resp);
@@ -31,21 +30,19 @@ public class RelationsController extends AbstractController {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String section = req.getParameter("section");
-        String userName;
-        String question;
+        String userName = req.getParameter("userName");
+        String question = req.getParameter("question");
         String answer;
+        String message;
 
         try {
             if (section.equals("ASK_QUESTION")) {
-
-                userName = req.getParameter("userName");
-                question = req.getParameter("question");
-                handler.askQuestion(userName, question);
-                req.setAttribute("data", "The question is asked");
+                if (handler.askQuestion(userName, question) > 0)
+                    message = "The question is asked";
+                else message = "The question is not asked";
+                req.setAttribute("data", message);
             }
             if (section.equals("ANSWER_QUESTION")) {
-                userName = req.getParameter("userName");
-                question = req.getParameter("question");
                 answer = req.getParameter("answer");
                 handler.answerQuestion(userName, question, answer);
                 req.setAttribute("data", "The answer received");

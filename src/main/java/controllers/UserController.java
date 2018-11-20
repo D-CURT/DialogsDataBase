@@ -27,7 +27,6 @@ public class UserController extends AbstractController {
         } catch (SQLException e) {
             forwardError(INDEX_URL, e.getMessage(), req, resp);
         }
-
     }
 
     @Override
