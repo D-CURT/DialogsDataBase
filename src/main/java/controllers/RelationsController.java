@@ -20,7 +20,7 @@ public class RelationsController extends AbstractController {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
-            req.setAttribute("data", handler.getFullData());
+            req.setAttribute("multipleData", handler.getFullData().split(";"));
             forward(INDEX_URL, req, resp);
         } catch (SQLException e) {
             forwardError(INDEX_URL, e.getMessage(), req, resp);
@@ -39,7 +39,7 @@ public class RelationsController extends AbstractController {
             if (section.equals("ASK_QUESTION")) {
                 if (handler.askQuestion(userName, question) > 0)
                     message = "The question is asked";
-                else message = "The question is not asked";
+                else message = "The question already asked";
                 req.setAttribute("data", message);
             }
             if (section.equals("ANSWER_QUESTION")) {

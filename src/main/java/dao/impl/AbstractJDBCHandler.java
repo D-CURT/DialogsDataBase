@@ -15,7 +15,7 @@ abstract class AbstractJDBCHandler {
     static final int SECOND_ARGUMENT = 2;
     static final int THIRD_ARGUMENT = 3;
 
-    String getFullData() throws SQLException {
+    public String getFullData() throws SQLException {
         ResultSet set = null;
         StringBuilder builder = new StringBuilder();
         try (Connection connection = C3POConnector.getInstance().getConnection();
@@ -25,7 +25,7 @@ abstract class AbstractJDBCHandler {
             while (set.next()) {
                 builder.append(set.getString(FIRST_ARGUMENT)).append(" ");
                 builder.append(set.getString(SECOND_ARGUMENT)).append(" ");
-                builder.append(set.getString(THIRD_ARGUMENT)).append("\n");
+                builder.append(set.getString(THIRD_ARGUMENT)).append(";");
             }
         } finally {
             C3POConnector.closeResultSet(set);

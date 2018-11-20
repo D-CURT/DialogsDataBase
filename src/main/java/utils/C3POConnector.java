@@ -50,5 +50,4 @@ public class C3POConnector {
             set.close();
         }
     }
-
 }
