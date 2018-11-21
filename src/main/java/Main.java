@@ -1,4 +1,4 @@
-import dao.impl.JDBCUserImpl;
+import utils.SessionFactoryManager;
 
 import java.sql.SQLException;
 
@@ -7,7 +7,6 @@ public class Main {
         /*JDBCUserImpl jdbc = new JDBCUserImpl();
         System.out.println(jdbc.addUser("Alex"));
         //System.out.println(jdbc.removeUser("Alex"));
-
         //System.out.println(jdbc.removeQuestion("How are you?", "Alex"));
         //System.out.println(jdbc.getFullData());
         System.out.println(jdbc.askQuestion("Alex", "How are you?"));
@@ -15,6 +14,7 @@ public class Main {
         System.out.println(jdbc.answerQuestion("What are you doing?", "i`m going home", "Alex"));
         System.out.println(jdbc.answerQuestion("How are you?", "i`m fine, thanks", "Alex"));*/
         //System.out.println(SQLSection.ADD_QUESTION.name());
-
+        SessionFactoryManager.getInstance().getSession();
+        System.out.println(true);
     }
 }
