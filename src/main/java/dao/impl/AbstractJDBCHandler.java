@@ -12,8 +12,8 @@ import java.util.List;
 
 abstract class AbstractJDBCHandler {
     static final int FIRST_ARGUMENT = 1;
-    static final int SECOND_ARGUMENT = 2;
-    static final int THIRD_ARGUMENT = 3;
+    private static final int SECOND_ARGUMENT = 2;
+    private static final int THIRD_ARGUMENT = 3;
 
     public String getFullData() throws SQLException {
         ResultSet set = null;

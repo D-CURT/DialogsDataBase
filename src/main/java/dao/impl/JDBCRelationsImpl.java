@@ -25,7 +25,6 @@ public class JDBCRelationsImpl extends AbstractJDBCHandler implements JDBCRelati
             }
 
             connection.commit();
-            connection.setAutoCommit(true);
             result++;
         } catch (SQLException e) {
             connection.rollback();
@@ -53,7 +52,6 @@ public class JDBCRelationsImpl extends AbstractJDBCHandler implements JDBCRelati
             }
 
             connection.commit();
-            connection.setAutoCommit(true);
             result++;
         } catch (SQLException e) {
             connection.rollback();

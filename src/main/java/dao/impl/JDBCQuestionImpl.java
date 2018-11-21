@@ -39,7 +39,6 @@ public class JDBCQuestionImpl extends AbstractJDBCHandler implements JDBCQuestio
             result += deleteQuestion(questionId, connection);
 
             connection.commit();
-            connection.setAutoCommit(true);
         } catch (SQLException e) {
             connection.rollback();
         } finally {

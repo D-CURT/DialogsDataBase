@@ -42,7 +42,6 @@ public class JDBCUserImpl extends AbstractJDBCHandler implements JDBCUser {
             }
             result += deleteUser(userId, connection);
             connection.commit();
-            connection.setAutoCommit(true);
         } catch (SQLException e) {
             connection.rollback();
         } finally {
