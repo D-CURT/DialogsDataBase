@@ -1,6 +1,5 @@
 import dao.impl.hibernate.UserDAO;
 import entities.User;
-import utils.SessionFactoryManager;
 
 import java.sql.SQLException;
 

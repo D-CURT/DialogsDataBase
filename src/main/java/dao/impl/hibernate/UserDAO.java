@@ -28,5 +28,4 @@ public class UserDAO {
         query.setParameter("name", name);
         return  (User) query.uniqueResult();
     }
-
 }
