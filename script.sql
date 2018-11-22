@@ -41,13 +41,13 @@ alter table answer
 
 create table relations
 (
-  id_user     integer not null
+  user     integer not null
     constraint user_fkey
     references users,
-  id_question integer
+  question integer
     constraint question_fkey
     references question,
-  id_answer   integer
+  answer   integer
     constraint answer_fkey
     references answer
 );

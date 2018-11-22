@@ -1,7 +1,12 @@
 package utils;
 
+import entities.Answer;
+import entities.Question;
+import entities.Relations;
+import entities.User;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 
 public class SessionFactoryManager {
@@ -10,11 +15,17 @@ public class SessionFactoryManager {
 
     private SessionFactoryManager() {
         try {
-            factory = new Configuration().configure("hibernate.cfg.xml").buildSessionFactory();
+            Configuration config = new Configuration().configure();
+            config.addAnnotatedClass(User.class);
+            config.addAnnotatedClass(Question.class);
+            config.addAnnotatedClass(Answer.class);
+            config.addAnnotatedClass(Relations.class);
+            StandardServiceRegistryBuilder builder =
+                    new StandardServiceRegistryBuilder().applySettings(config.getProperties());
+            factory = config.buildSessionFactory(builder.build());
         } catch (Throwable e) {
-            System.out.println("connection failed");
+            System.out.println("Connection failed");
         }
-
     }
 
     public static SessionFactoryManager getInstance() {

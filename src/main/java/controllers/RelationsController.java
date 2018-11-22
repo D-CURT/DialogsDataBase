@@ -1,6 +1,6 @@
 package controllers;
 
-import dao.impl.JDBCRelationsImpl;
+import dao.impl.jdbc.JDBCRelationsImpl;
 import dao.interfaces.JDBCRelations;
 
 import javax.servlet.ServletException;

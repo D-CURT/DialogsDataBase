@@ -5,48 +5,55 @@ import javax.persistence.*;
 @Entity
 @Table(name = "relations")
 public class Relations {
-    @Column(name = "id_user")
-    private int id_user;
-    @Column(name = "id_question")
-    private int id_question;
-    @Column(name = "id_answer")
-    private int id_answer;
+    @Id
+    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_user")
+    private User user;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_question")
+    private Question question;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_answer")
+    private Answer answer;
 
     public Relations() {
     }
 
-    public Relations(int id_user, int id_question) {
-        this.id_user = id_user;
-        this.id_question = id_question;
+    public Relations(User user, Question question) {
+        this.user = user;
+        this.question = question;
     }
 
-    public Relations(int id_user, int id_question, int id_answer) {
-        this.id_user = id_user;
-        this.id_question = id_question;
-        this.id_answer = id_answer;
+    public Relations(User user, Question question, Answer answer) {
+        this.user = user;
+        this.question = question;
+        this.answer = answer;
     }
 
-    public int getId_user() {
-        return id_user;
+    public User getUser() {
+        return user;
     }
 
-    public void setId_user(int id_user) {
-        this.id_user = id_user;
+    public void setUser(User user) {
+        this.user = user;
     }
 
-    public int getId_question() {
-        return id_question;
+    public Question getQuestion() {
+        return question;
     }
 
-    public void setId_question(int id_question) {
-        this.id_question = id_question;
+    public void setQuestion(Question question) {
+        this.question = question;
     }
 
-    public int getId_answer() {
-        return id_answer;
+    public Answer getAnswer() {
+        return answer;
     }
 
-    public void setId_answer(int id_answer) {
-        this.id_answer = id_answer;
+    public void setAnswer(Answer answer) {
+        this.answer = answer;
     }
 }

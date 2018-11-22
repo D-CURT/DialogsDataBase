@@ -1,6 +1,6 @@
 package controllers;
 
-import dao.impl.JDBCUserImpl;
+import dao.impl.jdbc.JDBCUserImpl;
 import dao.interfaces.JDBCUser;
 
 import javax.servlet.ServletException;

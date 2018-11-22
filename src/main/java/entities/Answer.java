@@ -7,7 +7,8 @@ import javax.persistence.*;
 public class Answer {
     @Id
     @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    //@OneToMany(mappedBy = "id_answer", cascade = CascadeType.ALL, orphanRemoval = true)
     private int id;
     @Column(name = "content")
     private String content;

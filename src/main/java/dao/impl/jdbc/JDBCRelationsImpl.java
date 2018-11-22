@@ -1,4 +1,4 @@
-package dao.impl;
+package dao.impl.jdbc;
 
 import dao.interfaces.JDBCRelations;
 import utils.C3POConnector;

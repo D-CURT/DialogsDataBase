@@ -1,6 +1,6 @@
 package controllers;
 
-import dao.impl.JDBCQuestionImpl;
+import dao.impl.jdbc.JDBCQuestionImpl;
 import dao.interfaces.JDBCQuestion;
 
 import javax.servlet.ServletException;
