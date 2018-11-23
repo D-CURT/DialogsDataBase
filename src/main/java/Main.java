@@ -1,9 +1,11 @@
 import dao.impl.hibernate.QuestionDAO;
 import dao.impl.hibernate.RelationsDAO;
 import dao.impl.hibernate.UserDAO;
+import entities.Relations;
 import entities.User;
 
 import java.sql.SQLException;
+import java.util.List;
 
 public class Main {
     public static void main(String[] args) throws SQLException {
@@ -23,5 +25,9 @@ public class Main {
         //RelationsDAO.askQuestion("Alex", "What is going on with you?");
         //RelationsDAO.answerQuestion("Alex", "What is going on with you?", "I`m talking with you");
         //UserDAO.removeUser("Fred");
+        List<Relations> relations = RelationsDAO.getRelations();
+        for (Relations relation: relations) {
+            System.out.println(relation);
+        }
     }
 }
