@@ -1,6 +1,7 @@
 package entities;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "answer")
@@ -8,10 +9,13 @@ public class Answer {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    //@OneToMany(mappedBy = "id_answer", cascade = CascadeType.ALL, orphanRemoval = true)
     private int id;
+
     @Column(name = "content")
     private String content;
+
+    @OneToMany(mappedBy = "answer", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Relations> relations;
 
     public Answer() {
     }

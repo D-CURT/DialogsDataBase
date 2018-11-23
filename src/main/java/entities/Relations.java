@@ -9,12 +9,15 @@ public class Relations {
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_user")
     private User user;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_question")
     private Question question;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_answer")
     private Answer answer;

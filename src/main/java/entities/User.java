@@ -1,8 +1,12 @@
 package entities;
 
+import dao.impl.hibernate.AnswerDAO;
+import dao.impl.hibernate.QuestionDAO;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "users")
@@ -16,7 +20,7 @@ public class User {
     private String name;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Relations> relations = new ArrayList<>();
+    private List<Relations> relations;
 
     public User() {
     }
@@ -44,6 +48,19 @@ public class User {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public List<Question> getQuestions() {
+        List<Question> list = new ArrayList<>();
+        relations.forEach(relations1 ->  list.add(relations1.getQuestion()));
+        return list;
+
+    }
+
+    public List<Answer> getAnswers() {
+        List<Answer> list = new ArrayList<>();
+        relations.forEach(relations1 ->  list.add(relations1.getAnswer()));
+        return list;
     }
 
     @Override
