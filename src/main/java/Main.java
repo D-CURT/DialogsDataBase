@@ -18,9 +18,10 @@ public class Main {
         System.out.println(jdbc.answerQuestion("How are you?", "i`m fine, thanks", "Alex"));*/
         //System.out.println(SQLSection.ADD_QUESTION.name());
         //System.out.println(UserDAO.getUser(3).getQuestions());
-       // UserDAO.addUser(new User("Alex"));
+        UserDAO.addUser(new User("Fred"));
         //System.out.println(UserDAO.getUser("wru3e").getId());
         //RelationsDAO.askQuestion("Alex", "What is going on with you?");
-        RelationsDAO.answerQuestion("Alex", "What is going on with you?", "I`m talking with you");
+        //RelationsDAO.answerQuestion("Alex", "What is going on with you?", "I`m talking with you");
+        //UserDAO.removeUser("Fred");
     }
 }

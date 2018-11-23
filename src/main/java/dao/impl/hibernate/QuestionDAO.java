@@ -26,11 +26,12 @@ public class QuestionDAO {
     }
 
     public static Question getQuestion(String content) {
-        Query query = SessionFactoryManager.getInstance()
-                                           .getSession()
-                                           .createQuery("from Question where content=:content");
+        Session session = SessionFactoryManager.getInstance().getSession();
+        Query query = session.createQuery("from Question where content=:content");
         query.setParameter("content", content);
-        return (Question) query.uniqueResult();
+        Question question = (Question) query.uniqueResult();
+        session.close();
+        return question;
     }
 
     public static List getQuestions() {
@@ -38,5 +39,12 @@ public class QuestionDAO {
                                            .getSession()
                                            .createQuery("from Question");
         return query.getResultList();
+    }
+
+    public static void removeQuestion(String content) {
+        Question question = getQuestion(content);
+        Session session = SessionFactoryManager.getInstance().getSession();
+        session.delete(question);
+        session.close();
     }
 }

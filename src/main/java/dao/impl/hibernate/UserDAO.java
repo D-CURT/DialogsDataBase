@@ -24,11 +24,12 @@ public class UserDAO {
     }
 
     public static User getUser(String name) {
-        Query query = SessionFactoryManager.getInstance()
-                                           .getSession()
-                                           .createQuery("from User where name=:name");
+        Session session = SessionFactoryManager.getInstance().getSession();
+        Query query = session.createQuery("from User where name=:name");
         query.setParameter("name", name);
-        return  (User) query.uniqueResult();
+        User user = (User) query.uniqueResult();
+        session.close();
+        return user;
     }
 
     public static List getUsers() {
@@ -36,5 +37,12 @@ public class UserDAO {
                                            .getSession()
                                            .createQuery("from User");
         return query.getResultList();
+    }
+
+    public static void removeUser(String name) {
+        User user = UserDAO.getUser(name);
+        Session session = SessionFactoryManager.getInstance().getSession();
+        session.delete(user);
+        session.close();
     }
 }

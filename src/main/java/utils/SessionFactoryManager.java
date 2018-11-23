@@ -38,5 +38,4 @@ public class SessionFactoryManager {
     public Session getSession() {
         return factory.openSession();
     }
-
 }

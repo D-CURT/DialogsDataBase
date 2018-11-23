@@ -26,11 +26,12 @@ public class AnswerDAO {
     }
 
     public static Answer getAnswer(String content) {
-        Query query = SessionFactoryManager.getInstance()
-                                           .getSession()
-                                           .createQuery("from Answer where content=:content");
+        Session session = SessionFactoryManager.getInstance().getSession();
+        Query query = session.createQuery("from Answer where content =: content");
         query.setParameter("content", content);
-        return (Answer) query.uniqueResult();
+        Answer answer = (Answer) query.uniqueResult();
+        session.close();
+        return answer;
     }
 
     public static List getAnswers() {

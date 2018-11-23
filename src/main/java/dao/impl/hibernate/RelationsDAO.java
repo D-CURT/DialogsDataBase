@@ -9,6 +9,9 @@ import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 import utils.SessionFactoryManager;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class RelationsDAO {
     public static void askQuestion(String username, String content) {
         Session session = SessionFactoryManager.getInstance().getSession();
@@ -38,9 +41,19 @@ public class RelationsDAO {
 
     private static Relations getRelation(User user, Question question, Session session) {
         Query query = session.createQuery(
-                "from Relations where user =: user and question =: question");
+                "from Relations where user =: user and question =: question and answer is null ");
         query.setParameter("user", user);
         query.setParameter("question", question);
         return (Relations) query.uniqueResult();
+    }
+
+    @SuppressWarnings("unchecked")
+    public static List<Relations> getRelations() {
+        List<Relations> relations = new ArrayList<>();
+        Query query = SessionFactoryManager.getInstance()
+                                           .getSession()
+                                           .createQuery("from Relations");
+        query.getResultList().forEach(o -> relations.add((Relations) o));
+        return relations;
     }
 }
