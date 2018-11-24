@@ -28,14 +28,14 @@ public class SessionFactoryManager {
         }
     }
 
-    public static SessionFactoryManager getInstance() {
+    public static SessionFactory getFactory() {
         if (instance == null) {
             instance = new SessionFactoryManager();
         }
-        return instance;
+        return instance.factory();
     }
 
-    public Session getSession() {
-        return factory.openSession();
+    private SessionFactory factory() {
+        return factory;
     }
 }

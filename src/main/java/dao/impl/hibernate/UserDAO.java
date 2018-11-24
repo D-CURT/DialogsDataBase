@@ -9,13 +9,10 @@ import utils.SessionFactoryManager;
 import java.util.List;
 
 public class UserDAO {
-    public static User getUser(int id) {
-        return SessionFactoryManager.getInstance().getSession().get(User.class, id);
-    }
-
     public static void addUser(User user) {
         if (getUser(user.getName()) == null) {
-            Session session = SessionFactoryManager.getInstance().getSession();
+            Session session = SessionFactoryManager.getFactory()
+                                                   .openSession();
             Transaction transaction = session.beginTransaction();
             session.save(user);
             transaction.commit();
@@ -23,8 +20,15 @@ public class UserDAO {
         }
     }
 
+    public static User getUser(int id) {
+        return SessionFactoryManager.getFactory()
+                                    .openSession()
+                                    .get(User.class, id);
+    }
+
     public static User getUser(String name) {
-        Session session = SessionFactoryManager.getInstance().getSession();
+        Session session = SessionFactoryManager.getFactory()
+                                               .openSession();
         Query query = session.createQuery("from User where name=:name");
         query.setParameter("name", name);
         User user = (User) query.uniqueResult();
@@ -33,15 +37,16 @@ public class UserDAO {
     }
 
     public static List getUsers() {
-        Query query = SessionFactoryManager.getInstance()
-                                           .getSession()
+        Query query = SessionFactoryManager.getFactory()
+                                           .openSession()
                                            .createQuery("from User");
         return query.getResultList();
     }
 
     public static void removeUser(String name) {
         User user = UserDAO.getUser(name);
-        Session session = SessionFactoryManager.getInstance().getSession();
+        Session session = SessionFactoryManager.getFactory()
+                                               .openSession();
         session.delete(user);
         session.close();
     }

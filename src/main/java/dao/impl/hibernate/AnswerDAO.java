@@ -11,7 +11,8 @@ import java.util.List;
 public class AnswerDAO {
     public static void addAnswer(Answer answer) {
         if (getAnswer(answer.getContent()) == null) {
-            Session session = SessionFactoryManager.getInstance().getSession();
+            Session session = SessionFactoryManager.getFactory()
+                                                   .openSession();
             Transaction transaction = session.beginTransaction();
             session.save(answer);
             transaction.commit();
@@ -20,13 +21,14 @@ public class AnswerDAO {
     }
 
     public static Answer getAnswer(int id) {
-        return SessionFactoryManager.getInstance()
-                                    .getSession()
+        return SessionFactoryManager.getFactory()
+                                    .openSession()
                                     .get(Answer.class, id);
     }
 
     public static Answer getAnswer(String content) {
-        Session session = SessionFactoryManager.getInstance().getSession();
+        Session session = SessionFactoryManager.getFactory()
+                                               .openSession();
         Query query = session.createQuery("from Answer where content =: content");
         query.setParameter("content", content);
         Answer answer = (Answer) query.uniqueResult();
@@ -35,8 +37,8 @@ public class AnswerDAO {
     }
 
     public static List getAnswers() {
-        Query query = SessionFactoryManager.getInstance()
-                                           .getSession()
+        Query query = SessionFactoryManager.getFactory()
+                                           .openSession()
                                            .createQuery("from Answer");
         return query.getResultList();
     }

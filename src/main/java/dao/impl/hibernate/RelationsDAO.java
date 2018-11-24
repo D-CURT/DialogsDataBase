@@ -14,7 +14,8 @@ import java.util.List;
 
 public class RelationsDAO {
     public static void askQuestion(String username, String content) {
-        Session session = SessionFactoryManager.getInstance().getSession();
+        Session session = SessionFactoryManager.getFactory()
+                                               .openSession();
         Transaction transaction = session.beginTransaction();
         User user = UserDAO.getUser(username);
         QuestionDAO.addQuestion(new Question(content));
@@ -26,7 +27,8 @@ public class RelationsDAO {
     }
 
     public static void answerQuestion(String username, String question, String answer) {
-        Session session = SessionFactoryManager.getInstance().getSession();
+        Session session = SessionFactoryManager.getFactory()
+                                               .openSession();
         Transaction transaction = session.beginTransaction();
         User user = UserDAO.getUser(username);
         Question question1 = QuestionDAO.getQuestion(question);
@@ -50,8 +52,8 @@ public class RelationsDAO {
     @SuppressWarnings("unchecked")
     public static List<Relations> getRelations() {
         List<Relations> relations = new ArrayList<>();
-        Query query = SessionFactoryManager.getInstance()
-                                           .getSession()
+        Query query = SessionFactoryManager.getFactory()
+                                           .openSession()
                                            .createQuery("from Relations");
         query.getResultList().forEach(o -> relations.add((Relations) o));
         return relations;
