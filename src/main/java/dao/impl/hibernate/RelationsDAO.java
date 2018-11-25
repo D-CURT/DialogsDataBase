@@ -17,12 +17,21 @@ public class RelationsDAO {
         Session session = SessionFactoryManager.getFactory()
                                                .openSession();
         Transaction transaction = session.beginTransaction();
-        User user = UserDAO.getUser(username);
-        QuestionDAO.addQuestion(new Question(content));
-        Question question = QuestionDAO.getQuestion(content);
-        Relations relations = new Relations(user, question);
-        session.save(relations);
-        transaction.commit();
+        User user;
+        if ((user = UserDAO.getUser(username)) == null) {
+            transaction.rollback();
+        } else {
+            QuestionDAO.addQuestion(new Question(content));
+            Question question = QuestionDAO.getQuestion(content);
+            Relations relations;
+            if (RelationsDAO.getRelation(user, question, session) == null) {
+                relations = new Relations(user, question);
+                session.save(relations);
+                transaction.commit();
+            } else {
+                transaction.rollback();
+            }
+        }
         session.close();
     }
 
@@ -30,14 +39,22 @@ public class RelationsDAO {
         Session session = SessionFactoryManager.getFactory()
                                                .openSession();
         Transaction transaction = session.beginTransaction();
-        User user = UserDAO.getUser(username);
-        Question question1 = QuestionDAO.getQuestion(question);
-        AnswerDAO.addAnswer(new Answer(answer));
-        Answer answer1 = AnswerDAO.getAnswer(answer);
-        Relations relations = getRelation(user, question1, session);
-        relations.setAnswer(answer1);
-        session.update(relations);
-        transaction.commit();
+        User user;
+        if ((user = UserDAO.getUser(username)) == null) {
+            transaction.rollback();
+        } else {
+            Question question1;
+            if ((question1 = QuestionDAO.getQuestion(question)) == null) {
+                transaction.rollback();
+            } else {
+                AnswerDAO.addAnswer(new Answer(answer));
+                Answer answer1 = AnswerDAO.getAnswer(answer);
+                Relations relations = getRelation(user, question1, session);
+                relations.setAnswer(answer1);
+                session.update(relations);
+                transaction.commit();
+            }
+        }
         session.close();
     }
 

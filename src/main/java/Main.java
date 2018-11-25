@@ -1,14 +1,12 @@
-import dao.impl.hibernate.QuestionDAO;
 import dao.impl.hibernate.RelationsDAO;
 import dao.impl.hibernate.UserDAO;
 import entities.Relations;
 import entities.User;
 
-import java.sql.SQLException;
 import java.util.List;
 
 public class Main {
-    public static void main(String[] args) throws SQLException {
+    public static void main(String[] args) {
         /*JDBCUserImpl jdbc = new JDBCUserImpl();
         System.out.println(jdbc.addUser("Alex"));
         //System.out.println(jdbc.removeUser("Alex"));
@@ -29,5 +27,9 @@ public class Main {
         for (Relations relation: relations) {
             System.out.println(relation);
         }
+
+//        RelationsDAO.askQuestion("Fred", "Do you want to play with me?");
+//        RelationsDAO.answerQuestion("Fred", "Do you want to play with me?", "Sorry, but not now");
+        UserDAO.removeUser("Fred");
     }
 }

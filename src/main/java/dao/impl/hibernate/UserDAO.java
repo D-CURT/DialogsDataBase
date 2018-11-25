@@ -29,7 +29,7 @@ public class UserDAO {
     public static User getUser(String name) {
         Session session = SessionFactoryManager.getFactory()
                                                .openSession();
-        Query query = session.createQuery("from User where name=:name");
+        Query query = session.createQuery("from User where name =: name");
         query.setParameter("name", name);
         User user = (User) query.uniqueResult();
         session.close();
@@ -44,10 +44,17 @@ public class UserDAO {
     }
 
     public static void removeUser(String name) {
-        User user = UserDAO.getUser(name);
-        Session session = SessionFactoryManager.getFactory()
-                                               .openSession();
-        session.delete(user);
-        session.close();
+        User user;
+        if ((user = UserDAO.getUser(name)) != null) {
+            Session session = SessionFactoryManager.getFactory()
+                    .openSession();
+            Transaction transaction = session.beginTransaction();
+            Query query = session.createQuery("delete from Relations where id_user =: id");
+            query.setParameter("id", user.getId());
+            query.executeUpdate();
+            session.delete(user);
+            transaction.commit();
+            session.close();
+        }
     }
 }

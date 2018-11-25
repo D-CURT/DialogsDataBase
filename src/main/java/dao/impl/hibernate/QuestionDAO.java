@@ -29,7 +29,7 @@ public class QuestionDAO {
     public static Question getQuestion(String content) {
         Session session = SessionFactoryManager.getFactory()
                                                .openSession();
-        Query query = session.createQuery("from Question where content=:content");
+        Query query = session.createQuery("from Question where content =: content");
         query.setParameter("content", content);
         Question question = (Question) query.uniqueResult();
         session.close();
