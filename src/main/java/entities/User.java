@@ -1,12 +1,8 @@
 package entities;
 
-import dao.impl.hibernate.AnswerDAO;
-import dao.impl.hibernate.QuestionDAO;
-
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "users")
@@ -48,6 +44,10 @@ public class User {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public List<Relations> getRelations() {
+        return relations;
     }
 
     public List<Question> getQuestions() {

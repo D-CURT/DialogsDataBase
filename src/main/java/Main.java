@@ -1,4 +1,4 @@
-import dao.impl.hibernate.QuestionDAO;
+
 import dao.impl.hibernate.RelationsDAO;
 import dao.impl.hibernate.UserDAO;
 import entities.User;
@@ -20,8 +20,8 @@ public class Main {
         //System.out.println(UserDAO.getUser(3).getQuestions());
         UserDAO.addUser(new User("Fred"));
         //System.out.println(UserDAO.getUser("wru3e").getId());
-        //RelationsDAO.askQuestion("Alex", "What is going on with you?");
-        //RelationsDAO.answerQuestion("Alex", "What is going on with you?", "I`m talking with you");
+        RelationsDAO.askQuestion("Fred", "What is going on with you?");
+        RelationsDAO.answerQuestion("Fred", "What is going on with you?", "It`s not your business!");
         //UserDAO.removeUser("Fred");
     }
 }

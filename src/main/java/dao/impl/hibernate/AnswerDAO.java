@@ -9,13 +9,9 @@ import utils.SessionFactoryManager;
 import java.util.List;
 
 public class AnswerDAO {
-    public static void addAnswer(Answer answer) {
-        if (getAnswer(answer.getContent()) == null) {
-            Session session = SessionFactoryManager.getInstance().getSession();
-            Transaction transaction = session.beginTransaction();
+    public static void addAnswer(Answer answer, Session session) {
+        if (getAnswer(answer.getContent(), session) == null) {
             session.save(answer);
-            transaction.commit();
-            session.close();
         }
     }
 
@@ -25,13 +21,11 @@ public class AnswerDAO {
                                     .get(Answer.class, id);
     }
 
-    public static Answer getAnswer(String content) {
-        Session session = SessionFactoryManager.getInstance().getSession();
-        Query query = session.createQuery("from Answer where content =: content");
+    public static Answer getAnswer(String content, Session session) {
+        Query query = session.createQuery("from Answer where content=:content");
         query.setParameter("content", content);
-        Answer answer = (Answer) query.uniqueResult();
-        session.close();
-        return answer;
+
+        return (Answer) query.uniqueResult();
     }
 
     public static List getAnswers() {

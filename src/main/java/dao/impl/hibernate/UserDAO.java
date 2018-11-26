@@ -1,5 +1,6 @@
 package dao.impl.hibernate;
 
+import entities.Relations;
 import entities.User;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -40,9 +41,15 @@ public class UserDAO {
     }
 
     public static void removeUser(String name) {
-        User user = UserDAO.getUser(name);
-        Session session = SessionFactoryManager.getInstance().getSession();
-        session.delete(user);
-        session.close();
+        User user;
+        if ((user = UserDAO.getUser(name)) != null) {
+            Session session = SessionFactoryManager.getInstance().getSession();
+            Transaction transaction = session.beginTransaction();
+            Query query = session.createQuery("from Relations where user =: user");
+            query.setParameter("user", user);
+            session.delete(user);
+            transaction.commit();
+            session.close();
+        }
     }
 }
