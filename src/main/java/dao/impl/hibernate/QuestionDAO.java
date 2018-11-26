@@ -43,12 +43,13 @@ public class QuestionDAO {
         return query.getResultList();
     }
 
-    public static void removeQuestion(String content) {
+    public static void removeQuestion(String username,String content) {
         Question question;
         if ((question = getQuestion(content)) != null) {
             Session session = SessionFactoryManager.getInstance().getSession();
             Transaction transaction = session.beginTransaction();
-            Query query = session.createQuery("delete from Relations where question =: question");
+            Query query = session.createQuery("delete from Relations where userName =: userName and question =: question");
+            query.setParameter("userName", username);
             query.setParameter("question", question);
             query.executeUpdate();
             session.delete(question);

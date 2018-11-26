@@ -37,10 +37,14 @@ public class RelationsDAO {
         Question question = QuestionDAO.getQuestion(questionContent);
         AnswerDAO.addAnswer(new Answer(answerContent), session);
         Answer answer = AnswerDAO.getAnswer(answerContent, session);
-        Relations relation = getRelation(user, question, session);
-        relation.setAnswer(answer);
-        session.update(relation);
-        transaction.commit();
+        Relations relation;
+        if ((relation = getRelation(user, question, session)).getAnswer() != null) {
+            transaction.rollback();
+        } else {
+            relation.setAnswer(answer);
+            session.update(relation);
+            transaction.commit();
+        }
         session.close();
     }
 
