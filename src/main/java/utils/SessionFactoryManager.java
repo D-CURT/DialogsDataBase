@@ -9,6 +9,8 @@ import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 
+import java.sql.Connection;
+
 public class SessionFactoryManager {
     private static SessionFactoryManager instance;
     private static SessionFactory factory;
@@ -28,14 +30,14 @@ public class SessionFactoryManager {
         }
     }
 
-    public static SessionFactory getFactory() {
+    public static SessionFactoryManager getInstance() {
         if (instance == null) {
             instance = new SessionFactoryManager();
         }
-        return instance.factory();
+        return instance;
     }
 
-    private SessionFactory factory() {
-        return factory;
+    public Session getSession() {
+        return factory.openSession();
     }
 }

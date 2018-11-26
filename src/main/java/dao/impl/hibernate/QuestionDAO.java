@@ -11,8 +11,8 @@ import java.util.List;
 public class QuestionDAO {
     public static void addQuestion(Question question) {
         if (getQuestion(question.getContent()) == null) {
-            Session session = SessionFactoryManager.getFactory()
-                                                   .openSession();
+            Session session = SessionFactoryManager.getInstance()
+                                                   .getSession();
             Transaction transaction = session.beginTransaction();
             session.save(question);
             transaction.commit();
@@ -21,14 +21,14 @@ public class QuestionDAO {
     }
 
     public static Question getQuestion(int id) {
-        return SessionFactoryManager.getFactory()
-                                    .openSession()
+        return SessionFactoryManager.getInstance()
+                                    .getSession()
                                     .get(Question.class, id);
     }
 
     public static Question getQuestion(String content) {
-        Session session = SessionFactoryManager.getFactory()
-                                               .openSession();
+        Session session = SessionFactoryManager.getInstance()
+                                               .getSession();
         Query query = session.createQuery("from Question where content =: content");
         query.setParameter("content", content);
         Question question = (Question) query.uniqueResult();
@@ -37,16 +37,16 @@ public class QuestionDAO {
     }
 
     public static List getQuestions() {
-        Query query = SessionFactoryManager.getFactory()
-                                           .openSession()
+        Query query = SessionFactoryManager.getInstance()
+                                           .getSession()
                                            .createQuery("from Question");
         return query.getResultList();
     }
 
     public static void removeQuestion(String content) {
         Question question = getQuestion(content);
-        Session session = SessionFactoryManager.getFactory()
-                                               .openSession();
+        Session session = SessionFactoryManager.getInstance()
+                                               .getSession();
         session.delete(question);
         session.close();
     }
