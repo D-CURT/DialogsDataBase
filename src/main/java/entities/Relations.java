@@ -59,4 +59,17 @@ public class Relations {
     public void setAnswer(Answer answer) {
         this.answer = answer;
     }
+
+    @Override
+    public String toString() {
+        return fieldsToString();
+    }
+
+    private String fieldsToString() {
+        StringBuilder builder = new StringBuilder();
+        builder.append(user).append(';');
+        builder.append(question).append(';');
+        builder.append(answer != null ? answer : "the answer is not received yet");
+        return builder.toString();
+    }
 }
