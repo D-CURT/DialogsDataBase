@@ -44,10 +44,16 @@ public class QuestionDAO {
     }
 
     public static void removeQuestion(String content) {
-        Question question = getQuestion(content);
-        Session session = SessionFactoryManager.getInstance()
-                                               .getSession();
-        session.delete(question);
-        session.close();
+        Question question;
+        if ((question = getQuestion(content)) != null) {
+            Session session = SessionFactoryManager.getInstance().getSession();
+            Transaction transaction = session.beginTransaction();
+            Query query = session.createQuery("delete from Relations where question =: question");
+            query.setParameter("question", question);
+            query.executeUpdate();
+            session.delete(question);
+            transaction.commit();
+            session.close();
+        }
     }
 }

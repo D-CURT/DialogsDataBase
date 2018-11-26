@@ -9,8 +9,6 @@ import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 
-import java.sql.Connection;
-
 public class SessionFactoryManager {
     private static SessionFactoryManager instance;
     private static SessionFactory factory;

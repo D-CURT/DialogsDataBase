@@ -6,6 +6,7 @@ public enum  SQLSection {
     GET_QUESTION("SELECT * FROM question WHERE content=?"),
     GET_ANSWER("SELECT * FROM answer WHERE content=?"),
     GET_RELATION_BY_USER("SELECT * FROM relations WHERE id_user=?"),
+    GET_RELATION_BY_QUESTION("SELECT * FROM relations WHERE "),
     GET_RELATION_BY_USER_AND_QUESTION("SELECT * FROM relations WHERE id_user=? AND id_question=?"),
     GET_FULL_DATA("SELECT users.name, question.content, answer.content FROM users " +
             "JOIN relations ON relations.id_user=users.id " +

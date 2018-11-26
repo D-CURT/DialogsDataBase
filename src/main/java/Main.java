@@ -19,9 +19,10 @@ public class Main {
         //System.out.println(SQLSection.ADD_QUESTION.name());
         //System.out.println(UserDAO.getUser(3).getQuestions());
         UserDAO.addUser(new User("Fred"));
-        System.out.println(UserDAO.getUser("wru3e").getId());
+        //System.out.println(UserDAO.getUser("wru3e").getId());
         RelationsDAO.askQuestion("Fred", "What is going on with you?");
         RelationsDAO.answerQuestion("Fred", "What is going on with you?", "It`s not your business!");
         //UserDAO.removeUser("Fred");
+        //UserDAO.removeUser("Katrine");
     }
 }
