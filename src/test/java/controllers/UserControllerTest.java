@@ -15,11 +15,13 @@ import static org.junit.Assert.*;
 
 public class UserControllerTest extends Mockito {
     private static final int ONE = 1;
+    private static final String PARAM_NAME = "userName";
     private UserController testController;
 
     @Before
     public void setUp() throws Exception {
         testController = new UserController();
+        testController.init();
     }
 
     @Test
@@ -28,14 +30,11 @@ public class UserControllerTest extends Mockito {
         HttpServletResponse mockResponse = mock(HttpServletResponse.class);
         final String USER_NAME = "Fred";
 
-        when(mockRequest.getParameter("userName")).thenReturn(USER_NAME);
+        when(mockRequest.getParameter(PARAM_NAME)).thenReturn(USER_NAME);
+        assertNotNull(testController.getHandler().getUser(USER_NAME));
         testController.doGet(mockRequest, mockResponse);
 
-        verify(mockRequest, atLeast(ONE)).getParameter("userName");
-
-        User actual = new User(USER_NAME);
-        User expected = testController.getHandler().getUser(USER_NAME);
-        assertEquals(expected, actual);
+        verify(mockRequest, atLeast(ONE)).getParameter(PARAM_NAME);
     }
 
     @Test
