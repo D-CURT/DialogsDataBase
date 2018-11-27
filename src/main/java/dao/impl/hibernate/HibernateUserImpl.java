@@ -8,7 +8,8 @@ import utils.SessionFactoryManager;
 
 import java.util.List;
 
-public class HibernateUserImpl {
+@SuppressWarnings("JpaQlInspection")
+public class HibernateUserImpl extends AbstractHibernateImpl{
     public User getUser(int id) {
         return SessionFactoryManager.getInstance().getSession().get(User.class, id);
     }
@@ -31,10 +32,7 @@ public class HibernateUserImpl {
     }
 
     public List getUsers() {
-        Query query = SessionFactoryManager.getInstance()
-                                           .getSession()
-                                           .createQuery("from User");
-        return query.getResultList();
+        return getTable("User");
     }
 
     public void removeUser(String name) {
@@ -49,5 +47,10 @@ public class HibernateUserImpl {
             transaction.commit();
             session.close();
         }
+    }
+
+    @Override
+    public int countRows() {
+        return countTableRows("User");
     }
 }

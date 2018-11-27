@@ -25,8 +25,8 @@ public class UserController extends AbstractController {
         String userName = req.getParameter("userName");
         //try {
             handler.removeUser(userName);
-            req.setAttribute("data", "The user removed");
-            forward(INDEX_URL, req, resp);
+            /*req.setAttribute("data", "The user removed");
+            forward(INDEX_URL, req, resp);*/
         //} catch (SQLException e) {
             //forwardError(INDEX_URL, e.getMessage(), req, resp);
        // }
@@ -37,8 +37,8 @@ public class UserController extends AbstractController {
         String userName = req.getParameter("userName");
         //try {
             handler.addUser(userName);
-            req.setAttribute("data", "The user added");
-            forward(INDEX_URL, req, resp);
+            /*req.setAttribute("data", "The user added");
+            forward(INDEX_URL, req, resp);*/
         //} catch (SQLException e) {
             //forwardError(INDEX_URL, e.getMessage(), req, resp);
        // }

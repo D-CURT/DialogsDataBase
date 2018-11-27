@@ -3,5 +3,6 @@
   <component name="SqlDialectMappings">
     <file url="file://$PROJECT_DIR$/script.sql" dialect="PostgreSQL" />
     <file url="file://$PROJECT_DIR$/src/main/java/dao/impl/hibernate/HibernateUserImpl.java" dialect="PostgreSQL" />
+    <file url="PROJECT" dialect="PostgreSQL" />
   </component>
 </project>

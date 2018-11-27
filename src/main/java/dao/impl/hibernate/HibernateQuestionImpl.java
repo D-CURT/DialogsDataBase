@@ -8,7 +8,8 @@ import utils.SessionFactoryManager;
 
 import java.util.List;
 
-public class HibernateQuestionImpl {
+@SuppressWarnings("JpaQlInspection")
+public class HibernateQuestionImpl extends AbstractHibernateImpl{
     public void addQuestion(String content) {
         if (getQuestion(content) == null) {
             Session session = SessionFactoryManager.getInstance()
@@ -37,10 +38,7 @@ public class HibernateQuestionImpl {
     }
 
     public List getQuestions() {
-        Query query = SessionFactoryManager.getInstance()
-                                           .getSession()
-                                           .createQuery("from Question");
-        return query.getResultList();
+        return getTable("Question");
     }
 
     public void removeQuestion(String username,String content) {
@@ -56,5 +54,10 @@ public class HibernateQuestionImpl {
             transaction.commit();
             session.close();
         }
+    }
+
+    @Override
+    public int countRows() {
+        return countTableRows("Question");
     }
 }
