@@ -24,8 +24,8 @@ public class HibernateUserImpl extends AbstractHibernateImpl{
 
     public User getUser(String name) {
         Session session = SessionFactoryManager.getInstance().getSession();
-        Query query = session.createQuery("from User where name=:name");
-        query.setParameter("name", name);
+        Query query = session.createQuery("from User where lower(name) like :name");
+        query.setParameter("name", '%' + name.toLowerCase() + '%');
         User user = (User) query.uniqueResult();
         session.close();
         return user;

@@ -26,6 +26,7 @@ public class Main {
 //        user.removeUser("Fred");
         user.addUser("jOHN");
         //HibernateUserImpl.removeUser("Katrine");
-        System.out.println(user.getUsers());
+        //System.out.println(user.getUsers());
+        System.out.println(user.getUser("aLEX"));
     }
 }

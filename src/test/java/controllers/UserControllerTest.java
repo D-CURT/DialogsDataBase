@@ -8,6 +8,8 @@ import org.apache.http.impl.client.HttpClientBuilder;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
+import utils.SessionFactoryManager;
+import utils.UserNameConverter;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -94,5 +96,19 @@ public class UserControllerTest extends Mockito {
         final int AFTER = testHandler.countRows();
 
         assertThat(BEFORE, lessThan(AFTER));
+    }
+
+    @Test
+    public void check_of_column_name_conversion() {
+        final String USER_NAME = "tEST";
+        testHandler.addUser(USER_NAME);
+
+        String expected = Character.toUpperCase(USER_NAME.charAt(0))
+                          + USER_NAME.substring(1).toLowerCase();
+        String actual = testHandler.getUser(USER_NAME).toString();
+
+        assertThat(expected, is(equalTo(actual)));
+
+        testHandler.removeUser(USER_NAME);
     }
 }
