@@ -8,25 +8,25 @@ import utils.SessionFactoryManager;
 
 import java.util.List;
 
-public class QuestionDAO {
-    public static void addQuestion(Question question) {
-        if (getQuestion(question.getContent()) == null) {
+public class HibernateQuestionImpl {
+    public void addQuestion(String content) {
+        if (getQuestion(content) == null) {
             Session session = SessionFactoryManager.getInstance()
                                                    .getSession();
             Transaction transaction = session.beginTransaction();
-            session.save(question);
+            session.save(new Question(content));
             transaction.commit();
             session.close();
         }
     }
 
-    public static Question getQuestion(int id) {
+    public Question getQuestion(int id) {
         return SessionFactoryManager.getInstance()
                                     .getSession()
                                     .get(Question.class, id);
     }
 
-    public static Question getQuestion(String content) {
+    public Question getQuestion(String content) {
         Session session = SessionFactoryManager.getInstance()
                                                .getSession();
         Query query = session.createQuery("from Question where content =: content");
@@ -36,14 +36,14 @@ public class QuestionDAO {
         return question;
     }
 
-    public static List getQuestions() {
+    public List getQuestions() {
         Query query = SessionFactoryManager.getInstance()
                                            .getSession()
                                            .createQuery("from Question");
         return query.getResultList();
     }
 
-    public static void removeQuestion(String username,String content) {
+    public void removeQuestion(String username,String content) {
         Question question;
         if ((question = getQuestion(content)) != null) {
             Session session = SessionFactoryManager.getInstance().getSession();

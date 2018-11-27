@@ -8,20 +8,20 @@ import utils.SessionFactoryManager;
 
 import java.util.List;
 
-public class UserDAO {
-    public static User getUser(int id) {
+public class HibernateUserImpl {
+    public User getUser(int id) {
         return SessionFactoryManager.getInstance().getSession().get(User.class, id);
     }
 
-    public static void addUser(User user) {
-        if (getUser(user.getName()) == null) {
+    public void addUser(String name) {
+        if (getUser(name) == null) {
             Session session = SessionFactoryManager.getInstance().getSession();
-            session.save(user);
+            session.save(new User(name));
             session.close();
         }
     }
 
-    public static User getUser(String name) {
+    public User getUser(String name) {
         Session session = SessionFactoryManager.getInstance().getSession();
         Query query = session.createQuery("from User where name=:name");
         query.setParameter("name", name);
@@ -30,16 +30,16 @@ public class UserDAO {
         return user;
     }
 
-    public static List getUsers() {
+    public List getUsers() {
         Query query = SessionFactoryManager.getInstance()
                                            .getSession()
                                            .createQuery("from User");
         return query.getResultList();
     }
 
-    public static void removeUser(String name) {
+    public void removeUser(String name) {
         User user;
-        if ((user = UserDAO.getUser(name)) != null) {
+        if ((user = getUser(name)) != null) {
             Session session = SessionFactoryManager.getInstance().getSession();
             Transaction transaction = session.beginTransaction();
             Query query = session.createQuery("delete from Relations where user =: user");

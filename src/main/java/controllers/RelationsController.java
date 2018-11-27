@@ -1,5 +1,6 @@
 package controllers;
 
+import dao.impl.hibernate.HibernateRelationsImpl;
 import dao.impl.jdbc.JDBCRelationsImpl;
 import dao.interfaces.JDBCRelations;
 
@@ -10,21 +11,23 @@ import java.io.IOException;
 import java.sql.SQLException;
 
 public class RelationsController extends AbstractController {
-    private JDBCRelations handler;
+//    private JDBCRelations handler;
+    private HibernateRelationsImpl handler;
 
     @Override
     public void init() {
-        handler = new JDBCRelationsImpl();
+//        handler = new JDBCRelationsImpl();
+        handler = new HibernateRelationsImpl();
     }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        try {
-            req.setAttribute("multipleData", handler.getFullData().split(";"));
+//        try {
+            req.setAttribute("multipleData", handler.getFullData().toString()/*.split(";")*/);
             forward(INDEX_URL, req, resp);
-        } catch (SQLException e) {
-            forwardError(INDEX_URL, e.getMessage(), req, resp);
-        }
+//        } catch (SQLException e) {
+//            forwardError(INDEX_URL, e.getMessage(), req, resp);
+//        }
     }
 
     @Override
@@ -33,14 +36,10 @@ public class RelationsController extends AbstractController {
         String userName = req.getParameter("userName");
         String question = req.getParameter("question");
         String answer;
-        String message;
 
-        try {
+//        try {
             if (section.equals("ASK_QUESTION")) {
-                if (handler.askQuestion(userName, question) > 0)
-                    message = "The question is asked";
-                else message = "The question already asked";
-                req.setAttribute("data", message);
+                handler.askQuestion(userName, question);
             }
             if (section.equals("ANSWER_QUESTION")) {
                 answer = req.getParameter("answer");
@@ -48,8 +47,8 @@ public class RelationsController extends AbstractController {
                 req.setAttribute("data", "The answer received");
             }
             forward(INDEX_URL, req, resp);
-        } catch (SQLException e) {
-            forwardError(INDEX_URL, e.getMessage(), req, resp);
-        }
+//        } catch (SQLException e) {
+//            forwardError(INDEX_URL, e.getMessage(), req, resp);
+//        }
     }
 }

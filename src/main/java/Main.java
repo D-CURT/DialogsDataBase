@@ -1,6 +1,6 @@
 
-import dao.impl.hibernate.RelationsDAO;
-import dao.impl.hibernate.UserDAO;
+import dao.impl.hibernate.HibernateUserImpl;
+import dao.impl.hibernate.HibernateRelationsImpl;
 import entities.User;
 
 import java.sql.SQLException;
@@ -17,12 +17,14 @@ public class Main {
         System.out.println(jdbc.answerQuestion("What are you doing?", "i`m going home", "Alex"));
         System.out.println(jdbc.answerQuestion("How are you?", "i`m fine, thanks", "Alex"));*/
         //System.out.println(SQLSection.ADD_QUESTION.name());
-        //System.out.println(UserDAO.getUser(3).getQuestions());
-        UserDAO.addUser(new User("Fred"));
-        //System.out.println(UserDAO.getUser("wru3e").getId());
-        RelationsDAO.askQuestion("Fred", "What is going on with you?");
-        RelationsDAO.answerQuestion("Fred", "What is going on with you?", "It`s not your business!");
-        UserDAO.removeUser("Fred");
-        //UserDAO.removeUser("Katrine");
+        HibernateUserImpl user = new HibernateUserImpl();
+        HibernateRelationsImpl relation = new HibernateRelationsImpl();
+        //System.out.println(HibernateUserImpl.getUser(3).getQuestions());
+        user.addUser("Fred");
+        //System.out.println(HibernateUserImpl.getUser("wru3e").getId());
+        relation.askQuestion("Fred", "What is going on with you?");
+        relation.answerQuestion("Fred", "What is going on with you?", "It`s not your business!");
+//        HibernateUserImpl.removeUser("Fred");
+        //HibernateUserImpl.removeUser("Katrine");
     }
 }

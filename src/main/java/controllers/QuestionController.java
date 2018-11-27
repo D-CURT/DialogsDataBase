@@ -1,5 +1,6 @@
 package controllers;
 
+import dao.impl.hibernate.HibernateQuestionImpl;
 import dao.impl.jdbc.JDBCQuestionImpl;
 import dao.interfaces.JDBCQuestion;
 
@@ -10,35 +11,37 @@ import java.io.IOException;
 import java.sql.SQLException;
 
 public class QuestionController extends AbstractController {
-    private JDBCQuestion handler;
+//    private JDBCQuestion handler;
+    private HibernateQuestionImpl handler;
 
     @Override
     public void init() {
-        handler = new JDBCQuestionImpl();
+//        handler = new JDBCQuestionImpl();
+        handler = new HibernateQuestionImpl();
     }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String userName = req.getParameter("userName");
         String question = req.getParameter("question");
-        try {
+//        try {
             handler.removeQuestion(userName, question);
             req.setAttribute("data","The question removed");
             forward(INDEX_URL, req, resp);
-        } catch (SQLException e) {
-            forwardError(INDEX_URL, e.getMessage(), req, resp);
-        }
+//        } catch (SQLException e) {
+//            forwardError(INDEX_URL, e.getMessage(), req, resp);
+//        }
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String question = req.getParameter("question");
-        try {
+//        try {
             handler.addQuestion(question);
             req.setAttribute("data", "The question added");
             forward(INDEX_URL, req, resp);
-        } catch (SQLException e) {
-            forwardError(INDEX_URL, e.getMessage(), req, resp);
-        }
+//        } catch (SQLException e) {
+//            forwardError(INDEX_URL, e.getMessage(), req, resp);
+//        }
     }
 }
