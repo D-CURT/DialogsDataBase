@@ -12,6 +12,7 @@ import utils.SessionFactoryManager;
 import java.util.ArrayList;
 import java.util.List;
 
+@SuppressWarnings("JpaQlInspection")
 public class HibernateRelationsImpl {
     private HibernateUserImpl userHandler;
     private HibernateQuestionImpl questionHandler;

@@ -1,11 +1,15 @@
 package controllers;
 
 import dao.impl.hibernate.HibernateUserImpl;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpUriRequest;
+import org.apache.http.impl.client.HttpClientBuilder;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.equalTo;
+import sun.net.www.http.HttpClient;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -13,6 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 
+import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
 
 public class UserControllerTest extends Mockito {
@@ -30,27 +35,26 @@ public class UserControllerTest extends Mockito {
     }
 
     @Test
-    public void check_whether_add_user_using_doGet() throws ServletException, IOException {
+    public void check_whether_remove_user_using_mock() throws ServletException, IOException {
         testHandler.addUser(USER_NAME);
 
-        HttpServletRequest mockRequest = mock(HttpServletRequest.class);
-        HttpServletResponse mockResponse = mock(HttpServletResponse.class);
+        HttpServletRequest request = mock(HttpServletRequest.class);
+        HttpServletResponse response = mock(HttpServletResponse.class);
 
-        when(mockRequest.getParameter(PARAM_NAME)).thenReturn(USER_NAME);
+        when(request.getParameter(PARAM_NAME)).thenReturn(USER_NAME);
+
         assertNotNull(testHandler.getUser(USER_NAME));
 
         final int BEFORE = testHandler.countRows();
-        testController.doGet(mockRequest, mockResponse);
+        testController.doGet(request, response);
         final int AFTER = testHandler.countRows();
-        int actual = AFTER - BEFORE;
-        int expected = -1;
 
-        verify(mockRequest, atLeast(ONE)).getParameter(PARAM_NAME);
-        assertThat(expected, is(equalTo(actual)));
+        verify(request, atLeast(ONE)).getParameter(PARAM_NAME);
+        assertThat(BEFORE, greaterThan(AFTER));
     }
 
     @Test
-    public void check_whether_remove_user_using_doPost() throws ServletException, IOException {
+    public void check_whether_add_user_using_mock() throws ServletException, IOException {
         HttpServletRequest request = mock(HttpServletRequest.class);
         HttpServletResponse response = mock(HttpServletResponse.class);
 
@@ -60,12 +64,37 @@ public class UserControllerTest extends Mockito {
         final int BEFORE = testHandler.countRows();
         testController.doPost(request, response);
         final int AFTER = testHandler.countRows();
-        int actual = AFTER - BEFORE;
-        int expected = 1;
 
         verify(request, atLeast(ONE)).getParameter(PARAM_NAME);
-        assertThat(expected, is(equalTo(actual)));
+        assertThat(BEFORE, lessThan(AFTER));
 
         testHandler.removeUser(USER_NAME);
+    }
+
+    @Test
+    public void check_whether_remove_user_using_HttpClient() throws IOException, ServletException {
+        HttpUriRequest httpRequest = new HttpGet("http://localhost:8080/user?" + PARAM_NAME + "=" + USER_NAME);
+        testHandler.addUser(USER_NAME);
+
+        assertNotNull(testHandler.getUser(USER_NAME));
+
+        final int BEFORE = testHandler.countRows();
+        HttpClientBuilder.create().build().execute(httpRequest);
+        final int AFTER = testHandler.countRows();
+
+        assertThat(BEFORE, greaterThan(AFTER));
+    }
+
+    @Test
+    public void check_whether_add_user_using_HttpClient() throws IOException, ServletException {
+        HttpUriRequest httpRequest = new HttpPost("http://localhost:8080/user?" + PARAM_NAME + "=" + USER_NAME);
+
+        assertNull(testHandler.getUser(USER_NAME));
+
+        final int BEFORE = testHandler.countRows();
+        HttpClientBuilder.create().build().execute(httpRequest);
+        final int AFTER = testHandler.countRows();
+
+        assertThat(BEFORE, lessThan(AFTER));
     }
 }

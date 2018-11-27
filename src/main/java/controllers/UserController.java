@@ -23,6 +23,7 @@ public class UserController extends AbstractController {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String userName = req.getParameter("userName");
+        System.out.println(userName);
         //try {
             handler.removeUser(userName);
             /*req.setAttribute("data", "The user removed");
