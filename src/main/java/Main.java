@@ -1,7 +1,6 @@
 
 import dao.impl.hibernate.HibernateUserImpl;
 import dao.impl.hibernate.HibernateRelationsImpl;
-import entities.User;
 
 import java.sql.SQLException;
 
@@ -24,7 +23,9 @@ public class Main {
         //System.out.println(HibernateUserImpl.getUser("wru3e").getId());
         relation.askQuestion("Fred", "What is going on with you?");
         relation.answerQuestion("Fred", "What is going on with you?", "It`s not your business!");
-//        HibernateUserImpl.removeUser("Fred");
+//        user.removeUser("Fred");
+        user.addUser("jOHN");
         //HibernateUserImpl.removeUser("Katrine");
+        System.out.println(user.getUsers());
     }
 }

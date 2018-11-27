@@ -1,7 +1,6 @@
 package controllers;
 
 import dao.impl.hibernate.HibernateUserImpl;
-import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpUriRequest;
@@ -9,7 +8,6 @@ import org.apache.http.impl.client.HttpClientBuilder;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
-import sun.net.www.http.HttpClient;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -28,7 +26,7 @@ public class UserControllerTest extends Mockito {
     private HibernateUserImpl testHandler;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         testController = new UserController();
         testController.init();
         testHandler = testController.getHandler();
@@ -72,7 +70,7 @@ public class UserControllerTest extends Mockito {
     }
 
     @Test
-    public void check_whether_remove_user_using_HttpClient() throws IOException, ServletException {
+    public void check_whether_remove_user_using_HttpClient() throws IOException {
         HttpUriRequest httpRequest = new HttpGet("http://localhost:8080/user?" + PARAM_NAME + "=" + USER_NAME);
         testHandler.addUser(USER_NAME);
 
@@ -86,7 +84,7 @@ public class UserControllerTest extends Mockito {
     }
 
     @Test
-    public void check_whether_add_user_using_HttpClient() throws IOException, ServletException {
+    public void check_whether_add_user_using_HttpClient() throws IOException {
         HttpUriRequest httpRequest = new HttpPost("http://localhost:8080/user?" + PARAM_NAME + "=" + USER_NAME);
 
         assertNull(testHandler.getUser(USER_NAME));

@@ -1,6 +1,7 @@
 package entities;
 
 import org.hibernate.annotations.ColumnTransformer;
+import utils.UserNameConverter;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -16,7 +17,7 @@ public class User {
     private int id;
 
     @Column(name = "name", length = 50)
-    @ColumnTransformer(read = "")
+    @Convert(converter = UserNameConverter.class)
     private String name;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
