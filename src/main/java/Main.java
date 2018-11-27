@@ -19,14 +19,16 @@ public class Main {
         HibernateUserImpl user = new HibernateUserImpl();
         HibernateRelationsImpl relation = new HibernateRelationsImpl();
         //System.out.println(HibernateUserImpl.getUser(3).getQuestions());
-        user.addUser("Fred");
+        user.addUser("Fred", 123);
         //System.out.println(HibernateUserImpl.getUser("wru3e").getId());
-        relation.askQuestion("Fred", "What is going on with you?");
-        relation.answerQuestion("Fred", "What is going on with you?", "It`s not your business!");
-//        user.removeUser("Fred");
-        user.addUser("jOHN");
-        //HibernateUserImpl.removeUser("Katrine");
-        //System.out.println(user.getUsers());
-        System.out.println(user.getUser("aLEX"));
+//        relation.askQuestion("Fred", "What is going on with you?");
+//        relation.answerQuestion("Fred", "What is going on with you?", "It`s not your business!");
+////        user.removeUser("Fred");
+//        user.addUser("jOHN", 321);
+//        //HibernateUserImpl.removeUser("Katrine");
+//        //System.out.println(user.getUsers());
+//        System.out.println(user.getUser("aLEX"));
+
+
     }
 }

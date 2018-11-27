@@ -36,7 +36,7 @@ public class UserControllerTest extends Mockito {
 
     @Test
     public void check_whether_remove_user_using_mock() throws ServletException, IOException {
-        testHandler.addUser(USER_NAME);
+        testHandler.addUser(USER_NAME, 123);
 
         HttpServletRequest request = mock(HttpServletRequest.class);
         HttpServletResponse response = mock(HttpServletResponse.class);
@@ -74,7 +74,7 @@ public class UserControllerTest extends Mockito {
     @Test
     public void check_whether_remove_user_using_HttpClient() throws IOException {
         HttpUriRequest httpRequest = new HttpGet("http://localhost:8080/user?" + PARAM_NAME + "=" + USER_NAME);
-        testHandler.addUser(USER_NAME);
+        testHandler.addUser(USER_NAME, 123);
 
         assertNotNull(testHandler.getUser(USER_NAME));
 
@@ -101,7 +101,7 @@ public class UserControllerTest extends Mockito {
     @Test
     public void check_of_column_name_conversion() {
         final String USER_NAME = "tEST";
-        testHandler.addUser(USER_NAME);
+        testHandler.addUser(USER_NAME, 123);
 
         String expected = Character.toUpperCase(USER_NAME.charAt(0))
                           + USER_NAME.substring(1).toLowerCase();

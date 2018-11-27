@@ -20,6 +20,10 @@ public class User {
     @Convert(converter = UserNameConverter.class)
     private String name;
 
+    @Column(name = "passport_key")
+    @ColumnTransformer(read = "pgp_sym_decrypt(passport_key, 'secret')", write = "pgp_sym_encrypt(?, 'secret')")
+    private int passportKey;
+
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Relations> relations;
 
@@ -33,6 +37,16 @@ public class User {
     public User(int id, String name) {
         this.id = id;
         this.name = name;
+    }
+
+    public User(String name, int passportKey) {
+        this(name);
+        this.passportKey = passportKey;
+    }
+
+    public User(int id, String name, int passportKey) {
+        this(id, name);
+        this.passportKey = passportKey;
     }
 
     public int getId() {
@@ -49,6 +63,14 @@ public class User {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public int getPassportKey() {
+        return passportKey;
+    }
+
+    public void setPassportKey(int passportKey) {
+        this.passportKey = passportKey;
     }
 
     public List<Relations> getRelations() {

@@ -14,10 +14,10 @@ public class HibernateUserImpl extends AbstractHibernateImpl{
         return SessionFactoryManager.getInstance().getSession().get(User.class, id);
     }
 
-    public void addUser(String name) {
+    public void addUser(String name, int passportKey) {
         if (getUser(name) == null) {
             Session session = SessionFactoryManager.getInstance().getSession();
-            session.save(new User(name));
+            session.save(new User(name, passportKey));
             session.close();
         }
     }
