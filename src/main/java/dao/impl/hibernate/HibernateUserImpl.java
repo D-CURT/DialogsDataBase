@@ -4,10 +4,12 @@ import entities.User;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
-import utils.queries.HQLSection;
 import utils.connectors.SessionFactoryManager;
 
 import java.util.List;
+
+import static utils.queries.HQLSection.DELETE_RELATION_BY_USER;
+import static utils.queries.HQLSection.SELECT_USER;
 
 @SuppressWarnings("JpaQlInspection")
 public class HibernateUserImpl extends AbstractHibernateImpl{
@@ -29,7 +31,7 @@ public class HibernateUserImpl extends AbstractHibernateImpl{
         final String NAME_FIELD = "name";
         final char SCREEN = '%';
         Session session = SessionFactoryManager.getInstance().getSession();
-        Query query = session.createQuery(HQLSection.SELECT_USER.getHql());
+        Query query = session.createQuery(SELECT_USER.getHql());
         query.setParameter(NAME_FIELD, SCREEN + name.toLowerCase() + SCREEN);
         User user = (User) query.uniqueResult();
         session.close();
@@ -45,7 +47,7 @@ public class HibernateUserImpl extends AbstractHibernateImpl{
         if ((user = getUser(name)) != null) {
             Session session = SessionFactoryManager.getInstance().getSession();
             Transaction transaction = session.beginTransaction();
-            Query query = session.createQuery(HQLSection.DELETE_RELATION_BY_USER.getHql());
+            Query query = session.createQuery(DELETE_RELATION_BY_USER.getHql());
             query.setParameter(TABLE_NAME.toLowerCase(), user);
             query.executeUpdate();
             session.delete(user);

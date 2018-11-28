@@ -5,7 +5,6 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 import utils.connectors.SessionFactoryManager;
-import utils.queries.HQLSection;
 
 import java.util.List;
 

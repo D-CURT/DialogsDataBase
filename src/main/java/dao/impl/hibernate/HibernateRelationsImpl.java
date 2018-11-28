@@ -8,10 +8,11 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 import utils.connectors.SessionFactoryManager;
-import utils.queries.HQLSection;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static utils.queries.HQLSection.SELECT_RELATION_WITHOUT_ANSWER;
 
 @SuppressWarnings("JpaQlInspection")
 public class HibernateRelationsImpl extends AbstractHibernateImpl{
@@ -76,7 +77,7 @@ public class HibernateRelationsImpl extends AbstractHibernateImpl{
     private Relations getRelation(User user, Question question, Session session) {
         final String USER_FIELD = "user";
         final String QUESTION_FIELD = "question";
-        Query query = session.createQuery(HQLSection.SELECT_RELATION_WITHOUT_ANSWER.getHql());
+        Query query = session.createQuery(SELECT_RELATION_WITHOUT_ANSWER.getHql());
         query.setParameter(USER_FIELD, user);
         query.setParameter(QUESTION_FIELD, question);
 
