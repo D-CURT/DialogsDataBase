@@ -8,12 +8,14 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 import utils.connectors.SessionFactoryManager;
+import utils.queries.HQLSection;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @SuppressWarnings("JpaQlInspection")
-public class HibernateRelationsImpl {
+public class HibernateRelationsImpl extends AbstractHibernateImpl{
+    private static final String TABLE_NAME = "Relations";
     private HibernateUserImpl userHandler;
     private HibernateQuestionImpl questionHandler;
     private HibernateAnswerImpl answerHandler;
@@ -62,10 +64,7 @@ public class HibernateRelationsImpl {
     @SuppressWarnings("unchecked")
     public List<Relations> getFullData() {
         List<Relations> relations = new ArrayList<>();
-        Query query = SessionFactoryManager.getInstance()
-                .getSession()
-                .createQuery("from Relations");
-        query.getResultList().forEach(o -> relations.add((Relations) o));
+        getTable(TABLE_NAME).forEach(o -> relations.add((Relations) o));
         return relations;
     }
 
@@ -75,11 +74,17 @@ public class HibernateRelationsImpl {
     }
 
     private Relations getRelation(User user, Question question, Session session) {
-        Query query = session.createQuery(
-                "from Relations where user =: user and question =: question and answer is null ");
-        query.setParameter("user", user);
-        query.setParameter("question", question);
+        final String USER_FIELD = "user";
+        final String QUESTION_FIELD = "question";
+        Query query = session.createQuery(HQLSection.SELECT_RELATION_WITHOUT_ANSWER.getHql());
+        query.setParameter(USER_FIELD, user);
+        query.setParameter(QUESTION_FIELD, question);
 
         return (Relations) query.uniqueResult();
+    }
+
+    @Override
+    public int countRows() {
+        return countTableRows(TABLE_NAME);
     }
 }
