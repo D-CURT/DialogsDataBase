@@ -1,5 +1,8 @@
-package entities;
+package entities.users;
 
+import entities.Answer;
+import entities.Question;
+import entities.Relations;
 import org.hibernate.annotations.ColumnTransformer;
 import utils.UserNameConverter;
 

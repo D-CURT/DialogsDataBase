@@ -3,7 +3,7 @@ package dao.impl.hibernate;
 import entities.Answer;
 import entities.Question;
 import entities.Relations;
-import entities.User;
+import entities.users.User;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;

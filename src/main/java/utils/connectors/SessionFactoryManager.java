@@ -3,7 +3,7 @@ package utils.connectors;
 import entities.Answer;
 import entities.Question;
 import entities.Relations;
-import entities.User;
+import entities.users.User;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
