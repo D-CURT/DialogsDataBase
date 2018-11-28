@@ -13,9 +13,9 @@ public class Main {
         System.out.println(user.getUser("peter"));
         System.out.println(user.getUser("peter").getPassportKey());
         //System.out.println(HibernateUserImpl.getUser("wru3e").getId());
-//        relation.askQuestion("john", "What is going on with you?");
-//////        user.removeUser("Fred");
-//        user.addUser("jOHN", "321");
+//        user.addUser("peter", "321");
+        //relation.askQuestion("peter", "What is going on with you?");
+        user.removeUser("peter");
 //        user.removeUser("fRED");
 //        //System.out.println(user.getUsers());
 //        System.out.println(user.getUser("aLEX"));

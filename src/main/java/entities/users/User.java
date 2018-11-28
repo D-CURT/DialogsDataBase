@@ -13,6 +13,8 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "users")
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "type")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

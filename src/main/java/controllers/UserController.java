@@ -29,7 +29,8 @@ public class UserController extends AbstractController {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String userName = req.getParameter("userName");
-        handler.addUser(userName, "123");
+        String passportKey = req.getParameter("passportKey");
+        handler.addUser(userName, passportKey);
         req.setAttribute("data", "The user added");
         forward(INDEX_URL, req, resp);
     }
