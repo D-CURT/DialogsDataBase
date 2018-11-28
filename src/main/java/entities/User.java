@@ -21,8 +21,8 @@ public class User {
     private String name;
 
     @Column(name = "passport_key")
-    @ColumnTransformer(read = "pgp_sym_decrypt(passport_key, 'secret')", write = "pgp_sym_encrypt(?, 'secret')")
-    private int passportKey;
+    @ColumnTransformer(read = "pgp_sym_decrypt(passport_key::bytea, 'secret')", write = "pgp_sym_encrypt(?, 'secret')")
+    private String passportKey;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Relations> relations;
@@ -39,12 +39,12 @@ public class User {
         this.name = name;
     }
 
-    public User(String name, int passportKey) {
+    public User(String name, String passportKey) {
         this(name);
         this.passportKey = passportKey;
     }
 
-    public User(int id, String name, int passportKey) {
+    public User(int id, String name, String passportKey) {
         this(id, name);
         this.passportKey = passportKey;
     }
@@ -65,11 +65,11 @@ public class User {
         this.name = name;
     }
 
-    public int getPassportKey() {
+    public String getPassportKey() {
         return passportKey;
     }
 
-    public void setPassportKey(int passportKey) {
+    public void setPassportKey(String passportKey) {
         this.passportKey = passportKey;
     }
 

@@ -14,7 +14,7 @@ public class HibernateUserImpl extends AbstractHibernateImpl{
         return SessionFactoryManager.getInstance().getSession().get(User.class, id);
     }
 
-    public void addUser(String name, int passportKey) {
+    public void addUser(String name, String passportKey) {
         if (getUser(name) == null) {
             Session session = SessionFactoryManager.getInstance().getSession();
             session.save(new User(name, passportKey));
