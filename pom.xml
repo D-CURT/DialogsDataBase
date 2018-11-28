@@ -73,6 +73,14 @@
         <finalName>web_base</finalName>
         <plugins>
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <version>2.7</version>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
+            </plugin>
+            <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.7.0</version>
                 <configuration>
@@ -89,6 +97,15 @@
                     <server>dec_tomcat</server>
                     <path>/base</path>
                 </configuration>
+                <executions>
+                    <execution>
+                        <id>deployid</id>
+                        <goals>
+                            <goal>redeploy</goal>
+                        </goals>
+                        <phase>deploy</phase>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
