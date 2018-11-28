@@ -21,11 +21,11 @@ public class Main {
         //System.out.println(HibernateUserImpl.getUser(3).getQuestions());
         System.out.println(user.getUser("alex"));
         //System.out.println(HibernateUserImpl.getUser("wru3e").getId());
-//        relation.askQuestion("Fred", "What is going on with you?");
-//        relation.answerQuestion("Fred", "What is going on with you?", "It`s not your business!");
+        relation.askQuestion("john", "What is going on with you?");
+        relation.answerQuestion("john", "What is going on with you?", "It`s not your business!");
 ////        user.removeUser("Fred");
         user.addUser("jOHN", "321");
-        user.removeUser("max");
+        user.removeUser("fRED");
 //        //System.out.println(user.getUsers());
 //        System.out.println(user.getUser("aLEX"));
 
