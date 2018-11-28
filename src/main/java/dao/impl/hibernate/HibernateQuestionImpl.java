@@ -5,11 +5,17 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 import utils.connectors.SessionFactoryManager;
+import utils.queries.HQLSection;
 
 import java.util.List;
 
+import static utils.queries.HQLSection.DELETE_RELATION_BY_QUESTION;
+import static utils.queries.HQLSection.SELECT_QUESTION_BY_CONTENT;
+
 @SuppressWarnings("JpaQlInspection")
 public class HibernateQuestionImpl extends AbstractHibernateImpl{
+    private static final String TABLE_NAME = "Question";
+
     public void addQuestion(String content) {
         if (getQuestion(content) == null) {
             Session session = SessionFactoryManager.getInstance()
@@ -28,26 +34,28 @@ public class HibernateQuestionImpl extends AbstractHibernateImpl{
     }
 
     public Question getQuestion(String content) {
+        final String CONTENT_FIELD = "content";
         Session session = SessionFactoryManager.getInstance()
                                                .getSession();
-        Query query = session.createQuery("from Question where content =: content");
-        query.setParameter("content", content);
+        Query query = session.createQuery(SELECT_QUESTION_BY_CONTENT.getHql());
+        query.setParameter(CONTENT_FIELD, content);
         Question question = (Question) query.uniqueResult();
         session.close();
         return question;
     }
 
     public List getQuestions() {
-        return getTable("Question");
+        return getTable(TABLE_NAME);
     }
 
     public void removeQuestion(String content) {
+        final String QUESTION_FIELD = "question";
         Question question;
         if ((question = getQuestion(content)) != null) {
             Session session = SessionFactoryManager.getInstance().getSession();
             Transaction transaction = session.beginTransaction();
-            Query query = session.createQuery("delete from Relations where question =: question");
-            query.setParameter("question", question);
+            Query query = session.createQuery(DELETE_RELATION_BY_QUESTION.getHql());
+            query.setParameter(QUESTION_FIELD, question);
             query.executeUpdate();
             session.delete(question);
             transaction.commit();
@@ -57,6 +65,6 @@ public class HibernateQuestionImpl extends AbstractHibernateImpl{
 
     @Override
     public int countRows() {
-        return countTableRows("Question");
+        return countTableRows(TABLE_NAME);
     }
 }

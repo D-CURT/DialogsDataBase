@@ -2,8 +2,10 @@ package utils.queries;
 
 public enum HQLSection {
     SELECT_USER("from User where lower(name) like :name"),
+    SELECT_QUESTION_BY_CONTENT("from Question where content =: content"),
     SELECT_RELATION_WITHOUT_ANSWER("from Relations where user =: user and question =: question and answer is null"),
-    DELETE_RELATION_BY_USER("delete from Relations where user =: user");
+    DELETE_RELATION_BY_USER("delete from Relations where user =: user"),
+    DELETE_RELATION_BY_QUESTION("delete from Relations where question =: question");
 
     private final String hql;
 
