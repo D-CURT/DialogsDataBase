@@ -1,14 +1,11 @@
 package controllers;
 
 import dao.impl.hibernate.HibernateRelationsImpl;
-import dao.impl.jdbc.JDBCRelationsImpl;
-import dao.interfaces.JDBCRelations;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.sql.SQLException;
 
 public class RelationsController extends AbstractController {
 //    private JDBCRelations handler;
@@ -32,15 +29,14 @@ public class RelationsController extends AbstractController {
         String userName = req.getParameter("userName");
         String question = req.getParameter("question");
         String answer;
-
-            if (section.equals("ASK_QUESTION")) {
-                handler.askQuestion(userName, question);
-            }
-            if (section.equals("ANSWER_QUESTION")) {
-                answer = req.getParameter("answer");
-                handler.answerQuestion(userName, question, answer);
-                req.setAttribute("data", "The answer received");
-            }
-            forward(INDEX_URL, req, resp);
+        if (section.equals("ASK_QUESTION")) {
+            handler.askQuestion(userName, question);
+        }
+        if (section.equals("ANSWER_QUESTION")) {
+            answer = req.getParameter("answer");
+            handler.answerQuestion(userName, question, answer);
+            req.setAttribute("data", "The answer received");
+        }
+        forward(INDEX_URL, req, resp);
     }
 }

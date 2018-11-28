@@ -22,7 +22,7 @@ public class Main {
         System.out.println(user.getUser("alex"));
         //System.out.println(HibernateUserImpl.getUser("wru3e").getId());
         relation.askQuestion("john", "What is going on with you?");
-        relation.answerQuestion("john", "What is going on with you?", "It`s not your business!");
+        //relation.answerQuestion("piter", "Waths`up, bro?", "I`m great!");
 ////        user.removeUser("Fred");
         user.addUser("jOHN", "321");
         user.removeUser("fRED");

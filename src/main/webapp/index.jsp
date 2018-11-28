@@ -8,6 +8,7 @@
   Index page
   <form action="user" name="add_user" method="post">
     <input type="text" name="userName" value="" placeholder="name">
+    <input type="text" name="passportKey" value="" placeholder="passport key">
     <input type="submit" value="add user">
   </form>
 
