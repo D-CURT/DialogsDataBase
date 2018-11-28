@@ -1,7 +1,6 @@
 package controllers;
 
 import dao.impl.hibernate.HibernateUserImpl;
-import entities.User;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpUriRequest;
@@ -135,7 +134,7 @@ public class UserControllerTest extends Mockito {
 
         testHandler.addUser(USER_NAME, PASSPORT_KEY);
 
-        final String EXPECTED_OUT_DB = testHandler.getUser(USER_NAME).getPassportKey();
+        final String ACTUAL_OUT_DB = testHandler.getUser(USER_NAME).getPassportKey();
 
         final String ACTUAL_IN_DB = (String)
                 SessionFactoryManager.getInstance()
@@ -144,9 +143,9 @@ public class UserControllerTest extends Mockito {
                                      .setParameter(NAME_FIELD, USER_NAME.toLowerCase())
                                      .uniqueResult();
 
-        assertThat(EXPECTED_OUT_DB, is(not(equalTo(ACTUAL_IN_DB))));
+        assertThat(ACTUAL_OUT_DB, is(not(equalTo(ACTUAL_IN_DB))));
 
-        assertThat(EXPECTED_OUT_DB, is(equalTo(PASSPORT_KEY)));
+        assertThat(PASSPORT_KEY, is(equalTo(ACTUAL_OUT_DB)));
 
         testHandler.removeUser(USER_NAME);
     }
