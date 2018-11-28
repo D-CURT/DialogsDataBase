@@ -1,7 +1,7 @@
 package dao.impl.jdbc;
 
 import dao.interfaces.JDBCRelations;
-import utils.C3POConnector;
+import utils.connectors.C3POConnector;
 
 import java.sql.Connection;
 import java.sql.SQLException;

@@ -1,4 +1,4 @@
-package utils;
+package utils.queries;
 
 
 public enum  SQLSection {

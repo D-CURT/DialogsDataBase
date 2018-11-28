@@ -1,6 +1,6 @@
 package dao.impl.hibernate;
 
-import utils.SessionFactoryManager;
+import utils.connectors.SessionFactoryManager;
 
 import java.util.List;
 

@@ -1,7 +1,7 @@
 package dao.impl.jdbc;
 
-import utils.C3POConnector;
-import utils.SQLSection;
+import utils.connectors.C3POConnector;
+import utils.queries.SQLSection;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

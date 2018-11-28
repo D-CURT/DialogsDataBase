@@ -1,11 +1,10 @@
 package dao.impl.hibernate;
 
 import entities.Question;
-import entities.User;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
-import utils.SessionFactoryManager;
+import utils.connectors.SessionFactoryManager;
 
 import java.util.List;
 

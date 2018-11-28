@@ -24,8 +24,8 @@ public class Main {
 //        relation.askQuestion("Fred", "What is going on with you?");
 //        relation.answerQuestion("Fred", "What is going on with you?", "It`s not your business!");
 ////        user.removeUser("Fred");
-//        user.addUser("jOHN", 321);
-//        //HibernateUserImpl.removeUser("Katrine");
+        user.addUser("jOHN", "321");
+        user.removeUser("max");
 //        //System.out.println(user.getUsers());
 //        System.out.println(user.getUser("aLEX"));
 

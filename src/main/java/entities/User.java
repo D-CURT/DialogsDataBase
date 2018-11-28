@@ -20,6 +20,7 @@ public class User {
     @Convert(converter = UserNameConverter.class)
     private String name;
 
+    /*To postgres db need to be added following script: CREATE EXTENSION IF NOT EXISTS pgcrypto;*/
     @Column(name = "passport_key")
     @ColumnTransformer(read = "pgp_sym_decrypt(passport_key::bytea, 'secret')", write = "pgp_sym_encrypt(?, 'secret')")
     private String passportKey;

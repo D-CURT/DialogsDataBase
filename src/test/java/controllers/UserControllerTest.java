@@ -8,8 +8,6 @@ import org.apache.http.impl.client.HttpClientBuilder;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
-import utils.SessionFactoryManager;
-import utils.UserNameConverter;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -105,7 +103,7 @@ public class UserControllerTest extends Mockito {
 
         String expected = Character.toUpperCase(USER_NAME.charAt(0))
                           + USER_NAME.substring(1).toLowerCase();
-        String actual = testHandler.getUser(USER_NAME).toString();
+        String actual = testHandler.getUser(USER_NAME).getName();
 
         assertThat(expected, is(equalTo(actual)));
 

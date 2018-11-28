@@ -1,4 +1,4 @@
-package utils;
+package utils.connectors;
 
 import entities.Answer;
 import entities.Question;
