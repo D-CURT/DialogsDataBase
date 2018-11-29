@@ -4,7 +4,6 @@ import entities.users.Administrator;
 import entities.users.PremiumUser;
 import entities.users.User;
 import org.hibernate.Session;
-import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 import utils.connectors.SessionFactoryManager;
 
@@ -64,12 +63,7 @@ public class HibernateUserImpl extends AbstractHibernateImpl{
         User user;
         if ((user = getUser(name)) != null) {
             Session session = SessionFactoryManager.getInstance().getSession();
-            Transaction transaction = session.beginTransaction();
-            /*Query query = session.createQuery(DELETE_RELATION_BY_USER.getHql());
-            query.setParameter(TABLE_NAME.toLowerCase(), user);
-            query.executeUpdate();*/
             session.delete(user);
-            transaction.commit();
             session.close();
         }
     }

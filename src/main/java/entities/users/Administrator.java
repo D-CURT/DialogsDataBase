@@ -8,31 +8,31 @@ import javax.persistence.Entity;
 @DiscriminatorValue("A")
 public class Administrator extends User {
     @Column(name = "admin_password")
-    private String password;
+    private String adminPassword;
 
     public Administrator() {
     }
 
     public Administrator(String name, String passportKey, String password) {
         super(name, passportKey);
-        this.password = password;
+        this.adminPassword = password;
     }
 
     public Administrator(int id, String name, String passportKey, String password) {
         super(id, name, passportKey);
-        this.password = password;
+        this.adminPassword = password;
     }
 
     public String getPassword() {
-        return password;
+        return adminPassword;
     }
 
     public void setPassword(String password) {
-        this.password = password;
+        this.adminPassword = password;
     }
 
     @Override
     public String toString() {
-        return password;
+        return adminPassword;
     }
 }
