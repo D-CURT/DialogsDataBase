@@ -8,6 +8,7 @@ import utils.connectors.SessionFactoryManager;
 
 import java.util.List;
 
+import static utils.queries.HQLSection.DELETE_RELATION_BY_QUESTION;
 import static utils.queries.HQLSection.SELECT_QUESTION_BY_CONTENT;
 
 @SuppressWarnings("JpaQlInspection")
@@ -52,9 +53,9 @@ public class HibernateQuestionImpl extends AbstractHibernateImpl{
         if ((question = getQuestion(content)) != null) {
             Session session = SessionFactoryManager.getInstance().getSession();
             Transaction transaction = session.beginTransaction();
-           /*Query query = session.createQuery(DELETE_RELATION_BY_QUESTION.getHql());
+            Query query = session.createQuery(DELETE_RELATION_BY_QUESTION.getHql());
             query.setParameter(QUESTION_FIELD, question);
-            query.executeUpdate();*/
+            query.executeUpdate();
             session.delete(question);
             transaction.commit();
             session.close();

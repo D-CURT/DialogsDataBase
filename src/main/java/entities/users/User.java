@@ -15,6 +15,7 @@ import java.util.Objects;
 @Table(name = "users")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "user_type")
+@DiscriminatorValue("U")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,7 +31,7 @@ public class User {
     @ColumnTransformer(read = "pgp_sym_decrypt(passport_key::bytea, 'secret')", write = "pgp_sym_encrypt(?, 'secret')")
     private String passportKey;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<Relations> relations;
 
     public User() {
