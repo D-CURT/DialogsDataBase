@@ -7,6 +7,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 import utils.connectors.SessionFactoryManager;
+import utils.interceptors.UserInterceptor;
 import utils.queries.HQLSection;
 
 import java.util.List;
@@ -24,10 +25,20 @@ public class HibernateUserImpl extends AbstractHibernateImpl{
 
     public void addUser(String name, String passportKey) {
         if (getUser(name) == null) {
-            Session session = SessionFactoryManager.getInstance().getSession();
-            session.save(new User(name, passportKey));
-            session.close();
+            insertUser(new User(name, passportKey));
         }
+    }
+
+    public void addUser(String name, String passportKey, Integer age) {
+        if (getUser(name) == null) {
+            insertUser(new User(name, passportKey, age));
+        }
+    }
+
+    private void insertUser(User user) {
+        Session session = SessionFactoryManager.getInstance().getSessionWithInterceptor(new UserInterceptor());
+        session.save(user);
+        session.close();
     }
 
     public void addPremiumUser(String name, String passportKey, String creditCard) {

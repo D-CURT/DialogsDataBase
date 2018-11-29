@@ -14,14 +14,14 @@ public class Main {
 //        System.out.println(user.getUser("peter"));
 //        System.out.println(user.getUser("peter").getPassportKey());
         //System.out.println(HibernateUserImpl.getUser("wru3e").getId());
-        user.addUser("baq", "4");
+        user.addUser("baq", "4", null);
 //        user.addUser("fill", "321");
 
 
 //        relation.askQuestion("alex", "What is going on with you?");
 //        question.removeQuestion("What is going on with you?");
 //        user.removeUser("peter");
-        user.removeUser("test");
+        //user.removeUser("test");
 //        user.getUsers().forEach();
 //        System.out.println(user.getUser("aLEX"));
     }

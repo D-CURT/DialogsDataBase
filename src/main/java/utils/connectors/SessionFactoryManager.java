@@ -6,6 +6,7 @@ import entities.Relations;
 import entities.users.Administrator;
 import entities.users.PremiumUser;
 import entities.users.User;
+import org.hibernate.Interceptor;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
@@ -41,5 +42,9 @@ public class SessionFactoryManager {
 
     public Session getSession() {
         return factory.openSession();
+    }
+
+    public Session getSessionWithInterceptor(Interceptor interceptor) {
+        return factory.withOptions().interceptor(interceptor).openSession();
     }
 }

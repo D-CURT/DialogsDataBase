@@ -31,6 +31,8 @@ public class User {
     @ColumnTransformer(read = "pgp_sym_decrypt(passport_key::bytea, 'secret')", write = "pgp_sym_encrypt(?, 'secret')")
     private String passportKey;
 
+    private Integer age;
+
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<Relations> relations;
 
@@ -45,6 +47,11 @@ public class User {
     public User(int id, String name, String passportKey) {
         this(name, passportKey);
         this.id = id;
+    }
+
+    public User(String name, String passportKey, Integer age) {
+        this(name, passportKey);
+        this.age = age;
     }
 
     public int getId() {
@@ -71,6 +78,14 @@ public class User {
         this.passportKey = passportKey;
     }
 
+    public Integer getAge() {
+        return age;
+    }
+
+    public void setAge(Integer age) {
+        this.age = age;
+    }
+
     public List<Relations> getRelations() {
         return relations;
     }
@@ -90,7 +105,7 @@ public class User {
 
     @Override
     public String toString() {
-        return name + ";" + passportKey;
+        return name + ";" + passportKey + ";" + age;
     }
 
     @Override
