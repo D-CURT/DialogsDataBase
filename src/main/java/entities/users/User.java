@@ -4,7 +4,8 @@ import entities.Answer;
 import entities.Question;
 import entities.Relations;
 import org.hibernate.annotations.ColumnTransformer;
-import utils.UserNameConverter;
+import org.hibernate.annotations.DiscriminatorFormula;
+import utils.converters.UserNameConverter;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -15,6 +16,7 @@ import java.util.Objects;
 @Table(name = "users")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "type")
+@DiscriminatorFormula("CASE WHEN credit_card IS NOT NULL THEN 'PU' END")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,23 +38,14 @@ public class User {
     public User() {
     }
 
-    public User(String name) {
-        this.name = name;
-    }
-
-    public User(int id, String name) {
-        this.id = id;
-        this.name = name;
-    }
-
     public User(String name, String passportKey) {
-        this(name);
+        this.name = name;
         this.passportKey = passportKey;
     }
 
     public User(int id, String name, String passportKey) {
-        this(id, name);
-        this.passportKey = passportKey;
+        this(name, passportKey);
+        this.id = id;
     }
 
     public int getId() {

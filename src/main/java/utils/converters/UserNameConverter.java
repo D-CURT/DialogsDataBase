@@ -1,4 +1,4 @@
-package utils;
+package utils.converters;
 
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
