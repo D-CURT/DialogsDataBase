@@ -3,6 +3,8 @@ package utils.connectors;
 import entities.Answer;
 import entities.Question;
 import entities.Relations;
+import entities.users.Administrator;
+import entities.users.PremiumUser;
 import entities.users.User;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -20,6 +22,8 @@ public class SessionFactoryManager {
             config.addAnnotatedClass(Question.class);
             config.addAnnotatedClass(Answer.class);
             config.addAnnotatedClass(Relations.class);
+            config.addAnnotatedClass(PremiumUser.class);
+            config.addAnnotatedClass(Administrator.class);
             StandardServiceRegistryBuilder builder =
                     new StandardServiceRegistryBuilder().applySettings(config.getProperties());
             factory = config.buildSessionFactory(builder.build());

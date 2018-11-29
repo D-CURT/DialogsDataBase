@@ -1,5 +1,7 @@
 package dao.impl.hibernate;
 
+import entities.users.Administrator;
+import entities.users.PremiumUser;
 import entities.users.User;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -8,7 +10,7 @@ import utils.connectors.SessionFactoryManager;
 
 import java.util.List;
 
-import static utils.queries.HQLSection.DELETE_RELATION_BY_USER;
+
 import static utils.queries.HQLSection.SELECT_USER;
 
 @SuppressWarnings("JpaQlInspection")
@@ -23,6 +25,22 @@ public class HibernateUserImpl extends AbstractHibernateImpl{
         if (getUser(name) == null) {
             Session session = SessionFactoryManager.getInstance().getSession();
             session.save(new User(name, passportKey));
+            session.close();
+        }
+    }
+
+    public void addPremiumUser(String name, String passportKey, String creditCard) {
+        if (getUser(name) == null) {
+            Session session = SessionFactoryManager.getInstance().getSession();
+            session.save(new PremiumUser(name, passportKey, creditCard));
+            session.close();
+        }
+    }
+
+    public void addAdministrator(String name, String passportKey, String password) {
+        if (getUser(name) == null) {
+            Session session = SessionFactoryManager.getInstance().getSession();
+            session.save(new Administrator(name, passportKey, password));
             session.close();
         }
     }

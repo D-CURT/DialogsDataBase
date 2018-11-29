@@ -15,8 +15,9 @@ import java.util.Objects;
 @Entity
 @Table(name = "users")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name = "type")
-@DiscriminatorFormula("CASE WHEN credit_card IS NOT NULL THEN 'PU' END")
+@DiscriminatorColumn(name = "user_type")
+//@DiscriminatorValue("U")
+//@DiscriminatorFormula("CASE WHEN credit_card IS NOT NULL THEN 'PU' ELSE 'U' END")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
