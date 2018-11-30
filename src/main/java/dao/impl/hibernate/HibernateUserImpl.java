@@ -24,37 +24,27 @@ public class HibernateUserImpl extends AbstractHibernateImpl{
     }
 
     public void addUser(String name, String passportKey) {
-        if (getUser(name) == null) {
-            insertUser(new User(name, passportKey));
-        }
+        insertUser(new User(name, passportKey));
     }
 
     public void addUser(String name, String passportKey, String age) {
-        if (getUser(name) == null) {
-            insertUser(new User(name, passportKey, age));
-        }
+        insertUser(new User(name, passportKey, age));
     }
 
-    private void insertUser(User user) {
-        Session session = SessionFactoryManager.getInstance().getSessionWithInterceptor(new UserInterceptor());
-        session.saveOrUpdate(user);
-        session.close();
+    public void addPremiumUser(String name, String passportKey, String creditCard) {
+        insertUser(new PremiumUser(name, passportKey, creditCard));
     }
 
     public void addPremiumUser(String name, String passportKey, String age, String creditCard) {
-        if (getUser(name) == null) {
-//            Session session = SessionFactoryManager.getInstance().getSession();
-            insertUser(new PremiumUser(name, passportKey, age, creditCard));
-//            session.close();
-        }
+        insertUser(new PremiumUser(name, passportKey, age, creditCard));
+    }
+
+    public void addAdministrator(String name, String passportKey, String password) {
+        insertUser(new Administrator(name, passportKey, password));
     }
 
     public void addAdministrator(String name, String passportKey, String age, String password) {
-        if (getUser(name) == null) {
-            Session session = SessionFactoryManager.getInstance().getSession();
-            session.save(new Administrator(name, passportKey, age, password));
-            session.close();
-        }
+        insertUser(new Administrator(name, passportKey, age, password));
     }
 
     public User getUser(String name) {
@@ -89,5 +79,13 @@ public class HibernateUserImpl extends AbstractHibernateImpl{
     @Override
     public int countRows() {
         return countTableRows(TABLE_NAME);
+    }
+
+    private void insertUser(User user) {
+        if (getUser(user.getName()) == null) {
+            Session session = SessionFactoryManager.getInstance().getSessionWithInterceptor(new UserInterceptor());
+            session.saveOrUpdate(user);
+            session.close();
+        }
     }
 }

@@ -19,6 +19,11 @@ public class PremiumUser extends User {
     public PremiumUser() {
     }
 
+    public PremiumUser(String name, String passportKey, String creditCard) {
+        super(name, passportKey);
+        this.creditCard = creditCard;
+    }
+
     public PremiumUser(String name, String passportKey, String age, String creditCard) {
         super(name, passportKey, age);
         this.creditCard = creditCard;

@@ -40,10 +40,24 @@ public class HibernateUserImplTest {
     public void check_of_adding_premium_user_type_entity() {
 
         final String EXPECTED_TYPE = "PU";
-        testHandler.addPremiumUser(USER_NAME, KEY, "6", KEY);
+        testHandler.addPremiumUser(USER_NAME, KEY, KEY);
         final String ACTUAL_TYPE = selectUserType();
 
         assertThat(EXPECTED_TYPE, is(equalTo(ACTUAL_TYPE)));
+
+        testHandler.removeUser(USER_NAME);
+    }
+
+    @Test
+    public void check_of_users_interception_and_age_value_correction() {
+        final String NULL_AGE = null;
+        final String EXPECTED_AGE = "6";
+
+        testHandler.addPremiumUser(USER_NAME, KEY, NULL_AGE, KEY);
+
+        final String ACTUAL_AGE = testHandler.getUser(USER_NAME).getAge();
+
+        assertThat(EXPECTED_AGE, is(equalTo(ACTUAL_AGE)));
 
         testHandler.removeUser(USER_NAME);
     }
