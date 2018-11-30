@@ -19,10 +19,9 @@ public class UserInterceptor extends EmptyInterceptor {
                         state[i] = "6";
                     }
                 }
-                System.out.println(state);
-                System.out.println(user);
             }
-            if (       user.getName() == null
+            if
+               (       user.getName() == null
                     || user.getPassportKey() == null
                     || user.getName().isEmpty()
                     || user.getPassportKey().isEmpty()

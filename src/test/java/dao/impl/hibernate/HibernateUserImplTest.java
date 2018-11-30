@@ -6,8 +6,6 @@ import org.junit.Test;
 
 import utils.connectors.SessionFactoryManager;
 
-import javax.transaction.Transactional;
-
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.*;
