@@ -1,8 +1,9 @@
 package entities.users;
 
-import javax.persistence.Column;
-import javax.persistence.DiscriminatorValue;
-import javax.persistence.Entity;
+import entities.Relations;
+
+import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @DiscriminatorValue("A")
@@ -10,19 +11,16 @@ public class Administrator extends User {
     @Column(name = "admin_password")
     private String adminPassword;
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Relations> relations;
+
     public Administrator() {
     }
 
-    public Administrator(String name, String passportKey, String password) {
-        super(name, passportKey);
+    public Administrator(String name, String passportKey, String age, String password) {
+        super(name, passportKey, age);
         this.adminPassword = password;
     }
-
-    /*public Administrator(int id, String name, String passportKey, String password) {
-        super(name, passportKey);
-        super.setId(id);
-        this.adminPassword = password;
-    }*/
 
     public String getPassword() {
         return adminPassword;

@@ -1,5 +1,6 @@
 package utils.interceptors;
 
+import entities.users.PremiumUser;
 import entities.users.User;
 import org.hibernate.EmptyInterceptor;
 import org.hibernate.type.Type;

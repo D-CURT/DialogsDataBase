@@ -1,10 +1,10 @@
 package entities.users;
 
+import entities.Relations;
 import org.hibernate.annotations.ColumnTransformer;
 
-import javax.persistence.Column;
-import javax.persistence.DiscriminatorValue;
-import javax.persistence.Entity;
+import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @DiscriminatorValue("PU")
@@ -13,11 +13,14 @@ public class PremiumUser extends User {
     @ColumnTransformer(read = "pgp_sym_decrypt(credit_card::bytea, 'card')", write = "pgp_sym_encrypt(?, 'card')")
     private String creditCard;
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Relations> relations;
+
     public PremiumUser() {
     }
 
-    public PremiumUser(String name, String passportKey, String creditCard) {
-        super(name, passportKey);
+    public PremiumUser(String name, String passportKey, String age, String creditCard) {
+        super(name, passportKey, age);
         this.creditCard = creditCard;
     }
 

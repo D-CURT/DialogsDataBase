@@ -40,7 +40,7 @@ public class HibernateUserImplTest {
     public void check_of_adding_premium_user_type_entity() {
 
         final String EXPECTED_TYPE = "PU";
-        testHandler.addPremiumUser(USER_NAME, KEY, KEY);
+        testHandler.addPremiumUser(USER_NAME, KEY, "6", KEY);
         final String ACTUAL_TYPE = selectUserType();
 
         assertThat(EXPECTED_TYPE, is(equalTo(ACTUAL_TYPE)));

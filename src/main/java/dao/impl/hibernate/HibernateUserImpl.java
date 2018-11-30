@@ -41,18 +41,18 @@ public class HibernateUserImpl extends AbstractHibernateImpl{
         session.close();
     }
 
-    public void addPremiumUser(String name, String passportKey, String creditCard) {
+    public void addPremiumUser(String name, String passportKey, String age, String creditCard) {
         if (getUser(name) == null) {
-            Session session = SessionFactoryManager.getInstance().getSession();
-            session.save(new PremiumUser(name, passportKey, creditCard));
-            session.close();
+//            Session session = SessionFactoryManager.getInstance().getSession();
+            insertUser(new PremiumUser(name, passportKey, age, creditCard));
+//            session.close();
         }
     }
 
-    public void addAdministrator(String name, String passportKey, String password) {
+    public void addAdministrator(String name, String passportKey, String age, String password) {
         if (getUser(name) == null) {
             Session session = SessionFactoryManager.getInstance().getSession();
-            session.save(new Administrator(name, passportKey, password));
+            session.save(new Administrator(name, passportKey, age, password));
             session.close();
         }
     }
