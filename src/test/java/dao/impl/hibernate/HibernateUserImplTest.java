@@ -18,7 +18,7 @@ public class HibernateUserImplTest {
     private HibernateUserImpl testHandler;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         factory = SessionFactoryManager.getInstance();
         testHandler = new HibernateUserImpl();
     }

@@ -1,12 +1,10 @@
 package utils.interceptors;
 
-import entities.users.PremiumUser;
 import entities.users.User;
 import org.hibernate.EmptyInterceptor;
 import org.hibernate.type.Type;
 
 import java.io.Serializable;
-import java.util.Arrays;
 
 public class UserInterceptor extends EmptyInterceptor {
 
@@ -28,7 +26,7 @@ public class UserInterceptor extends EmptyInterceptor {
                     || user.getPassportKey().isEmpty()
                )
             {
-                throw new IllegalArgumentException();
+                throw new IllegalArgumentException("Unexpected values of the user properties");
             }
             return true;
         }
