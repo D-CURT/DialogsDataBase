@@ -50,14 +50,14 @@ public class HibernateUserImplTest {
 
     @Test
     public void check_of_users_interception_and_age_value_correction() {
-        final String NULL_AGE = null;
-        final String EXPECTED_AGE = "6";
+        String nullAge = null;
+        String expectedAge = "6";
 
-        testHandler.addPremiumUser(USER_NAME, KEY, NULL_AGE, KEY);
+        testHandler.addPremiumUser(USER_NAME, KEY, nullAge, KEY);
 
-        final String ACTUAL_AGE = testHandler.getUser(USER_NAME).getAge();
+        String actualAge = testHandler.getUser(USER_NAME).getAge();
 
-        assertThat(EXPECTED_AGE, is(equalTo(ACTUAL_AGE)));
+        assertThat(expectedAge, is(equalTo(actualAge)));
 
         testHandler.removeUser(USER_NAME);
     }

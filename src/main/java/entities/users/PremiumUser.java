@@ -44,6 +44,11 @@ public class PremiumUser extends User {
     }
 
     @Override
+    public List<Relations> getRelations() {
+        return relations;
+    }
+
+    @Override
     public String toString() {
         return creditCard;
     }
