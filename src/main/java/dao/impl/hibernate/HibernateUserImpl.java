@@ -29,7 +29,7 @@ public class HibernateUserImpl extends AbstractHibernateImpl{
         }
     }
 
-    public void addUser(String name, String passportKey, Integer age) {
+    public void addUser(String name, String passportKey, String age) {
         if (getUser(name) == null) {
             insertUser(new User(name, passportKey, age));
         }

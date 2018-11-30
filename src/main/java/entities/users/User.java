@@ -32,7 +32,7 @@ public class User {
     private String passportKey;
 
     @Column(name = "age")
-    private Integer age;
+    private String age;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<Relations> relations;
@@ -50,12 +50,12 @@ public class User {
         this.id = id;
     }*/
 
-    public User(String name, String passportKey, Integer age) {
+    public User(String name, String passportKey, String age) {
         this(name, passportKey);
         this.age = age;
     }
 
-    public User(int id, String name, String passportKey, Integer age) {
+    public User(int id, String name, String passportKey, String age) {
         this(name, passportKey);
         this.id = id;
         this.age = age;
@@ -85,11 +85,11 @@ public class User {
         this.passportKey = passportKey;
     }
 
-    public Integer getAge() {
+    public String getAge() {
         return age;
     }
 
-    public void setAge(Integer age) {
+    public void setAge(String age) {
         this.age = age;
     }
 

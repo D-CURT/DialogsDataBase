@@ -22,10 +22,10 @@ public class UserInterceptor extends EmptyInterceptor {
                 System.out.println(state);
                 System.out.println(user);
             }
-            if ( user.getName() == null
-              || user.getPassportKey() == null
-              || user.getName().isEmpty()
-              || user.getPassportKey().isEmpty()
+            if (       user.getName() == null
+                    || user.getPassportKey() == null
+                    || user.getName().isEmpty()
+                    || user.getPassportKey().isEmpty()
                )
             {
                 throw new IllegalArgumentException();
