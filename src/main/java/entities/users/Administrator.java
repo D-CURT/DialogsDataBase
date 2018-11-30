@@ -18,10 +18,11 @@ public class Administrator extends User {
         this.adminPassword = password;
     }
 
-    public Administrator(int id, String name, String passportKey, String password) {
-        super(id, name, passportKey);
+    /*public Administrator(int id, String name, String passportKey, String password) {
+        super(name, passportKey);
+        super.setId(id);
         this.adminPassword = password;
-    }
+    }*/
 
     public String getPassword() {
         return adminPassword;

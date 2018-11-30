@@ -37,7 +37,7 @@ public class HibernateUserImpl extends AbstractHibernateImpl{
 
     private void insertUser(User user) {
         Session session = SessionFactoryManager.getInstance().getSessionWithInterceptor(new UserInterceptor());
-        session.save(user);
+        session.saveOrUpdate(user);
         session.close();
     }
 
