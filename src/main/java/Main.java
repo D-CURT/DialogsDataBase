@@ -2,15 +2,19 @@
 import dao.impl.hibernate.HibernateQuestionImpl;
 import dao.impl.hibernate.HibernateUserImpl;
 import dao.impl.hibernate.HibernateRelationsImpl;
+import org.hibernate.EmptyInterceptor;
 import org.reflections.Reflections;
 import org.reflections.scanners.SubTypesScanner;
 import org.reflections.scanners.TypeAnnotationsScanner;
 import org.reflections.util.ClasspathHelper;
 import org.reflections.util.ConfigurationBuilder;
 import org.reflections.util.FilterBuilder;
+import utils.annotations.Interceptor;
 import utils.interceptors.UserInterceptor;
+import utils.reflection.InterceptorCatcher;
 
 import java.sql.SQLException;
+import java.util.Set;
 
 public class Main {
     public static void main(String[] args) throws SQLException {
@@ -27,10 +31,12 @@ public class Main {
 //        user.removeUser("peter");
 //        user.getUsers().forEach();
 //        System.out.println(user.getUser("aLEX"));
-        Reflections reflections = new Reflections(new ConfigurationBuilder()
-                .filterInputsBy(new FilterBuilder().include("c:\\Users\\Админ\\Documents\\GitHub\\QuestionAnswerBase\\src\\main\\java\\utils\\"))
-                .setUrls(ClasspathHelper.forClassLoader())
-                .setScanners(new SubTypesScanner(), new TypeAnnotationsScanner().filterResultsBy()));
-        System.out.println(reflections.getSubTypesOf(UserInterceptor.class));
+       /* Reflections reflections = new Reflections("utils.interceptors");
+        Set<Class<?>> annotated = reflections.getTypesAnnotatedWith(Interceptor.class);
+        System.out.println(annotated);
+        for (Class<?> c: annotated) {
+            c.getAnnotation(Interceptor.class).interceptedType();
+        }*/
+        System.out.println(InterceptorCatcher.getInstance().getInterceptors().values());
     }
 }

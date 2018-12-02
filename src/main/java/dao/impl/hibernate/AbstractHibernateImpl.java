@@ -1,10 +1,11 @@
 package dao.impl.hibernate;
 
+import dao.interfaces.HibernateDBImpl;
 import utils.connectors.SessionFactoryManager;
 
 import java.util.List;
 
-abstract class AbstractHibernateImpl {
+abstract class AbstractHibernateImpl implements HibernateDBImpl {
     final int countTableRows(final String TABLE_NAME) {
         return getTable(TABLE_NAME).size();
 

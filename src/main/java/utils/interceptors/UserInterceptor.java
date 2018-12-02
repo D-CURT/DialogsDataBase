@@ -1,11 +1,14 @@
 package utils.interceptors;
 
+import dao.impl.hibernate.HibernateUserImpl;
 import entities.users.User;
 import org.hibernate.EmptyInterceptor;
 import org.hibernate.type.Type;
+import utils.annotations.Interceptor;
 
 import java.io.Serializable;
 
+@Interceptor(interceptedType = HibernateUserImpl.class)
 public class UserInterceptor extends EmptyInterceptor {
 
     @Override
@@ -31,5 +34,16 @@ public class UserInterceptor extends EmptyInterceptor {
             return true;
         }
         return super.onSave(entity, id, state, propertyNames, types);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        return o != null && getClass() == o.getClass();
+    }
+
+    @Override
+    public String toString() {
+        return "InterceptorType: " + this.getClass();
     }
 }
