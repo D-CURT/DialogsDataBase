@@ -37,6 +37,6 @@ public class Main {
         for (Class<?> c: annotated) {
             c.getAnnotation(Interceptor.class).interceptedType();
         }*/
-        System.out.println(InterceptorCatcher.getInstance().getInterceptors().values());
+        System.out.println(new InterceptorCatcher("utils.interceptors").getInterceptors().values());
     }
 }

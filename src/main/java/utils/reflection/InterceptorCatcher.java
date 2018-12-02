@@ -10,20 +10,16 @@ import java.util.Map;
 import java.util.Set;
 
 public class InterceptorCatcher {
-    private static final String TARGET_PACKAGE = "utils.interceptors";
     private static final Class<Interceptor> TARGET_ANNOTATION = Interceptor.class;
-    private static InterceptorCatcher instance;
+    private String packageName;
     private Map<Class<? extends HibernateDBImpl>, EmptyInterceptor> interceptors;
 
-    private InterceptorCatcher() {
-        findInterceptors();
+    public InterceptorCatcher() {
     }
 
-    public static InterceptorCatcher getInstance() {
-        if (instance == null) {
-            instance = new InterceptorCatcher();
-        }
-        return instance;
+    public InterceptorCatcher(String packageName) {
+        this.packageName = packageName;
+        findInterceptors();
     }
 
     public Map<Class<? extends HibernateDBImpl>, EmptyInterceptor> getInterceptors() {
@@ -32,7 +28,7 @@ public class InterceptorCatcher {
 
     private void findInterceptors() {
         interceptors = new HashMap<>();
-        Reflections reflections = new Reflections(TARGET_PACKAGE);
+        Reflections reflections = new Reflections(packageName);
         Set<Class<?>> annotated = reflections.getTypesAnnotatedWith(TARGET_ANNOTATION);
         annotated.forEach(aClass -> {
             Class<? extends HibernateDBImpl> key =
