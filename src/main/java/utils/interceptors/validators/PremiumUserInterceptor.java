@@ -1,8 +1,6 @@
 package utils.interceptors.validators;
 
 import entities.users.PremiumUser;
-import entities.users.User;
-import org.hibernate.EmptyInterceptor;
 import org.hibernate.type.Type;
 import utils.annotations.Interceptor;
 
@@ -24,5 +22,10 @@ public class PremiumUserInterceptor extends UserInterceptor {
             }
         }
         return false;
+    }
+
+    @Override
+    public String toString() {
+        return "InterceptorType: " + getClass().getName();
     }
 }

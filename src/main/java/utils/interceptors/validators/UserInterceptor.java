@@ -43,6 +43,6 @@ public class UserInterceptor extends EmptyInterceptor {
 
     @Override
     public String toString() {
-        return "InterceptorType: " + this.getClass();
+        return "InterceptorType: " + getClass();
     }
 }
