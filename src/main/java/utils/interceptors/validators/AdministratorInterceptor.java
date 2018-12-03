@@ -8,7 +8,7 @@ import utils.annotations.Interceptor;
 import java.io.Serializable;
 
 @Interceptor(interceptedType = Administrator.class)
-public class AdministratorInterceptor extends EmptyInterceptor {
+public class AdministratorInterceptor extends UserInterceptor {
 
     @Override
     public boolean onSave(Object entity, Serializable id, Object[] state, String[] propertyNames, Type[] types) {
