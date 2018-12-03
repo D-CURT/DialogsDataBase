@@ -36,6 +36,11 @@
             <artifactId>hibernate-core</artifactId>
             <version>5.3.7.Final</version>
         </dependency>
+        <dependency>
+            <groupId>org.reflections</groupId>
+            <artifactId>reflections</artifactId>
+            <version>0.9.11</version>
+        </dependency>
 
         <!--Dependencies for tests-->
         <dependency>
@@ -66,12 +71,6 @@
             <artifactId>jackson-core</artifactId>
             <version>2.9.5</version>
         </dependency>
-        <dependency>
-            <groupId>org.reflections</groupId>
-            <artifactId>reflections</artifactId>
-            <version>0.9.11</version>
-        </dependency>
-
 
     </dependencies>
 
