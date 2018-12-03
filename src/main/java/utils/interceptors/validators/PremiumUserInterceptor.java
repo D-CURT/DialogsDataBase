@@ -10,6 +10,11 @@ import java.io.Serializable;
 public class PremiumUserInterceptor extends UserInterceptor {
 
     @Override
+    public boolean onLoad(Object entity, Serializable id, Object[] state, String[] propertyNames, Type[] types) {
+        return super.onLoad(entity, id, state, propertyNames, types);
+    }
+
+    @Override
     public boolean onSave(Object entity, Serializable id, Object[] state, String[] propertyNames, Type[] types) {
         if (super.onSave(entity, id, state, propertyNames, types)) {
             if (entity instanceof PremiumUser) {
@@ -22,6 +27,11 @@ public class PremiumUserInterceptor extends UserInterceptor {
             }
         }
         return false;
+    }
+
+    @Override
+    public void onDelete(Object entity, Serializable id, Object[] state, String[] propertyNames, Type[] types) {
+        super.onDelete(entity, id, state, propertyNames, types);
     }
 
     @Override

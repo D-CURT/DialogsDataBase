@@ -11,7 +11,14 @@ import java.io.Serializable;
 public class UserInterceptor extends EmptyInterceptor {
 
     @Override
+    public boolean onLoad(Object entity, Serializable id, Object[] state, String[] propertyNames, Type[] types) {
+        System.out.println("*** Loading the user ***");
+        return super.onLoad(entity, id, state, propertyNames, types);
+    }
+
+    @Override
     public boolean onSave(Object entity, Serializable id, Object[] state, String[] propertyNames, Type[] types) {
+        System.out.println("*** Saving the user ***");
         if (entity instanceof User) {
             User user = (User) entity;
             if (user.getAge() == null) {
@@ -33,6 +40,12 @@ public class UserInterceptor extends EmptyInterceptor {
             return true;
         }
         return super.onSave(entity, id, state, propertyNames, types);
+    }
+
+    @Override
+    public void onDelete(Object entity, Serializable id, Object[] state, String[] propertyNames, Type[] types) {
+        System.out.println("*** Deleting the user ***");
+        super.onDelete(entity, id, state, propertyNames, types);
     }
 
     @Override
