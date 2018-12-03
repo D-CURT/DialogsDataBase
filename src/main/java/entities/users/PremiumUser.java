@@ -29,12 +29,6 @@ public class PremiumUser extends User {
         this.creditCard = creditCard;
     }
 
-    /*public PremiumUser(int id, String name, String passportKey, String creditCard) {
-        super(name, passportKey);
-        super.setId(id);
-        this.creditCard = creditCard;
-    }*/
-
     public String getCreditCard() {
         return creditCard;
     }

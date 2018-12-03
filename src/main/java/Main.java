@@ -14,7 +14,6 @@ import utils.interceptors.UserInterceptor;
 import utils.reflection.InterceptorCatcher;
 
 import java.sql.SQLException;
-import java.util.Set;
 
 public class Main {
     public static void main(String[] args) throws SQLException {
@@ -30,12 +29,6 @@ public class Main {
 //        user.removeUser("peter");
 //        user.getUsers().forEach();
 //        System.out.println(user.getUser("aLEX"));
-       /* Reflections reflections = new Reflections("utils.interceptors");
-        Set<Class<?>> annotated = reflections.getTypesAnnotatedWith(Interceptor.class);
-        System.out.println(annotated);
-        for (Class<?> c: annotated) {
-            c.getAnnotation(Interceptor.class).interceptedType();
-        }*/
-        System.out.println(new InterceptorCatcher("utils.interceptors").getInterceptors().values());
+        System.out.println(InterceptorCatcher.getInstance("utils.interceptors").getInterceptors().values());
     }
 }

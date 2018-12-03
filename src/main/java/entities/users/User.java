@@ -45,11 +45,6 @@ public class User {
         this.passportKey = passportKey;
     }
 
-   /* public User(int id, String name, String passportKey) {
-        this(name, passportKey);
-        this.id = id;
-    }*/
-
     public User(String name, String passportKey, String age) {
         this(name, passportKey);
         this.age = age;
