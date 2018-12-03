@@ -1,6 +1,5 @@
 package utils.connectors;
 
-import dao.interfaces.HibernateDBImpl;
 import entities.Answer;
 import entities.Question;
 import entities.Relations;
@@ -10,9 +9,7 @@ import entities.users.User;
 import org.hibernate.*;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
-
-import java.util.List;
-import java.util.Map;
+import utils.interceptors.InterceptorsManager;
 
 public class SessionFactoryManager {
     private static SessionFactoryManager instance;
@@ -27,6 +24,7 @@ public class SessionFactoryManager {
             config.addAnnotatedClass(Relations.class);
             config.addAnnotatedClass(PremiumUser.class);
             config.addAnnotatedClass(Administrator.class);
+            config.setInterceptor(new InterceptorsManager("utils.interceptors.*"));
             StandardServiceRegistryBuilder builder =
                     new StandardServiceRegistryBuilder().applySettings(config.getProperties());
             factory = config.buildSessionFactory(builder.build());
@@ -44,25 +42,5 @@ public class SessionFactoryManager {
 
     public Session getSession() {
         return factory.openSession();
-    }
-
-    public Session getSessionWithInterceptor(Interceptor interceptor) {
-        return factory.withOptions().interceptor(interceptor).openSession();
-    }
-
-    public Session getSessionWithInterceptor(List<EmptyInterceptor> interceptors) {
-        SessionBuilder builder = factory.withOptions();
-        interceptors.forEach(builder::interceptor);
-        return builder.openSession();
-    }
-
-    public Session getSessionWithInterceptor(Map<String, EmptyInterceptor> interceptors, String expectedType) {
-        SessionBuilder builder = factory.withOptions();
-        interceptors.forEach((s, emptyInterceptor) -> {
-            if (s.equals(expectedType)) {
-                builder.interceptor(emptyInterceptor);
-            }
-        });
-        return builder.openSession();
     }
 }

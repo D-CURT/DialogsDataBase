@@ -5,31 +5,24 @@ import org.reflections.Reflections;
 import utils.annotations.Interceptor;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
 public class InterceptorCatcher {
-    private static InterceptorCatcher instance;
     private static final Class<Interceptor> TARGET_ANNOTATION = Interceptor.class;
     private String packageName;
-    private Map<String, EmptyInterceptor> interceptors;
+    private Map<String, Set<EmptyInterceptor>> interceptors;
 
-    private InterceptorCatcher() {
+    public InterceptorCatcher() {
     }
 
-    private InterceptorCatcher(String packageName) {
+    public InterceptorCatcher(String packageName) {
         this.packageName = packageName;
         findInterceptors();
     }
 
-    public static InterceptorCatcher getInstance(String packageName) {
-        if (instance == null) {
-            instance = new InterceptorCatcher(packageName);
-        }
-        return instance;
-    }
-
-    public Map<String, EmptyInterceptor> getInterceptors() {
+    public Map<String, Set<EmptyInterceptor>> getInterceptors() {
         return interceptors;
     }
 
@@ -37,14 +30,20 @@ public class InterceptorCatcher {
         interceptors = new HashMap<>();
         Reflections reflections = new Reflections(packageName);
         Set<Class<?>> annotated = reflections.getTypesAnnotatedWith(TARGET_ANNOTATION);
-        annotated.forEach(aClass -> {
+        Set<EmptyInterceptor> interceptorSet;
+        for (Class<?> c: annotated) {
             String key =
-                    aClass.getAnnotation(TARGET_ANNOTATION).interceptedType().getName();
+                    c.getAnnotation(TARGET_ANNOTATION).interceptedType().getName();
             try {
-                interceptors.put(key, (EmptyInterceptor) aClass.newInstance());
+                EmptyInterceptor interceptor = (EmptyInterceptor) c.newInstance();
+                interceptorSet =
+                        interceptors.get(key) != null ? interceptors.get(key)
+                                                      : new HashSet<>();
+                interceptorSet.add(interceptor);
+                interceptors.put(key, interceptorSet);
             } catch (InstantiationException | IllegalAccessException e) {
                 System.out.println("*** Unknown interceptor ***");
             }
-        });
+        }
     }
 }

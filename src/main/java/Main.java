@@ -2,15 +2,6 @@
 import dao.impl.hibernate.HibernateQuestionImpl;
 import dao.impl.hibernate.HibernateUserImpl;
 import dao.impl.hibernate.HibernateRelationsImpl;
-import org.hibernate.EmptyInterceptor;
-import org.reflections.Reflections;
-import org.reflections.scanners.SubTypesScanner;
-import org.reflections.scanners.TypeAnnotationsScanner;
-import org.reflections.util.ClasspathHelper;
-import org.reflections.util.ConfigurationBuilder;
-import org.reflections.util.FilterBuilder;
-import utils.annotations.Interceptor;
-import utils.interceptors.UserInterceptor;
 import utils.reflection.InterceptorCatcher;
 
 import java.sql.SQLException;
@@ -29,6 +20,5 @@ public class Main {
 //        user.removeUser("peter");
 //        user.getUsers().forEach();
 //        System.out.println(user.getUser("aLEX"));
-        System.out.println(InterceptorCatcher.getInstance("utils.interceptors").getInterceptors().values());
     }
 }

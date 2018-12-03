@@ -7,12 +7,9 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 import utils.connectors.SessionFactoryManager;
-import utils.interceptors.UserInterceptor;
 import utils.queries.HQLSection;
-import utils.reflection.InterceptorCatcher;
 
 import java.util.List;
-
 
 import static utils.queries.HQLSection.SELECT_USER;
 
@@ -85,10 +82,8 @@ public class HibernateUserImpl extends AbstractHibernateImpl{
     private void insertUser(User user) {
         if (getUser(user.getName()) == null) {
             Session session = SessionFactoryManager.getInstance()
-                             .getSessionWithInterceptor(
-                             InterceptorCatcher.getInstance("utils.interceptors")
-                             .getInterceptors(), getClass().getName());
-            session.saveOrUpdate(user);
+                             .getSession();
+            session.save(user);
             session.close();
         }
     }
