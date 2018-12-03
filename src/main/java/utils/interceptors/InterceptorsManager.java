@@ -17,13 +17,20 @@ public class InterceptorsManager extends EmptyInterceptor {
     }
 
     @Override
-    public boolean onSave(Object entity, Serializable id, Object[] state, String[] propertyNames, Type[] types) {
-        Set<EmptyInterceptor> set = catcher.getInterceptors()
-                                           .get(entity.getClass().getName());
-        for (EmptyInterceptor interceptor: set) {
-            interceptor.onSave(entity,id,state,propertyNames,types);
-        }
+    public boolean onLoad(Object entity, Serializable id, Object[] state, String[] propertyNames, Type[] types) {
+        extractSet(entity).forEach(emptyInterceptor -> emptyInterceptor.onLoad(entity,id,state,propertyNames,types));
         return true;
+    }
+
+    @Override
+    public boolean onSave(Object entity, Serializable id, Object[] state, String[] propertyNames, Type[] types) {
+        extractSet(entity).forEach(emptyInterceptor -> emptyInterceptor.onSave(entity,id,state,propertyNames,types));
+        return true;
+    }
+
+    @Override
+    public void onDelete(Object entity, Serializable id, Object[] state, String[] propertyNames, Type[] types) {
+        extractSet(entity).forEach(emptyInterceptor -> emptyInterceptor.onDelete(entity,id,state,propertyNames,types));
     }
 
     public String getPackageName() {
@@ -32,5 +39,10 @@ public class InterceptorsManager extends EmptyInterceptor {
 
     public void setPackageName(String packageName) {
         this.packageName = packageName;
+    }
+
+    private Set<EmptyInterceptor> extractSet(Object entity) {
+         return catcher.getInterceptors()
+                .get(entity.getClass().getName());
     }
 }
