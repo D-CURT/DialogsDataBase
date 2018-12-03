@@ -23,7 +23,6 @@ public class Main {
         HibernateRelationsImpl relation = new HibernateRelationsImpl();
         //System.out.println(HibernateUserImpl.getUser(3).getQuestions());
         //user.addPremiumUser("baq", "4", null, "123");
-//        user.addUser("fill", "321");
 
 
 //        relation.askQuestion("alex", "What is going on with you?");
