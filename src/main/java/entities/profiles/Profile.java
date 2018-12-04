@@ -10,7 +10,6 @@ public abstract class Profile {
     @SequenceGenerator(name = "profile_seq", sequenceName = "user_profile_id_seq", allocationSize = 1)
     private int id;
 
-    @Column(name = "owner")
     private String owner;
 
     public Profile() {
