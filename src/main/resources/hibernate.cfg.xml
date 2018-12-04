@@ -13,5 +13,7 @@
         <property name="show_sql">true</property>
         <property name="dialect">org.hibernate.dialect.PostgreSQL95Dialect</property>
         <property name="hibernate.current_session_context_class">thread</property>
+        <!--<property name="hbm2ddl.auto">create</property>
+        <property name="javax.persistence.schema-generation.database.action">create</property>-->
     </session-factory>
 </hibernate-configuration>

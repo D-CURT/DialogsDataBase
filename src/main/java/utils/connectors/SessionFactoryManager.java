@@ -3,6 +3,8 @@ package utils.connectors;
 import entities.Answer;
 import entities.Question;
 import entities.Relations;
+import entities.profiles.Profile;
+import entities.profiles.UserProfile;
 import entities.users.Administrator;
 import entities.users.PremiumUser;
 import entities.users.User;
@@ -24,6 +26,8 @@ public class SessionFactoryManager {
             config.addAnnotatedClass(Relations.class);
             config.addAnnotatedClass(PremiumUser.class);
             config.addAnnotatedClass(Administrator.class);
+            config.addAnnotatedClass(Profile.class);
+            config.addAnnotatedClass(UserProfile.class);
             config.setInterceptor(new InterceptorsManager("utils.interceptors.*"));
             StandardServiceRegistryBuilder builder =
                     new StandardServiceRegistryBuilder().applySettings(config.getProperties());

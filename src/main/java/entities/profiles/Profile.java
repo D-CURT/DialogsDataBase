@@ -3,22 +3,21 @@ package entities.profiles;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "profile")
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name = "profile_type")
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public abstract class Profile {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "profile_seq")
+    @SequenceGenerator(name = "profile_seq", sequenceName = "user_profile_id_seq", allocationSize = 1)
     private int id;
 
-    @Column(name = "user_id")
-    private int userId;
+    @Column(name = "owner")
+    private String owner;
 
     public Profile() {
     }
 
-    public Profile(int userId) {
-        this.userId = userId;
+    public Profile(String owner) {
+        this.owner = owner;
     }
 
     public int getId() {
@@ -29,11 +28,11 @@ public abstract class Profile {
         this.id = id;
     }
 
-    public int getUserId() {
-        return userId;
+    public String getOwner() {
+        return owner;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public void setOwner(String owner) {
+        this.owner = owner;
     }
 }

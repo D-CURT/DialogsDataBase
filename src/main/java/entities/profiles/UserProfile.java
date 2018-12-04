@@ -1,12 +1,31 @@
 package entities.profiles;
 
-import javax.persistence.Column;
-import javax.persistence.DiscriminatorValue;
-import javax.persistence.Entity;
+import javax.persistence.*;
 
 @Entity
-@DiscriminatorValue("UP")
+@Table(name = "user_profile")
 public class UserProfile extends Profile {
-    @Column(name = "passport_key")
-    private String passportKey;
+    /*@Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "profile_seq")
+    @SequenceGenerator(name = "profile_seq", sequenceName = "user_profile_id_seq", allocationSize = 1)
+    private int id;*/
+
+    @Column(name = "content")
+    private String content;
+
+    public UserProfile() {
+    }
+
+    public UserProfile(String owner, String content) {
+        super(owner);
+        this.content = content;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
 }

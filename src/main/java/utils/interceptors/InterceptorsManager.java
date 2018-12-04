@@ -16,6 +16,9 @@ public class InterceptorsManager extends EmptyInterceptor {
     private String packageName;
     private Map<Class, Set<EmptyInterceptor>> interceptors;
 
+    public InterceptorsManager() {
+    }
+
     public InterceptorsManager(String packageName) {
         this.packageName = packageName;
         findInterceptors();
@@ -23,19 +26,30 @@ public class InterceptorsManager extends EmptyInterceptor {
 
     @Override
     public boolean onLoad(Object entity, Serializable id, Object[] state, String[] propertyNames, Type[] types) {
-        extractSet(entity).forEach(emptyInterceptor -> emptyInterceptor.onLoad(entity,id,state,propertyNames,types));
-        return true;
+        Set<EmptyInterceptor> set;
+        if ((set = extractSet(entity)) != null) {
+           set.forEach(emptyInterceptor -> emptyInterceptor.onLoad(entity,id,state,propertyNames,types));
+           return true;
+        }
+        return false;
     }
 
     @Override
     public boolean onSave(Object entity, Serializable id, Object[] state, String[] propertyNames, Type[] types) {
-        extractSet(entity).forEach(emptyInterceptor -> emptyInterceptor.onSave(entity,id,state,propertyNames,types));
-        return true;
+        Set<EmptyInterceptor> set;
+        if ((set = extractSet(entity)) != null) {
+            set.forEach(emptyInterceptor -> emptyInterceptor.onSave(entity,id,state,propertyNames,types));
+            return true;
+        }
+        return false;
     }
 
     @Override
     public void onDelete(Object entity, Serializable id, Object[] state, String[] propertyNames, Type[] types) {
-        extractSet(entity).forEach(emptyInterceptor -> emptyInterceptor.onDelete(entity,id,state,propertyNames,types));
+        Set<EmptyInterceptor> set;
+        if ((set = extractSet(entity)) != null) {
+            set.forEach(emptyInterceptor -> emptyInterceptor.onDelete(entity,id,state,propertyNames,types));
+        }
     }
 
     public String getPackageName() {
@@ -47,7 +61,7 @@ public class InterceptorsManager extends EmptyInterceptor {
     }
 
     private Set<EmptyInterceptor> extractSet(Object entity) {
-         return interceptors.get(entity.getClass());
+        return interceptors.get(entity.getClass());
     }
 
     private void findInterceptors() {
@@ -60,9 +74,9 @@ public class InterceptorsManager extends EmptyInterceptor {
                     c.getAnnotation(TARGET_ANNOTATION).interceptedType();
             try {
                 EmptyInterceptor interceptor = (EmptyInterceptor) c.newInstance();
-                interceptorSet =
-                        interceptors.get(key) != null ? interceptors.get(key)
-                                : new HashSet<>();
+                if ((interceptorSet = interceptors.get(key)) == null) {
+                    interceptorSet = new HashSet<>();
+                }
                 interceptorSet.add(interceptor);
                 interceptors.put(key, interceptorSet);
             } catch (InstantiationException | IllegalAccessException e) {
