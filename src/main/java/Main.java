@@ -2,7 +2,6 @@
 import dao.impl.hibernate.HibernateQuestionImpl;
 import dao.impl.hibernate.HibernateUserImpl;
 import dao.impl.hibernate.HibernateRelationsImpl;
-import utils.reflection.InterceptorCatcher;
 
 import java.sql.SQLException;
 

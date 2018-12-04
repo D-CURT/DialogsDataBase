@@ -14,7 +14,7 @@ import java.util.Set;
 public class InterceptorsManager extends EmptyInterceptor {
     private static final Class<Interceptor> TARGET_ANNOTATION = Interceptor.class;
     private String packageName;
-    private Map<String, Set<EmptyInterceptor>> interceptors;
+    private Map<Class, Set<EmptyInterceptor>> interceptors;
 
     public InterceptorsManager(String packageName) {
         this.packageName = packageName;
@@ -47,7 +47,7 @@ public class InterceptorsManager extends EmptyInterceptor {
     }
 
     private Set<EmptyInterceptor> extractSet(Object entity) {
-         return interceptors.get(entity.getClass().getName());
+         return interceptors.get(entity.getClass());
     }
 
     private void findInterceptors() {
@@ -56,8 +56,8 @@ public class InterceptorsManager extends EmptyInterceptor {
         Set<Class<?>> annotated = reflections.getTypesAnnotatedWith(TARGET_ANNOTATION);
         Set<EmptyInterceptor> interceptorSet;
         for (Class<?> c: annotated) {
-            String key =
-                    c.getAnnotation(TARGET_ANNOTATION).interceptedType().getName();
+            Class key =
+                    c.getAnnotation(TARGET_ANNOTATION).interceptedType();
             try {
                 EmptyInterceptor interceptor = (EmptyInterceptor) c.newInstance();
                 interceptorSet =
