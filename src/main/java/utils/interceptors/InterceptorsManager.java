@@ -4,6 +4,10 @@ import org.hibernate.EmptyInterceptor;
 import org.hibernate.type.Type;
 import org.reflections.Reflections;
 import utils.annotations.Interceptor;
+import utils.interceptors.interfaces.DeletingInterceptor;
+import utils.interceptors.interfaces.InitializationInterceptor;
+import utils.interceptors.interfaces.LoadingInterceptor;
+import utils.interceptors.interfaces.ValidationInterceptor;
 
 import java.io.Serializable;
 import java.util.HashMap;
@@ -14,7 +18,7 @@ import java.util.Set;
 public class InterceptorsManager extends EmptyInterceptor {
     private static final Class<Interceptor> TARGET_ANNOTATION = Interceptor.class;
     private String packageName;
-    private Map<Class, Set<EmptyInterceptor>> interceptors;
+    private Map<Class, Set<Object>> interceptors;
 
     public InterceptorsManager() {
     }
@@ -26,9 +30,14 @@ public class InterceptorsManager extends EmptyInterceptor {
 
     @Override
     public boolean onLoad(Object entity, Serializable id, Object[] state, String[] propertyNames, Type[] types) {
-        Set<EmptyInterceptor> set;
+        Set<Object> set;
         if ((set = extractSet(entity)) != null) {
-           set.forEach(emptyInterceptor -> emptyInterceptor.onLoad(entity,id,state,propertyNames,types));
+            set.forEach(o -> {
+                if (o instanceof LoadingInterceptor) {
+                    LoadingInterceptor interceptor = (LoadingInterceptor) o;
+                    interceptor.load(entity, state, propertyNames);
+                }
+            });
            return true;
         }
         return false;
@@ -36,11 +45,18 @@ public class InterceptorsManager extends EmptyInterceptor {
 
     @Override
     public boolean onSave(Object entity, Serializable id, Object[] state, String[] propertyNames, Type[] types) {
-
-
-        Set<EmptyInterceptor> set;
+        Set<Object> set;
         if ((set = extractSet(entity)) != null) {
-            set.forEach(emptyInterceptor -> emptyInterceptor.onSave(entity,id,state,propertyNames,types));
+            set.forEach(o -> {
+                if (o instanceof InitializationInterceptor) {
+                    InitializationInterceptor interceptor = (InitializationInterceptor) o;
+                    interceptor.initialize(entity, state, propertyNames);
+                }
+                if (o instanceof ValidationInterceptor) {
+                    ValidationInterceptor interceptor = (ValidationInterceptor) o;
+                    interceptor.validate(entity, state, propertyNames);
+                }
+                });
             return true;
         }
         return false;
@@ -48,9 +64,14 @@ public class InterceptorsManager extends EmptyInterceptor {
 
     @Override
     public void onDelete(Object entity, Serializable id, Object[] state, String[] propertyNames, Type[] types) {
-        Set<EmptyInterceptor> set;
+        Set<Object> set;
         if ((set = extractSet(entity)) != null) {
-            set.forEach(emptyInterceptor -> emptyInterceptor.onDelete(entity,id,state,propertyNames,types));
+            set.forEach(o -> {
+                if (o instanceof DeletingInterceptor) {
+                    DeletingInterceptor interceptor = (DeletingInterceptor) o;
+                    interceptor.delete(state, propertyNames);
+                }
+            });
         }
     }
 
@@ -62,24 +83,25 @@ public class InterceptorsManager extends EmptyInterceptor {
         this.packageName = packageName;
     }
 
-    private Set<EmptyInterceptor> extractSet(Object entity) {
+    private Set<Object> extractSet(Object entity) {
         return interceptors.get(entity.getClass());
     }
+
 
     private void findInterceptors() {
         interceptors = new HashMap<>();
         Reflections reflections = new Reflections(packageName);
         Set<Class<?>> annotated = reflections.getTypesAnnotatedWith(TARGET_ANNOTATION);
-        Set<EmptyInterceptor> interceptorSet;
+        Set<Object> interceptorSet;
         for (Class<?> c: annotated) {
             Class key =
                     c.getAnnotation(TARGET_ANNOTATION).interceptedType();
             try {
-                EmptyInterceptor interceptor = (EmptyInterceptor) c.newInstance();
+                Object o = c.newInstance();
                 if ((interceptorSet = interceptors.get(key)) == null) {
                     interceptorSet = new HashSet<>();
                 }
-                interceptorSet.add(interceptor);
+                interceptorSet.add(o);
                 interceptors.put(key, interceptorSet);
             } catch (InstantiationException | IllegalAccessException e) {
                 System.out.println("*** Unknown interceptor ***");
