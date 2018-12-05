@@ -9,7 +9,7 @@ public enum EntitiesScope {
         @Override
         void thisType(InterceptorsManager manager, Class type, Object o) {
             Set<Class<?>> subClasses = REFLECTIONS.getSubTypesOf(Object.class);
-            subClasses.forEach(aClass -> manager.addingMap(type, o));
+            subClasses.forEach(aClass -> manager.addingMap(aClass, o));
         }
     },
     SUB_CLASSES {
