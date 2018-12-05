@@ -22,7 +22,6 @@ public class User {
     @Column(name = "id")
     private int id;
 
-    @Column(name = "name", length = 50)
     @Convert(converter = UserNameConverter.class)
     private String name;
 
@@ -31,8 +30,11 @@ public class User {
     @ColumnTransformer(read = "pgp_sym_decrypt(passport_key::bytea, 'secret')", write = "pgp_sym_encrypt(?, 'secret')")
     private String passportKey;
 
-    @Column(name = "age")
     private String age;
+
+    private String login;
+
+    private String password;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<Relations> relations;
@@ -40,18 +42,20 @@ public class User {
     public User() {
     }
 
-    public User(String name, String passportKey) {
+    public User(String login, String password, String name, String passportKey) {
+        this.login = login;
+        this.password = password;
         this.name = name;
         this.passportKey = passportKey;
     }
 
-    public User(String name, String passportKey, String age) {
-        this(name, passportKey);
+    public User(String login, String password, String name, String passportKey, String age) {
+        this(login, password, name, passportKey);
         this.age = age;
     }
 
-    public User(int id, String name, String passportKey, String age) {
-        this(name, passportKey);
+    public User(int id, String login, String password, String name, String passportKey, String age) {
+        this(login, password, name, passportKey);
         this.id = id;
         this.age = age;
     }
@@ -86,6 +90,22 @@ public class User {
 
     public void setAge(String age) {
         this.age = age;
+    }
+
+    public String getLogin() {
+        return login;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public List<Relations> getRelations() {

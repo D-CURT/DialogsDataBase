@@ -19,13 +19,13 @@ public class PremiumUser extends User {
     public PremiumUser() {
     }
 
-    public PremiumUser(String name, String passportKey, String creditCard) {
-        super(name, passportKey);
+    public PremiumUser(String login, String password, String name, String passportKey, String creditCard) {
+        super(login, password, name, passportKey);
         this.creditCard = creditCard;
     }
 
-    public PremiumUser(String name, String passportKey, String age, String creditCard) {
-        super(name, passportKey, age);
+    public PremiumUser(String login, String password, String name, String passportKey, String age, String creditCard) {
+        super(login, password, name, passportKey, age);
         this.creditCard = creditCard;
     }
 

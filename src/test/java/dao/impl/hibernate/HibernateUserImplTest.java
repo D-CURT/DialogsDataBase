@@ -27,7 +27,7 @@ public class HibernateUserImplTest {
     public void check_of_adding_user_type_entity() {
 
         final String EXPECTED_TYPE = "U";
-        testHandler.addUser(USER_NAME, KEY);
+        testHandler.addUser(USER_NAME, KEY, USER_NAME, KEY);
         final String ACTUAL_TYPE = selectUserType();
 
         assertThat(EXPECTED_TYPE, is(equalTo(ACTUAL_TYPE)));
@@ -38,7 +38,7 @@ public class HibernateUserImplTest {
     @Test
     public void check_of_adding_premium_user_type_entity() {
         final String EXPECTED_TYPE = "PU";
-        testHandler.addPremiumUser(USER_NAME, KEY, KEY);
+        testHandler.addPremiumUser(USER_NAME, KEY, USER_NAME, KEY, KEY);
         final String ACTUAL_TYPE = selectUserType();
 
         assertThat(EXPECTED_TYPE, is(equalTo(ACTUAL_TYPE)));
@@ -51,7 +51,7 @@ public class HibernateUserImplTest {
         String nullAge = null;
         String expectedAge = "6";
 
-        testHandler.addPremiumUser(USER_NAME, KEY, nullAge, KEY);
+        testHandler.addPremiumUser(USER_NAME, KEY, USER_NAME, KEY, nullAge, KEY);
 
         String actualAge = testHandler.getUser(USER_NAME).getAge();
 

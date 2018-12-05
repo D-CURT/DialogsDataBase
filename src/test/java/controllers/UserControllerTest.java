@@ -36,7 +36,7 @@ public class UserControllerTest extends Mockito {
 
     @Test
     public void check_whether_remove_user_using_mock() throws ServletException, IOException {
-        testHandler.addUser(USER_NAME, PASSPORT_KEY);
+        testHandler.addUser(USER_NAME, PASSPORT_KEY, USER_NAME, PASSPORT_KEY);
 
         HttpServletRequest request = mock(HttpServletRequest.class);
         HttpServletResponse response = mock(HttpServletResponse.class);
@@ -74,7 +74,7 @@ public class UserControllerTest extends Mockito {
     @Test
     public void check_whether_remove_user_using_HttpClient() throws IOException {
         HttpUriRequest httpRequest = new HttpGet("http://localhost:8080/user?" + PARAM_NAME + "=" + USER_NAME);
-        testHandler.addUser(USER_NAME, PASSPORT_KEY);
+        testHandler.addUser(USER_NAME, PASSPORT_KEY, USER_NAME, PASSPORT_KEY);
 
         assertNotNull(testHandler.getUser(USER_NAME));
 
@@ -105,7 +105,7 @@ public class UserControllerTest extends Mockito {
         final String NAME_FIELD = "name";
         final String COLUMN_IN_DB = "select name from users where name = :name";
 
-        testHandler.addUser(USER_NAME, PASSPORT_KEY);
+        testHandler.addUser(USER_NAME, PASSPORT_KEY, USER_NAME, PASSPORT_KEY);
 
         final String ACTUAL_IN_DB = (String)
                 SessionFactoryManager.getInstance()
@@ -132,7 +132,7 @@ public class UserControllerTest extends Mockito {
         final String NAME_FIELD = "name";
         final String COLUMN_IN_DB = "select passport_key from users where name = :name";
 
-        testHandler.addUser(USER_NAME, PASSPORT_KEY);
+        testHandler.addUser(USER_NAME, PASSPORT_KEY, USER_NAME, PASSPORT_KEY);
 
         final String ACTUAL_OUT_DB = testHandler.getUser(USER_NAME).getPassportKey();
 

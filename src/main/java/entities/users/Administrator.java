@@ -17,14 +17,14 @@ public class Administrator extends User {
     public Administrator() {
     }
 
-    public Administrator(String name, String passportKey, String password) {
-        super(name, passportKey);
-        this.adminPassword = password;
+    public Administrator(String login, String password, String name, String passportKey, String adminPassword) {
+        super(login, password, name, passportKey);
+        this.adminPassword = adminPassword;
     }
 
-    public Administrator(String name, String passportKey, String age, String password) {
-        super(name, passportKey, age);
-        this.adminPassword = password;
+    public Administrator(String login, String password, String name, String passportKey, String age, String adminPassword) {
+        super(login, password, name, passportKey, age);
+        this.adminPassword = adminPassword;
     }
 
     public String getPassword() {
