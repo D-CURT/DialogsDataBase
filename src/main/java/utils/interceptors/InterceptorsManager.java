@@ -36,6 +36,8 @@ public class InterceptorsManager extends EmptyInterceptor {
 
     @Override
     public boolean onSave(Object entity, Serializable id, Object[] state, String[] propertyNames, Type[] types) {
+
+
         Set<EmptyInterceptor> set;
         if ((set = extractSet(entity)) != null) {
             set.forEach(emptyInterceptor -> emptyInterceptor.onSave(entity,id,state,propertyNames,types));
