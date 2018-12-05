@@ -2,9 +2,10 @@ package utils.interceptors.interception.initializers;
 
 import entities.users.User;
 import utils.annotations.Interceptor;
+import utils.interceptors.EntitiesScope;
 import utils.interceptors.interfaces.InitializationInterceptor;
 
-@Interceptor(interceptedType = User.class)
+@Interceptor(interceptedType = User.class, applyFor = EntitiesScope.SUB_CLASSES)
 public class UserInitInterceptor implements InitializationInterceptor {
     @Override
     public boolean initialize(Object entity, Object[] state, String[] propertyNames) {

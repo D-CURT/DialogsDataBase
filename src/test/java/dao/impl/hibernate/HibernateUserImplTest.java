@@ -23,7 +23,6 @@ public class HibernateUserImplTest {
         testHandler = new HibernateUserImpl();
     }
 
-
     @Test
     public void check_of_adding_user_type_entity() {
 

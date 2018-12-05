@@ -1,4 +1,4 @@
-package utils.interceptors.interception.validators;
+package utils.interceptors.interception.validators.users;
 
 import entities.users.User;
 import utils.annotations.Interceptor;
@@ -12,11 +12,13 @@ public class UserValidateInterceptor implements ValidationInterceptor {
         boolean flag = false;
         if (entity instanceof User) {
             User user = (User) entity;
+            String name = user.getName();
+            String passportKey = user.getPassportKey();
             if
-            (       user.getName() == null
-                    || user.getPassportKey() == null
-                    || user.getName().isEmpty()
-                    || user.getPassportKey().isEmpty()
+            (          name == null
+                    || passportKey == null
+                    || name.isEmpty()
+                    || passportKey.isEmpty()
             )
             {
                 throw new IllegalArgumentException("Unexpected values of the user properties");

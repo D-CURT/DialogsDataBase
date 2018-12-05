@@ -56,7 +56,7 @@ public class InterceptorsManager extends EmptyInterceptor {
                     ValidationInterceptor interceptor = (ValidationInterceptor) o;
                     interceptor.validate(entity, state, propertyNames);
                 }
-                });
+            });
             return true;
         }
         return false;
@@ -87,25 +87,28 @@ public class InterceptorsManager extends EmptyInterceptor {
         return interceptors.get(entity.getClass());
     }
 
-
+    @SuppressWarnings("unchecked")
     private void findInterceptors() {
         interceptors = new HashMap<>();
         Reflections reflections = new Reflections(packageName);
         Set<Class<?>> annotated = reflections.getTypesAnnotatedWith(TARGET_ANNOTATION);
-        Set<Object> interceptorSet;
         for (Class<?> c: annotated) {
-            Class key =
-                    c.getAnnotation(TARGET_ANNOTATION).interceptedType();
             try {
+                Class key = c.getAnnotation(TARGET_ANNOTATION).interceptedType();
                 Object o = c.newInstance();
-                if ((interceptorSet = interceptors.get(key)) == null) {
-                    interceptorSet = new HashSet<>();
-                }
-                interceptorSet.add(o);
-                interceptors.put(key, interceptorSet);
+                c.getAnnotation(TARGET_ANNOTATION).applyFor().thisType(this, key, o);
             } catch (InstantiationException | IllegalAccessException e) {
                 System.out.println("*** Unknown interceptor ***");
             }
         }
+    }
+
+    void addingMap(Class key, Object o) {
+        Set<Object> interceptorSet;
+        if ((interceptorSet = interceptors.get(key)) == null) {
+            interceptorSet = new HashSet<>();
+        }
+        interceptorSet.add(o);
+        interceptors.put(key, interceptorSet);
     }
 }

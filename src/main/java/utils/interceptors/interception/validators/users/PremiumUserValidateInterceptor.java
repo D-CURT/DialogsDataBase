@@ -1,16 +1,16 @@
-package utils.interceptors.interception.validators;
+package utils.interceptors.interception.validators.users;
 
-import entities.users.Administrator;
+import entities.users.PremiumUser;
 import utils.annotations.Interceptor;
 
-@Interceptor(interceptedType = Administrator.class)
-public class AdministratorValidateInterceptor extends UserValidateInterceptor {
+@Interceptor(interceptedType = PremiumUser.class)
+public class PremiumUserValidateInterceptor extends UserValidateInterceptor {
 
     @Override
     public boolean validate(Object entity, Object[] state, String[] propertyNames) {
-        if (entity instanceof Administrator) {
-            Administrator user = (Administrator) entity;
-            if (user.getPassword() == null || user.getPassword().isEmpty())
+        if (entity instanceof PremiumUser) {
+            PremiumUser user = (PremiumUser) entity;
+            if (user.getCreditCard() == null || user.getCreditCard().isEmpty())
             {
                 throw new IllegalArgumentException("Unexpected values of the user properties");
             }

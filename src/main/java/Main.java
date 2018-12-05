@@ -20,6 +20,6 @@ public class Main {
 //        user.removeUser("peter");
 //        user.getUsers().forEach();
 //        System.out.println(user.getUser("aLEX"));
-        profile.addUserProfile("testProfile", "test");
+        question.addQuestion("!!!!");
     }
 }
