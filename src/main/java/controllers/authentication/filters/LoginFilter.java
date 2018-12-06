@@ -1,5 +1,9 @@
 package controllers.authentication.filters;
 
+import dao.impl.hibernate.HibernateUserImpl;
+import entities.users.User;
+import utils.context.RequestContext;
+
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
 import java.io.IOException;
@@ -20,6 +24,14 @@ public class LoginFilter implements Filter {
         PrintWriter out = servletResponse.getWriter();
         if ((login == null || password == null) || (login.isEmpty() || password.isEmpty())) {
             out.write("Fields cannot be empty!");
+        }
+
+        User user;
+        HibernateUserImpl impl = new HibernateUserImpl();
+        if ((user = impl.getUser(login, password)) == null) {
+            out.write("User not found");
+        } else {
+            servletRequest.setAttribute("user", user);
         }
         filterChain.doFilter(servletRequest, servletResponse);
     }

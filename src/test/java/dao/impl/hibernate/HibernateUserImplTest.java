@@ -27,7 +27,7 @@ public class HibernateUserImplTest {
     public void check_of_adding_user_type_entity() {
 
         final String EXPECTED_TYPE = "U";
-        testHandler.addUser(USER_NAME, KEY, USER_NAME, KEY);
+        testHandler.addUser(USER_NAME, KEY, USER_NAME, KEY, null);
         final String ACTUAL_TYPE = selectUserType();
 
         assertThat(EXPECTED_TYPE, is(equalTo(ACTUAL_TYPE)));

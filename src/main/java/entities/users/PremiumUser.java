@@ -20,7 +20,9 @@ public class PremiumUser extends User {
     }
 
     public PremiumUser(String login, String password, String name, String passportKey, String creditCard) {
-        super(login, password, name, passportKey);
+        super(name, passportKey);
+        super.setLogin(login);
+        super.setPassword(password);
         this.creditCard = creditCard;
     }
 

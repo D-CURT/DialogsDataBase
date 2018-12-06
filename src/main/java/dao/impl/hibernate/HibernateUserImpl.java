@@ -22,10 +22,6 @@ public class HibernateUserImpl extends AbstractHibernateImpl{
         return SessionFactoryManager.getInstance().getSession().get(User.class, id);
     }
 
-    public void addUser(String login, String password, String name, String passportKey) {
-        insertUser(new User(login, password, name, passportKey));
-    }
-
     public void addUser(String login, String password, String name, String passportKey, String age) {
         insertUser(new User(login, password, name, passportKey, age));
     }

@@ -18,7 +18,9 @@ public class Administrator extends User {
     }
 
     public Administrator(String login, String password, String name, String passportKey, String adminPassword) {
-        super(login, password, name, passportKey);
+        super(name, passportKey);
+        super.setLogin(login);
+        super.setPassword(password);
         this.adminPassword = adminPassword;
     }
 
@@ -27,11 +29,11 @@ public class Administrator extends User {
         this.adminPassword = adminPassword;
     }
 
-    public String getPassword() {
+    public String getAdminPassword() {
         return adminPassword;
     }
 
-    public void setPassword(String password) {
+    public void setAdminPassword(String password) {
         this.adminPassword = password;
     }
 

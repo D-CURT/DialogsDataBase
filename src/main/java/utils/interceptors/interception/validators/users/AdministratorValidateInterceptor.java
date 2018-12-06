@@ -10,7 +10,7 @@ public class AdministratorValidateInterceptor extends UserValidateInterceptor {
     public boolean validate(Object entity, Object[] state, String[] propertyNames) {
         if (entity instanceof Administrator) {
             Administrator user = (Administrator) entity;
-            if (user.getPassword() == null || user.getPassword().isEmpty())
+            if (user.getAdminPassword() == null || user.getAdminPassword().isEmpty())
             {
                 throw new IllegalArgumentException("Unexpected values of the user properties");
             }

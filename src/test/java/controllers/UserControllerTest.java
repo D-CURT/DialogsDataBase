@@ -22,7 +22,7 @@ import static org.junit.Assert.*;
 public class UserControllerTest extends Mockito {
     private static final int ONE = 1;
     private static final String PARAM_NAME = "userName";
-    private static final String USER_NAME = "Test";
+    private static final String TEST_VALUE = "Test";
     private static final String PASSPORT_KEY = "123";
     private UserController testController;
     private HibernateUserImpl testHandler;
@@ -36,14 +36,14 @@ public class UserControllerTest extends Mockito {
 
     @Test
     public void check_whether_remove_user_using_mock() throws ServletException, IOException {
-        testHandler.addUser(USER_NAME, PASSPORT_KEY, USER_NAME, PASSPORT_KEY);
+        testHandler.addUser(TEST_VALUE, PASSPORT_KEY, TEST_VALUE, PASSPORT_KEY, null);
 
         HttpServletRequest request = mock(HttpServletRequest.class);
         HttpServletResponse response = mock(HttpServletResponse.class);
 
-        when(request.getParameter(PARAM_NAME)).thenReturn(USER_NAME);
+        when(request.getParameter(PARAM_NAME)).thenReturn(TEST_VALUE);
 
-        assertNotNull(testHandler.getUser(USER_NAME));
+        assertNotNull(testHandler.getUser(TEST_VALUE));
 
         final int BEFORE = testHandler.countRows();
         testController.doGet(request, response);
@@ -58,8 +58,8 @@ public class UserControllerTest extends Mockito {
         HttpServletRequest request = mock(HttpServletRequest.class);
         HttpServletResponse response = mock(HttpServletResponse.class);
 
-        when(request.getParameter(PARAM_NAME)).thenReturn(USER_NAME);
-        assertNull(testHandler.getUser(USER_NAME));
+        when(request.getParameter(PARAM_NAME)).thenReturn(TEST_VALUE);
+        assertNull(testHandler.getUser(TEST_VALUE));
 
         final int BEFORE = testHandler.countRows();
         testController.doPost(request, response);
@@ -68,15 +68,15 @@ public class UserControllerTest extends Mockito {
         verify(request, atLeast(ONE)).getParameter(PARAM_NAME);
         assertThat(BEFORE, lessThan(AFTER));
 
-        testHandler.removeUser(USER_NAME);
+        testHandler.removeUser(TEST_VALUE);
     }
 
     @Test
     public void check_whether_remove_user_using_HttpClient() throws IOException {
-        HttpUriRequest httpRequest = new HttpGet("http://localhost:8080/user?" + PARAM_NAME + "=" + USER_NAME);
-        testHandler.addUser(USER_NAME, PASSPORT_KEY, USER_NAME, PASSPORT_KEY);
+        HttpUriRequest httpRequest = new HttpGet("http://localhost:8080/user?" + PARAM_NAME + "=" + TEST_VALUE);
+        testHandler.addUser(TEST_VALUE, PASSPORT_KEY, TEST_VALUE, PASSPORT_KEY, null);
 
-        assertNotNull(testHandler.getUser(USER_NAME));
+        assertNotNull(testHandler.getUser(TEST_VALUE));
 
         final int BEFORE = testHandler.countRows();
         HttpClientBuilder.create().build().execute(httpRequest);
@@ -87,9 +87,9 @@ public class UserControllerTest extends Mockito {
 
     @Test
     public void check_whether_add_user_using_HttpClient() throws IOException {
-        HttpUriRequest httpRequest = new HttpPost("http://localhost:8080/user?" + PARAM_NAME + "=" + USER_NAME);
+        HttpUriRequest httpRequest = new HttpPost("http://localhost:8080/user?" + PARAM_NAME + "=" + TEST_VALUE);
 
-        assertNull(testHandler.getUser(USER_NAME));
+        assertNull(testHandler.getUser(TEST_VALUE));
 
         final int BEFORE = testHandler.countRows();
         HttpClientBuilder.create().build().execute(httpRequest);
@@ -105,7 +105,7 @@ public class UserControllerTest extends Mockito {
         final String NAME_FIELD = "name";
         final String COLUMN_IN_DB = "select name from users where name = :name";
 
-        testHandler.addUser(USER_NAME, PASSPORT_KEY, USER_NAME, PASSPORT_KEY);
+        testHandler.addUser(USER_NAME, PASSPORT_KEY, USER_NAME, PASSPORT_KEY, null);
 
         final String ACTUAL_IN_DB = (String)
                 SessionFactoryManager.getInstance()
@@ -132,21 +132,21 @@ public class UserControllerTest extends Mockito {
         final String NAME_FIELD = "name";
         final String COLUMN_IN_DB = "select passport_key from users where name = :name";
 
-        testHandler.addUser(USER_NAME, PASSPORT_KEY, USER_NAME, PASSPORT_KEY);
+        testHandler.addUser(TEST_VALUE, PASSPORT_KEY, TEST_VALUE, PASSPORT_KEY, null);
 
-        final String ACTUAL_OUT_DB = testHandler.getUser(USER_NAME).getPassportKey();
+        final String ACTUAL_OUT_DB = testHandler.getUser(TEST_VALUE).getPassportKey();
 
         final String ACTUAL_IN_DB = (String)
                 SessionFactoryManager.getInstance()
                                      .getSession()
                                      .createSQLQuery(COLUMN_IN_DB)
-                                     .setParameter(NAME_FIELD, USER_NAME.toLowerCase())
+                                     .setParameter(NAME_FIELD, TEST_VALUE.toLowerCase())
                                      .uniqueResult();
 
         assertThat(ACTUAL_OUT_DB, is(not(equalTo(ACTUAL_IN_DB))));
 
         assertThat(PASSPORT_KEY, is(equalTo(ACTUAL_OUT_DB)));
 
-        testHandler.removeUser(USER_NAME);
+        testHandler.removeUser(TEST_VALUE);
     }
 }

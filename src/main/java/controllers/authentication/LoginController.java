@@ -6,12 +6,11 @@ import entities.users.User;
 import utils.context.RequestContext;
 
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet("/login")
 public class LoginController extends AbstractController {
     private HibernateUserImpl userHandler;
 
@@ -21,16 +20,12 @@ public class LoginController extends AbstractController {
     }
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String login = req.getParameter("login");
-        String password = req.getParameter("password");
-
-        User user;
-        if ((user = userHandler.getUser(login, password)) != null) {
-            RequestContext.getInstance().setUser(user);
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+            RequestContext.getInstance().setUser((User) req.getAttribute("user"));
             forward(INDEX_URL, req, resp);
-        } else {
-            forwardError(INDEX_URL, "User not found", req, resp);
-        }
+    }
+
+    public HibernateUserImpl getUserHandler() {
+        return userHandler;
     }
 }

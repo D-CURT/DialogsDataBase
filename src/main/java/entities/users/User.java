@@ -47,20 +47,15 @@ public class User {
         this.passportKey = passportKey;
     }
 
-    public User(String login, String password, String name, String passportKey) {
+    public User(String login, String password, String name, String passportKey, String age) {
+        this(name, passportKey);
         this.login = login;
         this.password = password;
-        this.name = name;
-        this.passportKey = passportKey;
-    }
-
-    public User(String login, String password, String name, String passportKey, String age) {
-        this(login, password, name, passportKey);
         this.age = age;
     }
 
     public User(int id, String login, String password, String name, String passportKey, String age) {
-        this(login, password, name, passportKey);
+        this(name, passportKey);
         this.id = id;
         this.age = age;
     }

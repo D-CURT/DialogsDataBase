@@ -16,6 +16,7 @@ public enum EntitiesScope {
         @Override
         void thisType(InterceptorsManager manager, Class type, Object o) {
             Set<Class<?>> subClasses = REFLECTIONS.getSubTypesOf(type);
+            THIS.thisType(manager, type, o);
             subClasses.forEach(aClass -> manager.addingMap(aClass, o));
         }
     },
