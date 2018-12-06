@@ -42,6 +42,11 @@ public class User {
     public User() {
     }
 
+    public User(String name, String passportKey) {
+        this.name = name;
+        this.passportKey = passportKey;
+    }
+
     public User(String login, String password, String name, String passportKey) {
         this.login = login;
         this.password = password;

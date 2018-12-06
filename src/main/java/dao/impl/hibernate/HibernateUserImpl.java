@@ -11,7 +11,8 @@ import utils.queries.HQLSection;
 
 import java.util.List;
 
-import static utils.queries.HQLSection.SELECT_USER;
+import static utils.queries.HQLSection.SELECT_USER_BY_LOGIN_AND_PASS;
+import static utils.queries.HQLSection.SELECT_USER_BY_NAME;
 
 @SuppressWarnings("JpaQlInspection")
 public class HibernateUserImpl extends AbstractHibernateImpl{
@@ -46,12 +47,18 @@ public class HibernateUserImpl extends AbstractHibernateImpl{
     }
 
     public User getUser(String name) {
-        final String NAME_FIELD = "name";
-        final char SCREEN = '%';
+
         Session session = SessionFactoryManager.getInstance().getSession();
-        Query query = session.createQuery(SELECT_USER.getHql());
-        query.setParameter(NAME_FIELD, SCREEN + name.toLowerCase() + SCREEN);
-        User user = (User) query.uniqueResult();
+        Query query = session.createQuery(SELECT_USER_BY_NAME.getHql());
+        User user = selectUserByName(name, query, session);
+        session.close();
+        return user;
+    }
+
+    public User getUser(String login, String password) {
+        Session session = SessionFactoryManager.getInstance().getSession();
+        Query query = session.createQuery(SELECT_USER_BY_LOGIN_AND_PASS.getHql());
+        User user = selectUserByLogin(login, password, query, session);
         session.close();
         return user;
     }
@@ -77,6 +84,21 @@ public class HibernateUserImpl extends AbstractHibernateImpl{
     @Override
     public int countRows() {
         return countTableRows(TABLE_NAME);
+    }
+
+    private User selectUserByLogin(String login, String password, Query query, Session session) {
+        String loginField = "login";
+        String passwordField = "password";
+        query.setParameter(loginField, login);
+        query.setParameter(passwordField, password);
+        return  (User) query.uniqueResult();
+    }
+
+    private User selectUserByName(String name, Query query, Session session) {
+        String screen = "%";
+        String nameField = "name";
+        query.setParameter(nameField, screen + name + screen);
+        return (User) query.uniqueResult();
     }
 
     private void insertUser(User user) {

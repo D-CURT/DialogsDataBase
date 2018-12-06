@@ -17,7 +17,6 @@ public class LoginController extends AbstractController {
         String password = req.getParameter("password");
 
 
-
         forward(INDEX_URL, req, resp);
     }
 }
