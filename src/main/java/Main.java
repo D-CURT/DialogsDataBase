@@ -17,9 +17,9 @@ public class Main {
 
 //        relation.askQuestion("alex", "What is going on with you?");
 //        question.removeQuestion("What is going on with you?");
-//        user.removeUser("peter");
+        user.removeUser("baq");
 //        user.getUsers().forEach();
 //        System.out.println(user.getUser("aLEX"));
-        question.addQuestion("!!!!");
+//        question.addQuestion("!!!!");
     }
 }
