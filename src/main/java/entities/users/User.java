@@ -32,8 +32,10 @@ public class User {
 
     private String age;
 
+    @Convert(converter = UserNameConverter.class)
     private String login;
 
+    @Convert(converter = UserNameConverter.class)
     private String password;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)

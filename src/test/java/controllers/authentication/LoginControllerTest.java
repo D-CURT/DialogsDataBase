@@ -27,7 +27,7 @@ public class LoginControllerTest {
     @Test
     public void check_weather_user_login_using_HttpClient() throws IOException {
         dbHandler.addUser(TEST_VALUE, TEST_VALUE, TEST_VALUE, TEST_VALUE, null);
-        HttpUriRequest httpRequest = new HttpPost("http://localhost:8080/login?login=test&password=test");
+        HttpUriRequest httpRequest = new HttpPost("http://localhost:8080/login?login=Test&password=Test");
         CloseableHttpResponse httpResponse = HttpClientBuilder.create().build().execute(httpRequest);
         String expectedStatus = "HTTP/1.1 200 ";
         String actualStatus = httpResponse.getStatusLine().toString();

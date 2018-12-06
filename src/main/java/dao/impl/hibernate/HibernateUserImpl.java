@@ -43,10 +43,9 @@ public class HibernateUserImpl extends AbstractHibernateImpl{
     }
 
     public User getUser(String name) {
-
         Session session = SessionFactoryManager.getInstance().getSession();
         Query query = session.createQuery(SELECT_USER_BY_NAME.getHql());
-        User user = selectUserByName(name, query, session);
+        User user = selectUserByName(name, query);
         session.close();
         return user;
     }
@@ -54,7 +53,7 @@ public class HibernateUserImpl extends AbstractHibernateImpl{
     public User getUser(String login, String password) {
         Session session = SessionFactoryManager.getInstance().getSession();
         Query query = session.createQuery(SELECT_USER_BY_LOGIN_AND_PASS.getHql());
-        User user = selectUserByLogin(login, password, query, session);
+        User user = selectUserByLogin(login, password, query);
         session.close();
         return user;
     }
@@ -82,15 +81,16 @@ public class HibernateUserImpl extends AbstractHibernateImpl{
         return countTableRows(TABLE_NAME);
     }
 
-    private User selectUserByLogin(String login, String password, Query query, Session session) {
+    private User selectUserByLogin(String login, String password, Query query) {
+        String screen = "%";
         String loginField = "login";
         String passwordField = "password";
-        query.setParameter(loginField, login);
-        query.setParameter(passwordField, password);
+        query.setParameter(loginField, screen + login + screen);
+        query.setParameter(passwordField, screen + password + screen);
         return  (User) query.uniqueResult();
     }
 
-    private User selectUserByName(String name, Query query, Session session) {
+    private User selectUserByName(String name, Query query) {
         String screen = "%";
         String nameField = "name";
         query.setParameter(nameField, screen + name + screen);

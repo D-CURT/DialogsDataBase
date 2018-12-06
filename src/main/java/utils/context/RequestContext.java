@@ -5,13 +5,16 @@ import entities.users.User;
 public class RequestContext {
     private static RequestContext instance;
     private static ThreadLocal<User> users;
+    private final static Object EMPTY_OBJECT = new Object();
 
-    private RequestContext(ThreadLocal<User> users) {}
+    private RequestContext() {
+        users = new ThreadLocal<>();
+    }
 
     public static RequestContext getInstance() {
-        synchronized (instance) {
+        synchronized (EMPTY_OBJECT) {
             if (instance == null) {
-                instance = new RequestContext(new ThreadLocal<>());
+                instance = new RequestContext();
             }
         }
         return instance;

@@ -46,6 +46,8 @@
     <input type="submit" value="get full data">
   </form>
 
+  ${error}
+
   ${data}
 
   <c:forEach var="token" items="${multipleData}">
