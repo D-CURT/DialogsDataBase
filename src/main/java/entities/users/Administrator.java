@@ -24,8 +24,8 @@ public class Administrator extends User {
         this.adminPassword = adminPassword;
     }
 
-    public Administrator(String login, String password, String name, String passportKey, String age, String adminPassword) {
-        super(login, password, name, passportKey, age);
+    public Administrator(String login, String password, String name, String passportKey, String age, String role, String adminPassword) {
+        super(login, password, name, passportKey, role, age);
         this.adminPassword = adminPassword;
     }
 

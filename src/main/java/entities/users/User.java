@@ -38,6 +38,8 @@ public class User {
     @Convert(converter = UserNameConverter.class)
     private String password;
 
+    private String role;
+
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<Relations> relations;
 
@@ -49,17 +51,12 @@ public class User {
         this.passportKey = passportKey;
     }
 
-    public User(String login, String password, String name, String passportKey, String age) {
+    public User(String login, String password, String name, String passportKey, String age, String role) {
         this(name, passportKey);
         this.login = login;
         this.password = password;
         this.age = age;
-    }
-
-    public User(int id, String login, String password, String name, String passportKey, String age) {
-        this(name, passportKey);
-        this.id = id;
-        this.age = age;
+        this.role = role;
     }
 
     public int getId() {
@@ -108,6 +105,14 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 
     public List<Relations> getRelations() {

@@ -22,24 +22,24 @@ public class HibernateUserImpl extends AbstractHibernateImpl{
         return SessionFactoryManager.getInstance().getSession().get(User.class, id);
     }
 
-    public void addUser(String login, String password, String name, String passportKey, String age) {
-        insertUser(new User(login, password, name, passportKey, age));
+    public void addUser(String login, String password, String name, String passportKey, String age, String role) {
+        insertUser(new User(login, password, name, passportKey, role, age));
     }
 
     public void addPremiumUser(String login, String password, String name, String passportKey, String creditCard) {
         insertUser(new PremiumUser(login, password, name, passportKey, creditCard));
     }
 
-    public void addPremiumUser(String login, String password, String name, String passportKey, String age, String creditCard) {
-        insertUser(new PremiumUser(login, password,name, passportKey, age, creditCard));
+    public void addPremiumUser(String login, String password, String name, String passportKey, String age, String role, String creditCard) {
+        insertUser(new PremiumUser(login, password,name, passportKey, age, role, creditCard));
     }
 
     public void addAdministrator(String login, String password, String name, String passportKey, String adminPassword) {
         insertUser(new Administrator(login, password, name, passportKey, adminPassword));
     }
 
-    public void addAdministrator(String login, String password, String name, String passportKey, String age, String adminPassword) {
-        insertUser(new Administrator(login, password, name, passportKey, age, adminPassword));
+    public void addAdministrator(String login, String password, String name, String passportKey, String age, String role, String adminPassword) {
+        insertUser(new Administrator(login, password, name, passportKey, age, role, adminPassword));
     }
 
     public User getUser(String name) {
