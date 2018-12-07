@@ -10,9 +10,11 @@ public class UserInitInterceptor implements InitializationInterceptor {
     @Override
     public boolean initialize(Object entity, Object[] state, String[] propertyNames) {
         System.out.println("*** Initializing the user ***");
+
         boolean flag = false;
         if (entity instanceof User) {
             User user = (User) entity;
+            System.out.println(user);
             if (user.getAge() == null) {
                 for (int i = 0; i < propertyNames.length; i++) {
                     if (propertyNames[i].equals("age")) {

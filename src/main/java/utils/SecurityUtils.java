@@ -1,5 +1,7 @@
 package utils;
 
+import entities.users.User;
+
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Set;
@@ -28,6 +30,14 @@ public class SecurityUtils {
             }
         }
         return false;
+    }
+
+    public static boolean hasPermission(User user) {
+        //String urlPattern = UrlPatternUtils.getUrlPattern(request);
+
+        Set<SecurityConfig.Roles> allRoles = SecurityConfig.getAllRoles();
+
+        return allRoles.contains(SecurityConfig.Roles.valueOf(user.getRole()));
     }
 
     private static boolean hasNecessaryUrlPattern(Set<SecurityConfig.Roles> allRoles, String urlPattern) {

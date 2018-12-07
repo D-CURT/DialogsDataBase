@@ -63,5 +63,13 @@
         <url-pattern>/login</url-pattern>
     </filter-mapping>
 
+    <filter>
+        <filter-name>securityFilter</filter-name>
+        <filter-class>controllers.authentication.filters.SecurityFilter</filter-class>
+    </filter>
 
+    <filter-mapping>
+        <filter-name>securityFilter</filter-name>
+        <url-pattern>/main</url-pattern>
+    </filter-mapping>
 </web-app>

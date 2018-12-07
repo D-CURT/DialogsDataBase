@@ -23,7 +23,7 @@ public class HibernateUserImpl extends AbstractHibernateImpl{
     }
 
     public void addUser(String login, String password, String name, String passportKey, String age, String role) {
-        insertUser(new User(login, password, name, passportKey, role, age));
+        insertUser(new User(login, password, name, passportKey, age, role));
     }
 
     public void addPremiumUser(String login, String password, String name, String passportKey, String creditCard) {

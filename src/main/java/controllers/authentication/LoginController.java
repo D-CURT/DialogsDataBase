@@ -1,6 +1,10 @@
 package controllers.authentication;
 
 import controllers.AbstractController;
+import controllers.pages_controllers.MainPageController;
+import utils.SecurityUtils;
+import utils.UserUtils;
+
 import javax.servlet.ServletException;
 
 import javax.servlet.http.HttpServletRequest;
@@ -12,7 +16,8 @@ public class LoginController extends AbstractController {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        forward(INDEX_URL, req, resp);
+        if (SecurityUtils.hasPermission(UserUtils.getLoginedUser(req))) {
+            forward(MainPageController.MAPPING, req, resp);
+        }
     }
-
 }

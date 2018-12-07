@@ -14,12 +14,15 @@ public class UserValidateInterceptor implements ValidationInterceptor {
             User user = (User) entity;
             String name = user.getName();
             String passportKey = user.getPassportKey();
+            String role = user.getRole();
             if
-            (          name == null
+                (      name == null
                     || passportKey == null
+                    || role == null
                     || name.isEmpty()
                     || passportKey.isEmpty()
-            )
+                    || role.isEmpty()
+                )
             {
                 throw new IllegalArgumentException("Unexpected values of the user properties");
             }

@@ -30,6 +30,7 @@ public class User {
     @ColumnTransformer(read = "pgp_sym_decrypt(passport_key::bytea, 'secret')", write = "pgp_sym_encrypt(?, 'secret')")
     private String passportKey;
 
+    @Column(name = "age")
     private String age;
 
     @Convert(converter = UserNameConverter.class)
@@ -38,6 +39,7 @@ public class User {
     @Convert(converter = UserNameConverter.class)
     private String password;
 
+    @Column(name = "role")
     private String role;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)

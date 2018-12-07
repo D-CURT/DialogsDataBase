@@ -1,19 +1,24 @@
 package controllers.authentication.filters;
 
+import controllers.authentication.LoginController;
 import dao.impl.hibernate.HibernateUserImpl;
 import entities.users.User;
+import sun.misc.BASE64Decoder;
+import utils.SecurityUtils;
+import utils.UserRoleRequestWrapper;
 import utils.UserUtils;
 import utils.context.RequestContext;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 
 @WebFilter("/login")
 public class LoginFilter implements Filter {
+
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
 
@@ -21,8 +26,14 @@ public class LoginFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
-        String login = servletRequest.getParameter("login");
-        String password = servletRequest.getParameter("password");
+        HttpServletRequest request = (HttpServletRequest) servletRequest;
+        String excluded = "Basic ";
+        String authorization = request.getHeader("Authorization").substring(excluded.length());
+        authorization = new String(new BASE64Decoder().decodeBuffer(authorization));
+
+        String[] strings = authorization.split(":");
+        String login = strings[0];
+        String password = strings[1];
 
         PrintWriter out = servletResponse.getWriter();
         if ((login == null || password == null) || (login.isEmpty() || password.isEmpty())) {
@@ -35,7 +46,8 @@ public class LoginFilter implements Filter {
             RequestContext.getInstance().setUser(user);
             UserUtils.storeLoginedUser(servletRequest, user);
         }
-        filterChain.doFilter(servletRequest, servletResponse);
+
+        filterChain.doFilter(request, servletResponse);
     }
 
     @Override
