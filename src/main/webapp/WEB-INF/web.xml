@@ -43,6 +43,16 @@
         <url-pattern>/login</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>mainPageController</servlet-name>
+        <servlet-class>controllers.pages_controllers.MainPageController</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>mainPageController</servlet-name>
+        <url-pattern>/main</url-pattern>
+    </servlet-mapping>
+
     <filter>
         <filter-name>loginFilter</filter-name>
         <filter-class>controllers.authentication.filters.LoginFilter</filter-class>
@@ -52,4 +62,6 @@
         <filter-name>loginFilter</filter-name>
         <url-pattern>/login</url-pattern>
     </filter-mapping>
+
+
 </web-app>

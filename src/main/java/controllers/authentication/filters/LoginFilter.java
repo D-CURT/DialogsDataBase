@@ -2,11 +2,13 @@ package controllers.authentication.filters;
 
 import dao.impl.hibernate.HibernateUserImpl;
 import entities.users.User;
+import utils.UserUtils;
 import utils.context.RequestContext;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
 
@@ -31,6 +33,7 @@ public class LoginFilter implements Filter {
         HibernateUserImpl hibernateUser = new HibernateUserImpl();
         if ((user = hibernateUser.getUser(login, password)) != null) {
             RequestContext.getInstance().setUser(user);
+            UserUtils.storeLoginedUser(servletRequest, user);
         }
         filterChain.doFilter(servletRequest, servletResponse);
     }

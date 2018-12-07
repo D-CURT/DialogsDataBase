@@ -29,12 +29,11 @@ public class LoginControllerTest {
         dbHandler.addUser(TEST_VALUE, TEST_VALUE, TEST_VALUE, TEST_VALUE, null, null);
         HttpUriRequest httpRequest = new HttpPost("http://localhost:8080/login?login=Test&password=Test");
         CloseableHttpResponse httpResponse = HttpClientBuilder.create().build().execute(httpRequest);
-        String expectedStatus = "HTTP/1.1 200 OK";
+        String expectedStatus = "HTTP/1.1 200 ";
         String actualStatus = httpResponse.getStatusLine().toString();
 
         assertThat(expectedStatus, is(equalTo(actualStatus)));
 
         dbHandler.removeUser(TEST_VALUE);
     }
-
 }
