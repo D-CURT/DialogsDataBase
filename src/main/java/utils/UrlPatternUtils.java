@@ -7,7 +7,7 @@ import java.util.Collection;
 import java.util.Map;
 
 public class UrlPatternUtils {
-    public static String getUrlPatterns(HttpServletRequest request) {
+    public static String getUrlPattern(HttpServletRequest request) {
         ServletContext context = request.getServletContext();
         String servletPath = request.getServletPath();
         String servletPathInfo = request.getPathInfo();
