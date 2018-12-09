@@ -7,10 +7,12 @@ import utils.UserUtils;
 
 import javax.servlet.ServletException;
 
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+@WebServlet("/login")
 public class LoginController extends AbstractController {
     public static final String MAPPING = "/login";
 
@@ -19,6 +21,5 @@ public class LoginController extends AbstractController {
         if (SecurityUtils.hasPermission(UserUtils.getLoginedUser(req))) {
             forward(MainPageController.MAPPING, req, resp);
         }
-        //resp.setStatus(200);
     }
 }

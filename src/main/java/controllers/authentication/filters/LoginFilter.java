@@ -1,5 +1,6 @@
 package controllers.authentication.filters;
 
+import com.sun.org.apache.bcel.internal.generic.IF_ACMPEQ;
 import controllers.authentication.LoginController;
 import dao.impl.hibernate.HibernateUserImpl;
 import entities.users.User;
@@ -28,30 +29,33 @@ public class LoginFilter implements Filter {
         HttpServletResponse response = (HttpServletResponse) servletResponse;
         String servletPath = request.getServletPath();
 
-        if (!servletPath.equals("/index.jsp") || servletPath.equals(LoginController.MAPPING)) {
+        if (!servletPath.equals("/index.jsp")) {
+            if (UserUtils.getLoginedUser(request) == null) {
+                String excluded = "Basic ";
+                String authorization = request.getHeader("Authorization").substring(excluded.length());
+                authorization = new String(new BASE64Decoder().decodeBuffer(authorization));
 
-            String excluded = "Basic ";
-            String authorization = request.getHeader("Authorization").substring(excluded.length());
-            authorization = new String(new BASE64Decoder().decodeBuffer(authorization));
+                String[] strings = authorization.split(":");
+                String login = strings[0];
+                String password = strings[1];
 
-            String[] strings = authorization.split(":");
-            String login = strings[0];
-            String password = strings[1];
+                PrintWriter out = servletResponse.getWriter();
+                if ((login == null || password == null) || (login.isEmpty() || password.isEmpty())) {
+                    out.write("Fields cannot be empty!");
+                }
 
-
-            PrintWriter out = servletResponse.getWriter();
-            if ((login == null || password == null) || (login.isEmpty() || password.isEmpty())) {
-                out.write("Fields cannot be empty!");
+                User user;
+                HibernateUserImpl hibernateUser = new HibernateUserImpl();
+                if ((user = hibernateUser.getUser(login, password)) != null) {
+                    RequestContext.getInstance().setUser(user);
+                    UserUtils.storeLoginedUser(servletRequest, user);
+                }
             }
 
-            User user;
-            HibernateUserImpl hibernateUser = new HibernateUserImpl();
-            if ((user = hibernateUser.getUser(login, password)) != null) {
-                RequestContext.getInstance().setUser(user);
-                UserUtils.storeLoginedUser(servletRequest, user);
+            if (servletPath.equals(LoginController.MAPPING)) {
+                filterChain.doFilter(request, response);
             }
-        }
-        filterChain.doFilter(request, response);
+        } else filterChain.doFilter(request, response);
     }
 
     @Override

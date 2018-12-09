@@ -3,10 +3,12 @@ package controllers.pages_controllers;
 import controllers.AbstractController;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+@WebServlet("/main")
 public class MainPageController extends AbstractController {
     public static final String MAPPING = "/main";
 

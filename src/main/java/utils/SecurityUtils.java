@@ -33,11 +33,14 @@ public class SecurityUtils {
     }
 
     public static boolean hasPermission(User user) {
-        //String urlPattern = UrlPatternUtils.getUrlPattern(request);
+        if (user != null) {
+            //String urlPattern = UrlPatternUtils.getUrlPattern(request);
 
-        Set<SecurityConfig.Roles> allRoles = SecurityConfig.getAllRoles();
+            Set<SecurityConfig.Roles> allRoles = SecurityConfig.getAllRoles();
 
-        return allRoles.contains(SecurityConfig.Roles.valueOf(user.getRole()));
+            return allRoles.contains(SecurityConfig.Roles.valueOf(user.getRole()));
+        }
+        return false;
     }
 
     private static boolean hasNecessaryUrlPattern(Set<SecurityConfig.Roles> allRoles, String urlPattern) {
