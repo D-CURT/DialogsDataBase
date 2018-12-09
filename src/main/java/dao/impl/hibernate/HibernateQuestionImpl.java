@@ -48,17 +48,9 @@ public class HibernateQuestionImpl extends AbstractHibernateImpl{
     }
 
     public void removeQuestion(String content) {
-        final String QUESTION_FIELD = "question";
         Question question;
         if ((question = getQuestion(content)) != null) {
-            Session session = SessionFactoryManager.getInstance().getSession();
-            Transaction transaction = session.beginTransaction();
-            Query query = session.createQuery(DELETE_RELATION_BY_QUESTION.getHql());
-            query.setParameter(QUESTION_FIELD, question);
-            query.executeUpdate();
-            session.delete(question);
-            transaction.commit();
-            session.close();
+            deleteEntity(question);
         }
     }
 

@@ -28,13 +28,13 @@ public class LoginControllerTest {
     @Test
     public void check_weather_user_login_using_HttpClient() throws IOException {
         String role = SecurityConfig.Roles.USER.name();
-        dbHandler.addUser(TEST_VALUE, TEST_VALUE, TEST_VALUE, TEST_VALUE, "6", role);
+        dbHandler.addUser(TEST_VALUE, TEST_VALUE, TEST_VALUE, TEST_VALUE, null, role);
         String encoding = Base64.getEncoder().encodeToString("Test:Test".getBytes());
 
         HttpUriRequest httpRequest = new HttpPost("http://localhost:8080/login");
         httpRequest.setHeader("Authorization", "Basic " + encoding);
         CloseableHttpResponse httpResponse = HttpClientBuilder.create().build().execute(httpRequest);
-        String expectedStatus = "HTTP/1.1 200 ";
+        String expectedStatus = "HTTP/1.1 200 OK";
         String actualStatus = httpResponse.getStatusLine().toString();
 
         assertThat(actualStatus, is(equalTo(expectedStatus)));

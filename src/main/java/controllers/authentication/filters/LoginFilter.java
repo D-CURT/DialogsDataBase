@@ -4,8 +4,6 @@ import controllers.authentication.LoginController;
 import dao.impl.hibernate.HibernateUserImpl;
 import entities.users.User;
 import sun.misc.BASE64Decoder;
-import utils.SecurityUtils;
-import utils.UserRoleRequestWrapper;
 import utils.UserUtils;
 import utils.context.RequestContext;
 
@@ -16,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-@WebFilter("/login")
+@WebFilter("/*")
 public class LoginFilter implements Filter {
 
     @Override
@@ -27,27 +25,33 @@ public class LoginFilter implements Filter {
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
-        String excluded = "Basic ";
-        String authorization = request.getHeader("Authorization").substring(excluded.length());
-        authorization = new String(new BASE64Decoder().decodeBuffer(authorization));
+        HttpServletResponse response = (HttpServletResponse) servletResponse;
+        String servletPath = request.getServletPath();
 
-        String[] strings = authorization.split(":");
-        String login = strings[0];
-        String password = strings[1];
+        if (!servletPath.equals("/index.jsp") || servletPath.equals(LoginController.MAPPING)) {
 
-        PrintWriter out = servletResponse.getWriter();
-        if ((login == null || password == null) || (login.isEmpty() || password.isEmpty())) {
-            out.write("Fields cannot be empty!");
+            String excluded = "Basic ";
+            String authorization = request.getHeader("Authorization").substring(excluded.length());
+            authorization = new String(new BASE64Decoder().decodeBuffer(authorization));
+
+            String[] strings = authorization.split(":");
+            String login = strings[0];
+            String password = strings[1];
+
+
+            PrintWriter out = servletResponse.getWriter();
+            if ((login == null || password == null) || (login.isEmpty() || password.isEmpty())) {
+                out.write("Fields cannot be empty!");
+            }
+
+            User user;
+            HibernateUserImpl hibernateUser = new HibernateUserImpl();
+            if ((user = hibernateUser.getUser(login, password)) != null) {
+                RequestContext.getInstance().setUser(user);
+                UserUtils.storeLoginedUser(servletRequest, user);
+            }
         }
-
-        User user;
-        HibernateUserImpl hibernateUser = new HibernateUserImpl();
-        if ((user = hibernateUser.getUser(login, password)) != null) {
-            RequestContext.getInstance().setUser(user);
-            UserUtils.storeLoginedUser(servletRequest, user);
-        }
-
-        filterChain.doFilter(request, servletResponse);
+        filterChain.doFilter(request, response);
     }
 
     @Override

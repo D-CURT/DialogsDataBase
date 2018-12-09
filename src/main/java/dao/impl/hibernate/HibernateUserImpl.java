@@ -65,14 +65,7 @@ public class HibernateUserImpl extends AbstractHibernateImpl{
     public void removeUser(String name) {
         User user;
         if ((user = getUser(name)) != null) {
-            Session session = SessionFactoryManager.getInstance().getSession();
-            Transaction transaction = session.beginTransaction();
-            Query query = session.createQuery(HQLSection.DELETE_RELATION_BY_USER.getHql());
-            query.setParameter(TABLE_NAME.toLowerCase(), user);
-            query.executeUpdate();
-            session.delete(user);
-            transaction.commit();
-            session.close();
+            deleteEntity(user);
         }
     }
 

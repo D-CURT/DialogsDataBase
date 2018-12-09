@@ -1,6 +1,8 @@
 package dao.impl.hibernate;
 
 import dao.interfaces.HibernateDBImpl;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 import utils.connectors.SessionFactoryManager;
 
 import java.util.List;
@@ -21,6 +23,14 @@ abstract class AbstractHibernateImpl implements HibernateDBImpl {
                                     .getSession()
                                     .createQuery(sql)
                                     .getResultList();
+    }
+
+    void deleteEntity(Object o) {
+        Session session = SessionFactoryManager.getInstance().getSession();
+        Transaction transaction = session.beginTransaction();
+        session.delete(o);
+        transaction.commit();
+        session.close();
     }
 }
 

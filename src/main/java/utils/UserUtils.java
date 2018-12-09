@@ -18,7 +18,8 @@ public class UserUtils {
     }
 
     public static User getLoginedUser(ServletRequest request) {
-        return (User) request.getAttribute(USER_PARAM);
+        Object o = request.getAttribute(USER_PARAM);
+        return o != null ? (User) o : null;
     }
 
     public static int storeRedirectAfterLoginUrl(String requestUri) {

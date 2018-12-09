@@ -19,5 +19,6 @@ public class LoginController extends AbstractController {
         if (SecurityUtils.hasPermission(UserUtils.getLoginedUser(req))) {
             forward(MainPageController.MAPPING, req, resp);
         }
+        //resp.setStatus(200);
     }
 }
