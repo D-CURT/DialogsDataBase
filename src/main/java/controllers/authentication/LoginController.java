@@ -18,8 +18,8 @@ public class LoginController extends AbstractController {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        if (SecurityUtils.hasPermission(UserUtils.getLoginedUser(req))) {
+//        if (SecurityUtils.hasPermission(req)) {
             forward(MainPageController.MAPPING, req, resp);
-        }
+//        }
     }
 }

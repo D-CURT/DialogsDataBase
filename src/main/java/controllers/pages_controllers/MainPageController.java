@@ -1,6 +1,7 @@
 package controllers.pages_controllers;
 
 import controllers.AbstractController;
+import utils.SecurityUtils;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -14,6 +15,8 @@ public class MainPageController extends AbstractController {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        forward(INDEX_URL, req, resp);
+        if (SecurityUtils.hasPermission(req)) {
+            forward(INDEX_URL, req, resp);
+        }
     }
 }

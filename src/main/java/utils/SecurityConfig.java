@@ -9,7 +9,7 @@ public class SecurityConfig {
             @Override
             List<String> getUrlPatterns() {
                 List<String> list = new ArrayList<>();
-                list.add("/index.jsp");
+                storeInitialMapping(list);
                 return list;
             }
         },
@@ -17,7 +17,7 @@ public class SecurityConfig {
             @Override
             List<String> getUrlPatterns() {
                 List<String> list = new ArrayList<>();
-                list.add("/index.jsp");
+                storeInitialMapping(list);
                 return list;
             }
         },
@@ -25,7 +25,7 @@ public class SecurityConfig {
             @Override
             List<String> getUrlPatterns() {
                 List<String> list = new ArrayList<>();
-                list.add("/index.jsp");
+                storeInitialMapping(list);
                 return list;
             }
         };
@@ -41,6 +41,11 @@ public class SecurityConfig {
 
     private static void init() {
         Arrays.stream(Roles.values()).forEach(roles -> CONFIGS.put(roles, roles.getUrlPatterns()));
+    }
+
+    private static void storeInitialMapping(List<String> urls) {
+        urls.add("/index.jsp");
+        urls.add("/main");
     }
 
     public static Set<Roles> getAllRoles() {

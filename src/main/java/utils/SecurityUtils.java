@@ -15,7 +15,7 @@ public class SecurityUtils {
         return hasNecessaryUrlPattern(allRoles, urlPattern);
     }
 
-    public static boolean hasPermission(HttpServletRequest request) {
+    /*public static boolean hasPermission(HttpServletRequest request) {
         String urlPattern = UrlPatternUtils.getUrlPattern(request);
 
         Set<SecurityConfig.Roles> allRoles = SecurityConfig.getAllRoles();
@@ -30,15 +30,19 @@ public class SecurityUtils {
             }
         }
         return false;
-    }
+    }*/
 
-    public static boolean hasPermission(User user) {
+    public static boolean hasPermission(HttpServletRequest request) {
+        User user = UserUtils.getLoginedUser(request);
         if (user != null) {
-            //String urlPattern = UrlPatternUtils.getUrlPattern(request);
+            SecurityConfig.Roles role = SecurityConfig.Roles.valueOf(user.getRole());
+            String urlPattern = UrlPatternUtils.getUrlPattern(request);
 
             Set<SecurityConfig.Roles> allRoles = SecurityConfig.getAllRoles();
 
-            return allRoles.contains(SecurityConfig.Roles.valueOf(user.getRole()));
+            if (allRoles.contains(role)) {
+                return role.getUrlPatterns().contains(urlPattern);
+            }
         }
         return false;
     }

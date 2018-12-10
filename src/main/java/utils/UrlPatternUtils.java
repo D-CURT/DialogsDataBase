@@ -12,7 +12,7 @@ public class UrlPatternUtils {
         String servletPath = request.getServletPath();
         String servletPathInfo = request.getPathInfo();
 
-        String pattern = null;
+        String pattern;
         if (servletPathInfo != null) {
             return servletPath + "/*";
         }

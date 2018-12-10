@@ -1,6 +1,5 @@
 package controllers.authentication.filters;
 
-import com.sun.org.apache.bcel.internal.generic.IF_ACMPEQ;
 import controllers.authentication.LoginController;
 import dao.impl.hibernate.HibernateUserImpl;
 import entities.users.User;
