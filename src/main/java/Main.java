@@ -21,5 +21,6 @@ public class Main {
 //        user.getUsers().forEach();
 //        System.out.println(user.getUser("aLEX"));
 //        question.addQuestion("!!!!");
+//        profile.addUserProfile("test", "test");
     }
 }

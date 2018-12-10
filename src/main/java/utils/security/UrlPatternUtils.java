@@ -1,4 +1,4 @@
-package utils;
+package utils.security;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletRegistration;

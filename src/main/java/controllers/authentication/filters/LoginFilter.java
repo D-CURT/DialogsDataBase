@@ -1,10 +1,11 @@
 package controllers.authentication.filters;
 
+import controllers.AbstractController;
 import controllers.authentication.LoginController;
 import dao.impl.hibernate.HibernateUserImpl;
 import entities.users.User;
 import sun.misc.BASE64Decoder;
-import utils.UserUtils;
+import utils.security.UserUtils;
 import utils.context.RequestContext;
 
 import javax.servlet.*;

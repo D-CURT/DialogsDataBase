@@ -8,7 +8,7 @@ import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.junit.Before;
 import org.junit.Test;
-import utils.SecurityConfig;
+import utils.security.SecurityConfig;
 
 import java.io.IOException;
 
@@ -27,14 +27,15 @@ public class LoginControllerTest {
 
     @Test
     public void check_weather_user_login_using_HttpClient() throws IOException {
-        String role = SecurityConfig.Roles.USER.name();
-        dbHandler.addUser(TEST_VALUE, TEST_VALUE, TEST_VALUE, TEST_VALUE, null, role);
+        SecurityConfig.Roles role = SecurityConfig.Roles.USER;
+        String roleName = role.name();
+        dbHandler.addUser(TEST_VALUE, TEST_VALUE, TEST_VALUE, TEST_VALUE, null, roleName);
         String encoding = Base64.getEncoder().encodeToString("Test:Test".getBytes());
 
         HttpUriRequest httpRequest = new HttpPost("http://localhost:8080/login");
         httpRequest.setHeader("Authorization", "Basic " + encoding);
         CloseableHttpResponse httpResponse = HttpClientBuilder.create().build().execute(httpRequest);
-        String expectedStatus = "HTTP/1.1 200 OK";
+        String expectedStatus = "HTTP/1.1 200 ";
         String actualStatus = httpResponse.getStatusLine().toString();
 
         assertThat(actualStatus, is(equalTo(expectedStatus)));

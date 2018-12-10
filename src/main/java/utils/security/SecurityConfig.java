@@ -1,36 +1,49 @@
-package utils;
+package utils.security;
 
 import java.util.*;
 
 public class SecurityConfig {
 
     public enum Roles {
-        USER {
+        USER("/userInfo.jsp"){
             @Override
             List<String> getUrlPatterns() {
                 List<String> list = new ArrayList<>();
                 storeInitialMapping(list);
+                list.add(this.getInfoPage());
                 return list;
             }
         },
-        PREMIUM_USER {
+        PREMIUM_USER("/premiumUserInfo.jsp") {
             @Override
             List<String> getUrlPatterns() {
                 List<String> list = new ArrayList<>();
                 storeInitialMapping(list);
+                list.add(this.getInfoPage());
                 return list;
             }
         },
-        ADMINISTRATOR {
+        ADMINISTRATOR("/administratorInfo.jsp") {
             @Override
             List<String> getUrlPatterns() {
                 List<String> list = new ArrayList<>();
                 storeInitialMapping(list);
+                list.add(this.getInfoPage());
                 return list;
             }
         };
 
+        private String infoPage;
+
+        Roles(String infoPage) {
+            this.infoPage = infoPage;
+        }
+
         abstract List<String> getUrlPatterns();
+
+        public String getInfoPage() {
+            return infoPage;
+        }
     }
 
     private static final Map<Roles, List<String>> CONFIGS = new HashMap<>();
