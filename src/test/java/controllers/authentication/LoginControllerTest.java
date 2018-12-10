@@ -10,7 +10,6 @@ import org.junit.Before;
 import org.junit.Test;
 import utils.security.SecurityConfig;
 
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 import static org.hamcrest.Matchers.equalTo;
@@ -22,7 +21,7 @@ public class LoginControllerTest {
     private HibernateUserImpl dbHandler;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
          dbHandler = new HibernateUserImpl();
     }
 

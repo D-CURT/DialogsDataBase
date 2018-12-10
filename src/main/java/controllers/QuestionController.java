@@ -8,12 +8,10 @@ import java.io.IOException;
 
 
 public class QuestionController extends AbstractController {
-//    private JDBCQuestion handler;
     private HibernateQuestionImpl handler;
 
     @Override
     public void init() {
-//        handler = new JDBCQuestionImpl();
         handler = new HibernateQuestionImpl();
     }
 

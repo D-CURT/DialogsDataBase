@@ -1,5 +1,6 @@
 package utils.security;
 
+import com.sun.istack.internal.Nullable;
 import entities.users.User;
 
 import javax.servlet.http.HttpServletRequest;
@@ -15,36 +16,23 @@ public class SecurityUtils {
         return hasNecessaryUrlPattern(allRoles, urlPattern);
     }
 
-    /*public static boolean hasPermission(HttpServletRequest request) {
+    public static boolean hasPermission(HttpServletRequest request) {
+        User user = UserUtils.getLoginedUser(request);
+
+        SecurityConfig.Roles role;
+        if (user != null) {
+            role = SecurityConfig.Roles.valueOf(user.getRole());
+        } else {
+            return false;
+        }
         String urlPattern = UrlPatternUtils.getUrlPattern(request);
 
         Set<SecurityConfig.Roles> allRoles = SecurityConfig.getAllRoles();
 
-        for (SecurityConfig.Roles role: allRoles) {
-            if (!request.isUserInRole(role.name())) {
-                continue;
-            }
-            List<String> urlPatternForRole = SecurityConfig.getUrlPatternForRole(role.name());
-            if (urlPatternForRole != null && urlPatternForRole.contains(urlPattern)) {
-                return true;
-            }
+        if (!allRoles.contains(role)) {
+            return false;
         }
-        return false;
-    }*/
-
-    public static boolean hasPermission(HttpServletRequest request) {
-        User user = UserUtils.getLoginedUser(request);
-        if (user != null) {
-            SecurityConfig.Roles role = SecurityConfig.Roles.valueOf(user.getRole());
-            String urlPattern = UrlPatternUtils.getUrlPattern(request);
-
-            Set<SecurityConfig.Roles> allRoles = SecurityConfig.getAllRoles();
-
-            if (allRoles.contains(role)) {
-                return role.getUrlPatterns().contains(urlPattern);
-            }
-        }
-        return false;
+        return role.getUrlPatterns().contains(urlPattern);
     }
 
     private static boolean hasNecessaryUrlPattern(Set<SecurityConfig.Roles> allRoles, String urlPattern) {

@@ -1,17 +1,24 @@
 package controllers.authentication.filters;
 
+import controllers.AbstractController;
 import controllers.authentication.LoginController;
+import dao.impl.hibernate.HibernateUserImpl;
 import entities.users.User;
+import sun.misc.BASE64Decoder;
 import utils.security.SecurityUtils;
-import utils.security.UserRoleRequestWrapper;
 import utils.security.UserUtils;
+import utils.context.RequestContext;
 
 import javax.servlet.*;
+import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.PrintWriter;
 
+@WebFilter("/*")
 public class SecurityFilter implements Filter {
+
     @Override
     public void init(FilterConfig filterConfig) {
 
@@ -23,39 +30,37 @@ public class SecurityFilter implements Filter {
         HttpServletResponse response = (HttpServletResponse) servletResponse;
         String servletPath = request.getServletPath();
 
-        User user;
+        if (!servletPath.equals("/index.jsp")) {
+            if (UserUtils.getLoginedUser(request) == null) {
+                String excluded = "Basic ";
+                String authorization = request.getHeader("Authorization").substring(excluded.length());
+                authorization = new String(new BASE64Decoder().decodeBuffer(authorization));
 
-        user = UserUtils.getLoginedUser(request);
+                String[] strings = authorization.split(":");
+                String login = strings[0];
+                String password = strings[1];
 
-        if (servletPath.equals(LoginController.MAPPING)) {
-            filterChain.doFilter(servletRequest, servletResponse);
-        }
+                PrintWriter out = servletResponse.getWriter();
+                if ((login == null || password == null) || (login.isEmpty() || password.isEmpty())) {
+                    out.write("Fields cannot be empty!");
+                }
 
-        HttpServletRequest wrapRequest = request;
+                User user;
+                HibernateUserImpl hibernateUser = new HibernateUserImpl();
+                if ((user = hibernateUser.getUser(login, password)) != null) {
+                    RequestContext.getInstance().setUser(user);
+                    UserUtils.storeLoginedUser(servletRequest, user);
+                }
 
-        if (user != null) {
-            String userName = user.getLogin();
-            String role = user.getRole();
-
-            wrapRequest = new UserRoleRequestWrapper(userName, role, request);
-        }
-
-        if (SecurityUtils.isSecurityPage(request)) {
-            if (user == null) {
-                String requestUri = request.getRequestURI();
-
-                int redirectId = UserUtils.storeRedirectAfterLoginUrl(requestUri);
-                response.sendRedirect(wrapRequest.getContextPath() + "/login?redirectId=" + redirectId);
+                if (!SecurityUtils.hasPermission(request)) {
+                    request.setAttribute(AbstractController.ERROR, "Unknown user");
+                }
             }
 
-            boolean hasPermission = SecurityUtils.hasPermission(request);
-            if (!hasPermission) {
-                request.getServletContext().getRequestDispatcher("/WEB-INF/views/accessDeniedView.jsp")
-                        .forward(request, response);
-
+            if (servletPath.equals(LoginController.MAPPING)) {
+                filterChain.doFilter(request, response);
             }
-        }
-        filterChain.doFilter(wrapRequest, response);
+        } else filterChain.doFilter(request, response);
     }
 
     @Override

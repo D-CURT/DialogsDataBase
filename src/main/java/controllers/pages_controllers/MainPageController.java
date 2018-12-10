@@ -3,7 +3,6 @@ package controllers.pages_controllers;
 import controllers.AbstractController;
 import entities.users.User;
 import utils.security.SecurityConfig;
-import utils.security.SecurityUtils;
 import utils.security.UserUtils;
 
 import javax.servlet.ServletException;
@@ -18,14 +17,14 @@ public class MainPageController extends AbstractController {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        if (SecurityUtils.hasPermission(req)) {
-            User user = UserUtils.getLoginedUser(req);
+
+        User user = UserUtils.getLoginedUser(req);
+        if (user != null) {
             String infoPage = SecurityConfig.Roles.valueOf(user.getRole()).getInfoPage();
-            resp.setStatus(HttpServletResponse.SC_OK);
             forward(infoPage, req, resp);
         } else {
             resp.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            forwardError(INDEX_URL, "Unknown mapping", req, resp);
+            forwardError(INDEX_URL, req.getParameter(ERROR), req, resp);
         }
     }
 }
