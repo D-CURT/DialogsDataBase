@@ -55,7 +55,7 @@ public class LoginControllerTest {
         dbHandler.addUser(TEST_VALUE, TEST_VALUE, TEST_VALUE, TEST_VALUE, null, roleName);
         String encoding = Base64.getEncoder().encodeToString((login + ":" + password).getBytes());
 
-        HttpUriRequest httpRequest = new HttpPost("http://localhost:8080/login");
+        HttpUriRequest httpRequest = new HttpPost("http://localhost:8080/base/login");
         httpRequest.setHeader("Authorization", "Basic " + encoding);
         return HttpClientBuilder.create().build().execute(httpRequest);
     }
