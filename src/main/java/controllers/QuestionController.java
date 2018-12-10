@@ -2,11 +2,12 @@ package controllers;
 
 import dao.impl.hibernate.HibernateQuestionImpl;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-
+//@WebServlet("/quest")
 public class QuestionController extends AbstractController {
     private HibernateQuestionImpl handler;
 

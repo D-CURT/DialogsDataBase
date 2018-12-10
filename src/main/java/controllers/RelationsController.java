@@ -3,17 +3,17 @@ package controllers;
 import dao.impl.hibernate.HibernateRelationsImpl;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+//@WebServlet("/relat")
 public class RelationsController extends AbstractController {
-//    private JDBCRelations handler;
     private HibernateRelationsImpl handler;
 
     @Override
     public void init() {
-//        handler = new JDBCRelationsImpl();
         handler = new HibernateRelationsImpl();
     }
 

@@ -3,17 +3,17 @@ package controllers;
 import dao.impl.hibernate.HibernateUserImpl;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+//@WebServlet("/user")
 public class UserController extends AbstractController {
-//    private JDBCUser handler;
     private HibernateUserImpl handler;
 
     @Override
     public void init() {
-//        handler = new JDBCUserImpl();
         handler = new HibernateUserImpl();
     }
 

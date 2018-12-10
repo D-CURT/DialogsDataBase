@@ -1,6 +1,5 @@
 package utils.security;
 
-import com.sun.istack.internal.Nullable;
 import entities.users.User;
 
 import javax.servlet.http.HttpServletRequest;
